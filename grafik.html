@@ -1,0 +1,1438 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>📐 График линейной функции — 7 класс</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --blue: #4a7ba8;
+    --blue-dark: #2a5a8a;
+    --blue-light: #a8c8e0;
+    --blue-pale: #eaf4fb;
+    --purple: #7a5ac8;
+    --purple-light: #b8a0e0;
+    --purple-pale: #f0ecfa;
+    --gold: #f4c430;
+    --green: #3a9a5a;
+    --green-bg: #e8f5ec;
+    --red: #d84a6a;
+    --red-bg: #fce8ec;
+    --ink: #1a2a3a;
+    --ink-soft: #4a5a6a;
+    --shadow: 0 8px 28px rgba(74, 123, 168, 0.10);
+  }
+
+  body {
+    font-family: 'Segoe UI', 'Roboto', system-ui, sans-serif;
+    background:
+      radial-gradient(circle at 12% 12%, rgba(122, 90, 200, 0.08), transparent 45%),
+      radial-gradient(circle at 88% 88%, rgba(74, 123, 168, 0.10), transparent 45%),
+      linear-gradient(135deg, #f3f0fa 0%, #eaf4fb 100%);
+    min-height: 100vh;
+    padding: 24px 14px 60px;
+    color: var(--ink);
+  }
+
+  .app { max-width: 900px; margin: 0 auto; }
+
+  /* ═══ ШАПКА ═══ */
+  .main-header {
+    text-align: center;
+    margin-bottom: 24px;
+    padding: 24px 16px 20px;
+  }
+  .main-header h1 {
+    font-size: 32px;
+    font-weight: 800;
+    background: linear-gradient(135deg, #4a7ba8, #7a5ac8);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 8px;
+    line-height: 1.2;
+    letter-spacing: -0.5px;
+  }
+  .main-header .meta {
+    font-size: 14px;
+    font-weight: 700;
+    color: #7a5ac8;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+  .main-header p {
+    font-size: 15px;
+    color: var(--ink-soft);
+    font-style: italic;
+    max-width: 640px;
+    margin: 0 auto;
+    line-height: 1.55;
+  }
+
+  /* ═══ КАРТОЧКА ЗАДАНИЯ ═══ */
+  .task {
+    background: #fff;
+    border: 2px solid var(--blue-light);
+    border-radius: 20px;
+    padding: 22px 24px 20px;
+    margin-bottom: 18px;
+    box-shadow: var(--shadow);
+    transition: all 0.35s ease;
+    position: relative;
+  }
+  .task.correct {
+    border-color: var(--green);
+    background: linear-gradient(180deg, #fff, var(--green-bg));
+    box-shadow: 0 0 0 3px rgba(58, 154, 90, 0.12), var(--shadow);
+  }
+  .task.incorrect {
+    border-color: var(--red);
+    background: linear-gradient(180deg, #fff, var(--red-bg));
+    box-shadow: 0 0 0 3px rgba(216, 74, 106, 0.12), var(--shadow);
+  }
+
+  .task-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 14px;
+    flex-wrap: wrap;
+  }
+  .task-num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #7a5ac8, #4a7ba8);
+    color: #fff;
+    font-size: 13px;
+    font-weight: 800;
+    padding: 5px 14px;
+    border-radius: 20px;
+    letter-spacing: 0.3px;
+    flex-shrink: 0;
+  }
+  .task-title {
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--blue-dark);
+    line-height: 1.35;
+    flex: 1;
+  }
+
+  .task-body {
+    font-size: 16px;
+    line-height: 1.7;
+    color: var(--ink);
+  }
+
+  /* ═══ ИНПУТЫ ═══ */
+  .fill-line {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 10px;
+    line-height: 1.7;
+  }
+
+  input[type="text"] {
+    padding: 8px 14px;
+    border: 2px solid var(--blue-light);
+    border-radius: 10px;
+    font-size: 16px;
+    font-family: 'Cambria Math', 'Times New Roman', serif;
+    font-weight: 700;
+    color: var(--blue-dark);
+    outline: none;
+    transition: all 0.25s;
+    background: #fafcfe;
+  }
+  input[type="text"]:focus {
+    border-color: var(--purple);
+    box-shadow: 0 0 0 3px rgba(122, 90, 200, 0.15);
+    background: #fff;
+  }
+  input.short-input { width: 120px; }
+  input.mid-input { width: 160px; }
+  input.long-input { width: 220px; }
+
+  input[type="text"].correct {
+    border-color: var(--green);
+    background: var(--green-bg);
+    color: #1a5a2a;
+  }
+  input[type="text"].incorrect {
+    border-color: var(--red);
+    background: var(--red-bg);
+    color: #7a1a3a;
+  }
+
+  /* ═══ ВАРИАНТЫ (чекбоксы / радио) ═══ */
+  .options-list { display: flex; flex-direction: column; gap: 8px; margin-top: 4px; }
+
+  .option-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 16px;
+    background: #fafcfe;
+    border: 2px solid var(--blue-pale);
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.2s;
+    user-select: none;
+    font-size: 15px;
+  }
+  .option-item:hover {
+    background: #fff;
+    border-color: var(--blue-light);
+  }
+  .option-item input[type="radio"],
+  .option-item input[type="checkbox"] {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 20px;
+    height: 20px;
+    border: 2px solid var(--blue-light);
+    background: #fff;
+    outline: none;
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: 0.2s;
+    position: relative;
+  }
+  .option-item input[type="radio"] { border-radius: 50%; }
+  .option-item input[type="checkbox"] { border-radius: 5px; }
+
+  .option-item input[type="radio"]:checked {
+    border-color: var(--purple);
+    background: var(--purple);
+    box-shadow: inset 0 0 0 4px #fff, 0 0 0 2px var(--purple);
+  }
+  .option-item input[type="checkbox"]:checked {
+    border-color: var(--purple);
+    background: var(--purple);
+  }
+  .option-item input[type="checkbox"]:checked::after {
+    content: "✓";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -55%);
+    color: #fff;
+    font-size: 14px;
+    font-weight: 900;
+  }
+
+  .option-item.correct {
+    border-color: var(--green);
+    background: var(--green-bg);
+  }
+  .option-item.incorrect {
+    border-color: var(--red);
+    background: var(--red-bg);
+  }
+
+  /* ═══ ТАБЛИЦА ═══ */
+  .data-table {
+    border-collapse: collapse;
+    margin: 10px 0 16px;
+    font-size: 16px;
+  }
+  .data-table td {
+    padding: 6px 10px;
+    text-align: center;
+    border: 2px solid var(--blue-light);
+    background: #fff;
+    min-width: 80px;
+  }
+  .data-table td.label-cell {
+    background: var(--blue-pale);
+    font-weight: 800;
+    color: var(--blue-dark);
+    font-family: 'Cambria Math', serif;
+    font-style: italic;
+    font-size: 18px;
+  }
+  .data-table input[type="text"] {
+    width: 70px;
+    padding: 6px 8px;
+    text-align: center;
+    border: 2px solid transparent;
+    background: transparent;
+    font-size: 16px;
+  }
+  .data-table input[type="text"]:focus {
+    border-color: var(--purple);
+    background: #fff;
+    box-shadow: 0 0 0 3px rgba(122, 90, 200, 0.15);
+  }
+  .data-table input[type="text"].correct {
+    border-color: var(--green);
+    background: var(--green-bg);
+  }
+  .data-table input[type="text"].incorrect {
+    border-color: var(--red);
+    background: var(--red-bg);
+  }
+
+  /* ═══ КООРДИНАТНАЯ ПЛОСКОСТЬ ═══ */
+  .graph-wrapper {
+    background: #fdfeff;
+    border: 2px solid var(--blue-light);
+    border-radius: 14px;
+    padding: 12px;
+    margin-top: 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .graph-svg {
+    display: block;
+    width: 100%;
+    max-width: 400px;
+    height: auto;
+    cursor: crosshair;
+    touch-action: none;
+    user-select: none;
+    border-radius: 8px;
+  }
+  .graph-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 10px;
+    font-size: 13px;
+    color: var(--ink-soft);
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .graph-info .hint {
+    background: var(--blue-pale);
+    color: var(--blue-dark);
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-weight: 700;
+    font-size: 12px;
+  }
+  .graph-info .points-count {
+    font-weight: 700;
+    color: var(--purple);
+  }
+  .graph-clear-btn {
+    background: #fff;
+    border: 2px solid var(--blue-light);
+    color: var(--blue-dark);
+    padding: 5px 14px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    font-family: inherit;
+    transition: 0.2s;
+  }
+  .graph-clear-btn:hover {
+    background: var(--blue-pale);
+    border-color: var(--purple);
+  }
+
+  /* ═══ СОПОСТАВЛЕНИЕ (задание 8) ═══ */
+  .match-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+    margin: 12px 0;
+  }
+  @media (max-width: 640px) {
+    .match-grid { grid-template-columns: 1fr; }
+  }
+  .match-graph {
+    background: #fdfeff;
+    border: 2px solid var(--blue-light);
+    border-radius: 14px;
+    padding: 10px;
+    text-align: center;
+  }
+  .match-graph svg {
+    display: block;
+    width: 100%;
+    height: auto;
+    max-width: 200px;
+    margin: 0 auto 8px;
+  }
+  .match-graph .label {
+    font-size: 18px;
+    font-weight: 800;
+    color: var(--blue-dark);
+    margin-bottom: 6px;
+  }
+  .match-graph select {
+    width: 100%;
+    padding: 8px 10px;
+    border: 2px solid var(--blue-light);
+    border-radius: 10px;
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 600;
+    background: #fff;
+    cursor: pointer;
+    outline: none;
+    transition: 0.2s;
+  }
+  .match-graph select:focus {
+    border-color: var(--purple);
+  }
+  .match-graph.correct {
+    border-color: var(--green);
+    background: var(--green-bg);
+  }
+  .match-graph.incorrect {
+    border-color: var(--red);
+    background: var(--red-bg);
+  }
+
+  /* ═══ ФИДБЕК ЗАДАНИЯ ═══ */
+  .task-feedback {
+    margin-top: 14px;
+    padding: 10px 16px;
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: 700;
+    display: none;
+    align-items: center;
+    gap: 8px;
+  }
+  .task-feedback.show { display: flex; }
+  .task-feedback.ok {
+    background: var(--green-bg);
+    color: #2a6a3a;
+    border: 2px solid var(--green);
+  }
+  .task-feedback.fail {
+    background: var(--red-bg);
+    color: #7a1a3a;
+    border: 2px solid var(--red);
+  }
+
+  /* ═══ КНОПКИ ВНИЗУ ═══ */
+  .actions {
+    display: flex;
+    justify-content: center;
+    gap: 14px;
+    flex-wrap: wrap;
+    margin: 30px 0;
+  }
+  .btn {
+    border: none;
+    padding: 15px 38px;
+    border-radius: 40px;
+    font-size: 17px;
+    font-weight: 800;
+    font-family: inherit;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    letter-spacing: 0.3px;
+  }
+  .btn-primary {
+    background: linear-gradient(135deg, #7a5ac8, #4a7ba8);
+    color: #fff;
+    box-shadow: 0 8px 24px rgba(122, 90, 200, 0.4);
+  }
+  .btn-primary:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 14px 32px rgba(122, 90, 200, 0.55);
+  }
+  .btn-primary:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+  }
+  .btn-secondary {
+    background: #fff;
+    color: var(--blue-dark);
+    border: 2px solid var(--blue-light);
+  }
+  .btn-secondary:hover {
+    background: var(--blue-pale);
+    border-color: var(--purple);
+    transform: translateY(-2px);
+  }
+
+  /* ═══ ИТОГ ═══ */
+  .overall-result {
+    background: linear-gradient(160deg, #fff, #f0ecfa);
+    border: 3px solid var(--purple);
+    border-radius: 24px;
+    padding: 28px 26px;
+    margin-top: 24px;
+    text-align: center;
+    box-shadow: 0 12px 40px rgba(122, 90, 200, 0.2);
+    display: none;
+  }
+  .overall-result.show {
+    display: block;
+    animation: popIn 0.5s ease;
+  }
+  @keyframes popIn {
+    from { opacity: 0; transform: scale(0.95); }
+    to { opacity: 1; transform: scale(1); }
+  }
+  .overall-result .big-icon {
+    font-size: 62px;
+    display: block;
+    margin-bottom: 10px;
+  }
+  .overall-result h2 {
+    font-size: 26px;
+    color: var(--blue-dark);
+    margin-bottom: 8px;
+  }
+  .overall-result .score-line {
+    font-size: 36px;
+    font-weight: 900;
+    background: linear-gradient(135deg, #7a5ac8, #4a7ba8);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin: 12px 0;
+  }
+  .overall-result .message {
+    font-size: 16px;
+    font-style: italic;
+    color: var(--ink-soft);
+    line-height: 1.55;
+    padding: 14px 20px;
+    background: rgba(255, 255, 255, 0.7);
+    border-radius: 14px;
+    margin-top: 12px;
+  }
+
+  /* ═══ КОНФЕТТИ ═══ */
+  .celebration {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 999;
+    display: none;
+  }
+  .celebration.show { display: block; }
+  .confetti {
+    position: absolute;
+    font-size: 26px;
+    animation: fallConf linear forwards;
+  }
+  @keyframes fallConf {
+    from { transform: translateY(-40px) rotate(0deg); opacity: 1; }
+    to { transform: translateY(105vh) rotate(720deg); opacity: 0; }
+  }
+
+  /* ═══ АДАПТИВ ═══ */
+  @media (max-width: 600px) {
+    .main-header h1 { font-size: 22px; }
+    .task { padding: 16px 16px 16px; }
+    .task-title { font-size: 15px; }
+    .task-body { font-size: 15px; }
+    .btn { padding: 13px 26px; font-size: 15px; }
+    .fill-line { gap: 6px; }
+    input.short-input { width: 90px; }
+    input.mid-input { width: 120px; }
+    input.long-input { width: 180px; }
+    .data-table td { min-width: 60px; padding: 4px 6px; }
+    .data-table input[type="text"] { width: 55px; font-size: 15px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="app">
+
+  <header class="main-header">
+    <h1>📐 График линейной функции</h1>
+    <div class="meta">7 класс • Алгебра</div>
+    <p>Выполни все задания, а затем нажми «Проверить» — узнаешь, где справился верно, а где стоит повторить тему.</p>
+  </header>
+
+  <div id="tasksContainer"></div>
+
+  <div class="actions">
+    <button class="btn btn-primary" id="checkBtn" onclick="checkAll()">✅ Проверить</button>
+    <button class="btn btn-secondary" onclick="resetAll()">🔄 Сбросить</button>
+  </div>
+
+  <div class="overall-result" id="overallResult">
+    <span class="big-icon" id="overallIcon">🏆</span>
+    <h2 id="overallTitle">Результат</h2>
+    <div class="score-line" id="overallScore">0 / 10</div>
+    <div class="message" id="overallMessage"></div>
+  </div>
+
+</div>
+
+<div class="celebration" id="celebration"></div>
+
+<script>
+/* ════════════════════════════════════════════════════════════════
+   ДАННЫЕ ЗАДАНИЙ
+   ════════════════════════════════════════════════════════════════ */
+const TOTAL_TASKS = 10;
+
+// Точки на графиках (для проверки)
+const graphPoints = {
+  6: [],   // y = 2x + 6
+  9: [],   // y = 3x
+  10: []   // две прямые: y = 5 - 2x и y = 3x - 5
+};
+
+// ════════════════════════════════════════════════════════════════
+// ОТРИСОВКА ЗАДАНИЙ
+// ════════════════════════════════════════════════════════════════
+
+// Задание 1
+function htmlTask1() {
+  return `
+    <div class="task" id="task-1">
+      <div class="task-header">
+        <span class="task-num">Задание 1</span>
+        <span class="task-title">Запишите окончание предложения</span>
+      </div>
+      <div class="task-body">
+        <div class="fill-line">
+          1) Линейной называют функцию, которую можно задать формулой вида
+          <input type="text" class="mid-input" data-key="t1-1" placeholder="y = ...">
+          .
+        </div>
+        <div class="fill-line">
+          2) Графиком линейной функции является
+          <input type="text" class="mid-input" data-key="t1-2" placeholder="...">
+          .
+        </div>
+      </div>
+      <div class="task-feedback" id="fb-1"></div>
+    </div>
+  `;
+}
+
+// Задание 2
+function htmlTask2() {
+  const opts = [
+    'y = 5x + 7',
+    'y = 5/(x + 7)',
+    'y = x² + 7',
+    'y = 5/x + 7'
+  ];
+  return `
+    <div class="task" id="task-2">
+      <div class="task-header">
+        <span class="task-num">Задание 2</span>
+        <span class="task-title">Какая из формул задаёт линейную функцию?</span>
+      </div>
+      <div class="task-body">
+        <div class="options-list">
+          ${opts.map((o, i) => `
+            <label class="option-item">
+              <input type="checkbox" data-key="t2-${i + 1}" value="${i + 1}">
+              <span>${i + 1}) ${o}</span>
+            </label>
+          `).join('')}
+        </div>
+      </div>
+      <div class="task-feedback" id="fb-2"></div>
+    </div>
+  `;
+}
+
+// Задание 3
+function htmlTask3() {
+  return `
+    <div class="task" id="task-3">
+      <div class="task-header">
+        <span class="task-num">Задание 3</span>
+        <span class="task-title">Линейная функция задана формулой y = 4x + 5. Закончите решение</span>
+      </div>
+      <div class="task-body">
+        <div class="fill-line">
+          а) если x = 2, то y =
+          <input type="text" class="short-input" data-key="t3-1" placeholder="?">
+        </div>
+        <div class="fill-line">
+          б) если x = 6, то y =
+          <input type="text" class="short-input" data-key="t3-2" placeholder="?">
+        </div>
+      </div>
+      <div class="task-feedback" id="fb-3"></div>
+    </div>
+  `;
+}
+
+// Задание 4
+function htmlTask4() {
+  return `
+    <div class="task" id="task-4">
+      <div class="task-header">
+        <span class="task-num">Задание 4</span>
+        <span class="task-title">Линейная функция задана формулой y = −5x + 4. Найдите значение x, при котором:</span>
+      </div>
+      <div class="task-body">
+        <div class="fill-line">
+          а) y = −6; &nbsp; x =
+          <input type="text" class="short-input" data-key="t4-1" placeholder="?">
+        </div>
+        <div class="fill-line">
+          б) y = 19; &nbsp; x =
+          <input type="text" class="short-input" data-key="t4-2" placeholder="?">
+        </div>
+      </div>
+      <div class="task-feedback" id="fb-4"></div>
+    </div>
+  `;
+}
+
+// Задание 5
+function htmlTask5() {
+  return `
+    <div class="task" id="task-5">
+      <div class="task-header">
+        <span class="task-num">Задание 5</span>
+        <span class="task-title">Известно, что график функции y = 2x + b проходит через точку (−3; 5). Найдите b.</span>
+      </div>
+      <div class="task-body">
+        <div class="fill-line">
+          b =
+          <input type="text" class="short-input" data-key="t5-1" placeholder="?">
+        </div>
+      </div>
+      <div class="task-feedback" id="fb-5"></div>
+    </div>
+  `;
+}
+
+// Задание 6
+function htmlTask6() {
+  return `
+    <div class="task" id="task-6">
+      <div class="task-header">
+        <span class="task-num">Задание 6</span>
+        <span class="task-title">Заполните таблицу и постройте график линейной функции y = 2x + 6</span>
+      </div>
+      <div class="task-body">
+        <table class="data-table">
+          <tr>
+            <td class="label-cell">x</td>
+            <td><input type="text" data-key="t6-x1" placeholder="..."></td>
+            <td><input type="text" data-key="t6-x2" placeholder="..."></td>
+          </tr>
+          <tr>
+            <td class="label-cell">y</td>
+            <td><input type="text" data-key="t6-y1" placeholder="..."></td>
+            <td><input type="text" data-key="t6-y2" placeholder="..."></td>
+          </tr>
+        </table>
+        ${htmlGraph(6, 'Поставь 2 точки на плоскости')}
+      </div>
+      <div class="task-feedback" id="fb-6"></div>
+    </div>
+  `;
+}
+
+// Задание 7
+function htmlTask7() {
+  return `
+    <div class="task" id="task-7">
+      <div class="task-header">
+        <span class="task-num">Задание 7</span>
+        <span class="task-title">Принадлежат ли графику функции y = −2x + 3 точки A(3; 9) и B(4; −5)?</span>
+      </div>
+      <div class="task-body">
+        <div class="fill-line" style="margin-bottom: 12px;">
+          <strong>Точка A(3; 9):</strong>
+        </div>
+        <div class="options-list" style="flex-direction: row; gap: 10px; margin-bottom: 14px;">
+          <label class="option-item" style="flex: 1;">
+            <input type="radio" name="t7-a" data-key="t7-a" value="yes">
+            <span>Да, принадлежит</span>
+          </label>
+          <label class="option-item" style="flex: 1;">
+            <input type="radio" name="t7-a" data-key="t7-a" value="no">
+            <span>Нет, не принадлежит</span>
+          </label>
+        </div>
+
+        <div class="fill-line" style="margin-bottom: 12px;">
+          <strong>Точка B(4; −5):</strong>
+        </div>
+        <div class="options-list" style="flex-direction: row; gap: 10px;">
+          <label class="option-item" style="flex: 1;">
+            <input type="radio" name="t7-b" data-key="t7-b" value="yes">
+            <span>Да, принадлежит</span>
+          </label>
+          <label class="option-item" style="flex: 1;">
+            <input type="radio" name="t7-b" data-key="t7-b" value="no">
+            <span>Нет, не принадлежит</span>
+          </label>
+        </div>
+      </div>
+      <div class="task-feedback" id="fb-7"></div>
+    </div>
+  `;
+}
+
+// Задание 8 — мини-график SVG
+function htmlMiniGraph(formula, id) {
+  const size = 200;
+  const cx = 100, cy = 100;
+  const cell = 15;
+
+  // Точки для линий в SVG-координатах
+  const xData1 = -20, xData2 = 20;
+  function toSvgX(x) { return cx + x * cell; }
+  function toSvgY(y) { return cy - y * cell; }
+
+  let line;
+  if (id === 'A') {
+    // y = -0.5x + 2
+    line = { x1: toSvgX(xData1), y1: toSvgY(-0.5 * xData1 + 2), x2: toSvgX(xData2), y2: toSvgY(-0.5 * xData2 + 2) };
+  } else if (id === 'B') {
+    // y = 3x
+    line = { x1: toSvgX(xData1), y1: toSvgY(3 * xData1), x2: toSvgX(xData2), y2: toSvgY(3 * xData2) };
+  } else {
+    // y = 0.5x + 1
+    line = { x1: toSvgX(xData1), y1: toSvgY(0.5 * xData1 + 1), x2: toSvgX(xData2), y2: toSvgY(0.5 * xData2 + 1) };
+  }
+
+  let grid = '';
+  for (let i = -6; i <= 6; i++) {
+    const p = 100 + i * cell;
+    grid += `<line x1="${p}" y1="0" x2="${p}" y2="200" stroke="${i === 0 ? '#4a5a6a' : '#e0e8f0'}" stroke-width="${i === 0 ? 1.6 : 0.8}"/>`;
+    grid += `<line x1="0" y1="${p}" x2="200" y2="${p}" stroke="${i === 0 ? '#4a5a6a' : '#e0e8f0'}" stroke-width="${i === 0 ? 1.6 : 0.8}"/>`;
+  }
+
+  return `
+    <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <clipPath id="clip-${id}">
+          <rect x="0" y="0" width="200" height="200"/>
+        </clipPath>
+      </defs>
+      <rect x="0" y="0" width="200" height="200" fill="#fdfeff"/>
+      ${grid}
+      <g clip-path="url(#clip-${id})">
+        <line x1="${line.x1}" y1="${line.y1}" x2="${line.x2}" y2="${line.y2}"
+              stroke="#7a5ac8" stroke-width="2.5" stroke-linecap="round"/>
+      </g>
+      <polygon points="198,100 190,96 190,104" fill="#4a5a6a"/>
+      <polygon points="100,2 96,10 104,10" fill="#4a5a6a"/>
+      <text x="195" y="115" font-size="11" fill="#4a5a6a" font-family="Cambria Math, serif" font-style="italic">x</text>
+      <text x="105" y="14" font-size="11" fill="#4a5a6a" font-family="Cambria Math, serif" font-style="italic">y</text>
+    </svg>
+  `;
+}
+
+function htmlTask8() {
+  return `
+    <div class="task" id="task-8">
+      <div class="task-header">
+        <span class="task-num">Задание 8</span>
+        <span class="task-title">Установите соответствие между графиками функций и формулами, которые их задают</span>
+      </div>
+      <div class="task-body">
+        <div style="font-size:14px;color:#4a5a6a;margin-bottom:10px;">
+          <strong>Формулы:</strong>
+          1) y = −0,5x + 2 &nbsp;&nbsp;&nbsp;
+          2) y = 3x &nbsp;&nbsp;&nbsp;
+          3) y = 0,5x + 1
+        </div>
+        <div class="match-grid">
+          <div class="match-graph" id="match-A">
+            <div class="label">А</div>
+            ${htmlMiniGraph('A', 'A')}
+            <select data-key="t8-A">
+              <option value="">— выбери формулу —</option>
+              <option value="1">1) y = −0,5x + 2</option>
+              <option value="2">2) y = 3x</option>
+              <option value="3">3) y = 0,5x + 1</option>
+            </select>
+          </div>
+          <div class="match-graph" id="match-B">
+            <div class="label">Б</div>
+            ${htmlMiniGraph('B', 'B')}
+            <select data-key="t8-B">
+              <option value="">— выбери формулу —</option>
+              <option value="1">1) y = −0,5x + 2</option>
+              <option value="2">2) y = 3x</option>
+              <option value="3">3) y = 0,5x + 1</option>
+            </select>
+          </div>
+          <div class="match-graph" id="match-C">
+            <div class="label">В</div>
+            ${htmlMiniGraph('C', 'C')}
+            <select data-key="t8-C">
+              <option value="">— выбери формулу —</option>
+              <option value="1">1) y = −0,5x + 2</option>
+              <option value="2">2) y = 3x</option>
+              <option value="3">3) y = 0,5x + 1</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="task-feedback" id="fb-8"></div>
+    </div>
+  `;
+}
+
+// Задание 9
+function htmlTask9() {
+  return `
+    <div class="task" id="task-9">
+      <div class="task-header">
+        <span class="task-num">Задание 9</span>
+        <span class="task-title">Заполните таблицу и постройте график линейной функции y = 3x</span>
+      </div>
+      <div class="task-body">
+        <table class="data-table">
+          <tr>
+            <td class="label-cell">x</td>
+            <td><input type="text" data-key="t9-x1" placeholder="..."></td>
+            <td><input type="text" data-key="t9-x2" placeholder="..."></td>
+          </tr>
+          <tr>
+            <td class="label-cell">y</td>
+            <td><input type="text" data-key="t9-y1" placeholder="..."></td>
+            <td><input type="text" data-key="t9-y2" placeholder="..."></td>
+          </tr>
+        </table>
+        ${htmlGraph(9, 'Поставь 2 точки на плоскости')}
+      </div>
+      <div class="task-feedback" id="fb-9"></div>
+    </div>
+  `;
+}
+
+// Задание 10
+function htmlTask10() {
+  return `
+    <div class="task" id="task-10">
+      <div class="task-header">
+        <span class="task-num">Задание 10</span>
+        <span class="task-title">Найдите координаты точки пересечения графиков функций y = 5 − 2x и y = 3x − 5</span>
+      </div>
+      <div class="task-body">
+        <div class="fill-line">
+          Точка пересечения: (
+          <input type="text" class="short-input" data-key="t10-x" placeholder="x">
+          ;
+          <input type="text" class="short-input" data-key="t10-y" placeholder="y">
+          )
+        </div>
+        ${htmlGraph(10, 'Построй 2 прямые (4 точки)')}
+      </div>
+      <div class="task-feedback" id="fb-10"></div>
+    </div>
+  `;
+}
+
+// ════════════════════════════════════════════════════════════════
+// ГЕНЕРАТОР КООРДИНАТНОЙ ПЛОСКОСТИ
+// ════════════════════════════════════════════════════════════════
+function htmlGraph(taskId, hint) {
+  const size = 440;
+  const cell = 22;
+  const center = size / 2;
+
+  let grid = '';
+
+  // Сетка
+  for (let i = -10; i <= 10; i++) {
+    const p = center + i * cell;
+    const isAxis = i === 0;
+    const isMajor = i % 5 === 0;
+    const stroke = isAxis ? '#4a5a6a' : (isMajor ? '#c8d8e8' : '#e8f0f8');
+    const width = isAxis ? 2 : (isMajor ? 1.2 : 0.7);
+
+    grid += `<line x1="${p}" y1="0" x2="${p}" y2="${size}" stroke="${stroke}" stroke-width="${width}"/>`;
+    grid += `<line x1="0" y1="${p}" x2="${size}" y2="${p}" stroke="${stroke}" stroke-width="${width}"/>`;
+  }
+
+  // Подписи чисел на осях
+  let labels = '';
+  for (let i = -10; i <= 10; i++) {
+    if (i === 0 || i % 5 !== 0) continue;
+    const p = center + i * cell;
+    labels += `<text x="${p}" y="${center + 16}" text-anchor="middle" font-size="11" fill="#7a8a9a" font-weight="600" font-family="Segoe UI">${i}</text>`;
+    labels += `<text x="${center - 8}" y="${p + 4}" text-anchor="end" font-size="11" fill="#7a8a9a" font-weight="600" font-family="Segoe UI">${i}</text>`;
+  }
+  labels += `<text x="${center - 8}" y="${center + 16}" text-anchor="end" font-size="11" fill="#7a8a9a" font-weight="600" font-family="Segoe UI">0</text>`;
+
+  // Стрелки
+  const arrows = `
+    <polygon points="${size - 4},${center} ${size - 16},${center - 6} ${size - 16},${center + 6}" fill="#4a5a6a"/>
+    <polygon points="${center},4 ${center - 6},16 ${center + 6},16" fill="#4a5a6a"/>
+    <text x="${size - 26}" y="${center - 12}" font-size="17" font-weight="bold" fill="#4a5a6a" font-family="Cambria Math, serif" font-style="italic">x</text>
+    <text x="${center + 10}" y="22" font-size="17" font-weight="bold" fill="#4a5a6a" font-family="Cambria Math, serif" font-style="italic">y</text>
+  `;
+
+  return `
+    <div class="graph-wrapper">
+      <svg class="graph-svg" viewBox="0 0 ${size} ${size}" data-task="${taskId}">
+        <rect x="0" y="0" width="${size}" height="${size}" fill="#fdfeff"/>
+        ${grid}
+        ${arrows}
+        ${labels}
+        <g class="user-points" data-task="${taskId}"></g>
+        <g class="user-lines" data-task="${taskId}"></g>
+      </svg>
+      <div class="graph-info">
+        <span class="hint">👆 ${hint}</span>
+        <span class="points-count" id="pcount-${taskId}">Точек: 0</span>
+        <button type="button" class="graph-clear-btn" onclick="clearGraph(${taskId})">🗑 Очистить</button>
+      </div>
+    </div>
+  `;
+}
+
+// ════════════════════════════════════════════════════════════════
+// РЕНДЕР ВСЕХ ЗАДАНИЙ
+// ════════════════════════════════════════════════════════════════
+function renderAll() {
+  const html = [
+    htmlTask1(),
+    htmlTask2(),
+    htmlTask3(),
+    htmlTask4(),
+    htmlTask5(),
+    htmlTask6(),
+    htmlTask7(),
+    htmlTask8(),
+    htmlTask9(),
+    htmlTask10()
+  ].join('');
+  document.getElementById('tasksContainer').innerHTML = html;
+
+  // Навешиваем обработчики на графики
+  document.querySelectorAll('.graph-svg').forEach(svg => {
+    svg.addEventListener('pointerdown', handleGraphClick);
+  });
+}
+
+// ════════════════════════════════════════════════════════════════
+// ОБРАБОТКА КЛИКОВ НА ГРАФИКЕ
+// ════════════════════════════════════════════════════════════════
+function handleGraphClick(e) {
+  const svg = e.currentTarget;
+  const taskId = parseInt(svg.dataset.task);
+  const rect = svg.getBoundingClientRect();
+  const size = 440;
+  const cell = 22;
+  const center = size / 2;
+
+  const svgX = (e.clientX - rect.left) / rect.width * size;
+  const svgY = (e.clientY - rect.top) / rect.height * size;
+
+  const dataX = Math.round((svgX - center) / cell);
+  const dataY = Math.round((center - svgY) / cell);
+
+  if (Math.abs(dataX) > 10 || Math.abs(dataY) > 10) return;
+
+  // Максимум точек
+  const maxPoints = taskId === 10 ? 4 : 2;
+
+  if (graphPoints[taskId].length >= maxPoints) {
+    // Начинаем заново
+    graphPoints[taskId] = [];
+  }
+
+  // Не добавляем дубликат
+  if (graphPoints[taskId].some(p => p.x === dataX && p.y === dataY)) return;
+
+  graphPoints[taskId].push({ x: dataX, y: dataY });
+
+  redrawGraph(taskId);
+}
+
+function redrawGraph(taskId) {
+  const svg = document.querySelector(`.graph-svg[data-task="${taskId}"]`);
+  const pointsG = svg.querySelector(`.user-points[data-task="${taskId}"]`);
+  const linesG = svg.querySelector(`.user-lines[data-task="${taskId}"]`);
+  const size = 440;
+  const cell = 22;
+  const center = size / 2;
+
+  pointsG.innerHTML = '';
+  linesG.innerHTML = '';
+
+  const pts = graphPoints[taskId];
+
+  // Точки
+  pts.forEach((p, i) => {
+    const sx = center + p.x * cell;
+    const sy = center - p.y * cell;
+    const color = taskId === 10 && i >= 2 ? '#4a7ba8' : '#7a5ac8';
+
+    pointsG.innerHTML += `<circle cx="${sx}" cy="${sy}" r="7" fill="#fff" stroke="${color}" stroke-width="3"/>`;
+    pointsG.innerHTML += `<text x="${sx + 12}" y="${sy - 10}" font-size="12" font-weight="700" fill="#4a5a6a" font-family="Segoe UI">(${p.x}; ${p.y})</text>`;
+  });
+
+  // Линии для задания 10 — две прямые
+  if (taskId === 10 && pts.length >= 2) {
+    // Первая прямая
+    const a = pts[0], b = pts[1];
+    const line1 = drawLineSVG(a, b, cell, center, '#7a5ac8');
+    if (line1) linesG.innerHTML += line1;
+
+    if (pts.length >= 4) {
+      const c = pts[2], d = pts[3];
+      const line2 = drawLineSVG(c, d, cell, center, '#4a7ba8');
+      if (line2) linesG.innerHTML += line2;
+    }
+  } else if (pts.length >= 2) {
+    // Для заданий 6 и 9 — одна прямая через 2 точки
+    const a = pts[0], b = pts[1];
+    const line = drawLineSVG(a, b, cell, center, '#7a5ac8');
+    if (line) linesG.innerHTML += line;
+  }
+
+  // Обновляем счётчик
+  document.getElementById(`pcount-${taskId}`).textContent = `Точек: ${pts.length}${maxLabel(taskId)}`;
+}
+
+function maxLabel(taskId) {
+  const maxPoints = taskId === 10 ? 4 : 2;
+  if (graphPoints[taskId].length >= maxPoints) return ' ✓';
+  return '';
+}
+
+function drawLineSVG(a, b, cell, center, color) {
+  if (a.x === b.x) return null; // вертикальная — не функция
+
+  const k = (b.y - a.y) / (b.x - a.x);
+  const c = a.y - k * a.x;
+
+  // Рисуем от x=-20 до x=20
+  const x1 = -20, x2 = 20;
+  const y1 = k * x1 + c;
+  const y2 = k * x2 + c;
+
+  const sx1 = center + x1 * cell;
+  const sy1 = center - y1 * cell;
+  const sx2 = center + x2 * cell;
+  const sy2 = center - y2 * cell;
+
+  return `<line x1="${sx1}" y1="${sy1}" x2="${sx2}" y2="${sy2}" stroke="${color}" stroke-width="3" stroke-linecap="round" opacity="0.7"/>`;
+}
+
+function clearGraph(taskId) {
+  graphPoints[taskId] = [];
+  redrawGraph(taskId);
+}
+
+// ════════════════════════════════════════════════════════════════
+// УТИЛИТЫ
+// ════════════════════════════════════════════════════════════════
+function norm(s) {
+  return String(s || '')
+    .toLowerCase()
+    .trim()
+    .replace(/\s+/g, '')
+    .replace(/,/g, '.')
+    .replace(/у/g, 'y')
+    .replace(/х/g, 'x');
+}
+
+function numVal(s) {
+  const v = parseFloat(String(s || '').replace(',', '.').replace(/\s/g, ''));
+  return isNaN(v) ? null : v;
+}
+
+function approxEq(a, b, eps = 0.001) {
+  if (a === null || b === null) return false;
+  return Math.abs(a - b) < eps;
+}
+
+// ════════════════════════════════════════════════════════════════
+// ПРОВЕРКА ВСЕХ ЗАДАНИЙ
+// ════════════════════════════════════════════════════════════════
+function checkAll() {
+  let correct = 0;
+  const results = {};
+
+  // ─── Задание 1 ───
+  const t1_1 = document.querySelector('[data-key="t1-1"]');
+  const t1_2 = document.querySelector('[data-key="t1-2"]');
+  const ans1_1 = ['y=kx+b', 'y=kx+b.', 'y=kx+b,y=kx+b'];
+  const ans1_2 = ['прямая', 'прямаялиния', 'прямая.'];
+  const ok1_1 = ans1_1.includes(norm(t1_1.value).replace(/\.$/, ''));
+  const ok1_2 = ans1_2.includes(norm(t1_2.value).replace(/\.$/, ''));
+  const ok1 = ok1_1 && ok1_2;
+  results[1] = ok1;
+  markInput(t1_1, ok1_1);
+  markInput(t1_2, ok1_2);
+  showTaskFeedback(1, ok1, ok1 ? '' : `Правильно: 1) y = kx + b; 2) прямая`);
+  if (ok1) correct++;
+
+  // ─── Задание 2 ───
+  const checkboxes = document.querySelectorAll('[data-key^="t2-"]');
+  const correctAnswers2 = ['1'];
+  const selected2 = Array.from(checkboxes).filter(c => c.checked).map(c => c.value);
+  const ok2 = selected2.length === 1 && selected2[0] === '1';
+  results[2] = ok2;
+  checkboxes.forEach(cb => {
+    const label = cb.closest('.option-item');
+    if (cb.value === '1') {
+      label.classList.add('correct');
+    } else if (cb.checked) {
+      label.classList.add('incorrect');
+    }
+  });
+  showTaskFeedback(2, ok2, ok2 ? '' : 'Правильно: y = 5x + 7 (вариант 1)');
+  if (ok2) correct++;
+
+  // ─── Задание 3 ───
+  const t3_1 = document.querySelector('[data-key="t3-1"]');
+  const t3_2 = document.querySelector('[data-key="t3-2"]');
+  const ok3_1 = approxEq(numVal(t3_1.value), 13);
+  const ok3_2 = approxEq(numVal(t3_2.value), 29);
+  const ok3 = ok3_1 && ok3_2;
+  results[3] = ok3;
+  markInput(t3_1, ok3_1);
+  markInput(t3_2, ok3_2);
+  showTaskFeedback(3, ok3, ok3 ? '' : 'Правильно: а) y = 13; б) y = 29');
+  if (ok3) correct++;
+
+  // ─── Задание 4 ───
+  const t4_1 = document.querySelector('[data-key="t4-1"]');
+  const t4_2 = document.querySelector('[data-key="t4-2"]');
+  const ok4_1 = approxEq(numVal(t4_1.value), 2);
+  const ok4_2 = approxEq(numVal(t4_2.value), -3);
+  const ok4 = ok4_1 && ok4_2;
+  results[4] = ok4;
+  markInput(t4_1, ok4_1);
+  markInput(t4_2, ok4_2);
+  showTaskFeedback(4, ok4, ok4 ? '' : 'Правильно: а) x = 2; б) x = −3');
+  if (ok4) correct++;
+
+  // ─── Задание 5 ───
+  const t5_1 = document.querySelector('[data-key="t5-1"]');
+  const ok5 = approxEq(numVal(t5_1.value), 11);
+  results[5] = ok5;
+  markInput(t5_1, ok5);
+  showTaskFeedback(5, ok5, ok5 ? '' : 'Правильно: b = 11 (5 = 2·(−3) + b ⇒ b = 11)');
+  if (ok5) correct++;
+
+  // ─── Задание 6 ───
+  const t6x1 = document.querySelector('[data-key="t6-x1"]');
+  const t6y1 = document.querySelector('[data-key="t6-y1"]');
+  const t6x2 = document.querySelector('[data-key="t6-x2"]');
+  const t6y2 = document.querySelector('[data-key="t6-y2"]');
+  const v6x1 = numVal(t6x1.value), v6y1 = numVal(t6y1.value);
+  const v6x2 = numVal(t6x2.value), v6y2 = numVal(t6y2.value);
+
+  const ok6_t1 = v6x1 !== null && v6y1 !== null && approxEq(v6y1, 2 * v6x1 + 6);
+  const ok6_t2 = v6x2 !== null && v6y2 !== null && approxEq(v6y2, 2 * v6x2 + 6) && v6x1 !== v6x2;
+  const pts6 = graphPoints[6];
+  const ok6_graph = pts6.length >= 2 && pts6.every(p => approxEq(p.y, 2 * p.x + 6)) && pts6[0].x !== pts6[1].x;
+  const ok6 = ok6_t1 && ok6_t2 && ok6_graph;
+  results[6] = ok6;
+  markInput(t6x1, ok6_t1); markInput(t6y1, ok6_t1);
+  markInput(t6x2, ok6_t2); markInput(t6y2, ok6_t2);
+  let fb6 = '';
+  if (!ok6_t1 || !ok6_t2) fb6 = 'Проверьте таблицу: y = 2x + 6. ';
+  if (!ok6_graph) fb6 += 'На графике нужно поставить 2 точки на прямой y = 2x + 6.';
+  showTaskFeedback(6, ok6, fb6);
+  if (ok6) correct++;
+
+  // ─── Задание 7 ───
+  const t7a = document.querySelector('input[name="t7-a"]:checked');
+  const t7b = document.querySelector('input[name="t7-b"]:checked');
+  const ok7a = t7a && t7a.value === 'no';  // A(3;9): -2*3+3 = -3 ≠ 9 — нет
+  const ok7b = t7b && t7b.value === 'yes'; // B(4;-5): -2*4+3 = -5 — да
+  const ok7 = ok7a && ok7b;
+  results[7] = ok7;
+  showTaskFeedback(7, ok7, ok7 ? '' : 'Правильно: A(3; 9) — не принадлежит; B(4; −5) — принадлежит');
+  if (ok7) correct++;
+
+  // ─── Задание 8 ───
+  const selA = document.querySelector('[data-key="t8-A"]');
+  const selB = document.querySelector('[data-key="t8-B"]');
+  const selC = document.querySelector('[data-key="t8-C"]');
+  const ok8A = selA.value === '1';  // y = -0.5x + 2
+  const ok8B = selB.value === '2';  // y = 3x
+  const ok8C = selC.value === '3';  // y = 0.5x + 1
+  const ok8 = ok8A && ok8B && ok8C;
+  results[8] = ok8;
+  markMatch('match-A', ok8A);
+  markMatch('match-B', ok8B);
+  markMatch('match-C', ok8C);
+  showTaskFeedback(8, ok8, ok8 ? '' : 'Правильно: А → 1; Б → 2; В → 3');
+  if (ok8) correct++;
+
+  // ─── Задание 9 ───
+  const t9x1 = document.querySelector('[data-key="t9-x1"]');
+  const t9y1 = document.querySelector('[data-key="t9-y1"]');
+  const t9x2 = document.querySelector('[data-key="t9-x2"]');
+  const t9y2 = document.querySelector('[data-key="t9-y2"]');
+  const v9x1 = numVal(t9x1.value), v9y1 = numVal(t9y1.value);
+  const v9x2 = numVal(t9x2.value), v9y2 = numVal(t9y2.value);
+  const ok9_t1 = v9x1 !== null && v9y1 !== null && approxEq(v9y1, 3 * v9x1);
+  const ok9_t2 = v9x2 !== null && v9y2 !== null && approxEq(v9y2, 3 * v9x2) && v9x1 !== v9x2;
+  const pts9 = graphPoints[9];
+  const ok9_graph = pts9.length >= 2 && pts9.every(p => approxEq(p.y, 3 * p.x)) && pts9[0].x !== pts9[1].x;
+  const ok9 = ok9_t1 && ok9_t2 && ok9_graph;
+  results[9] = ok9;
+  markInput(t9x1, ok9_t1); markInput(t9y1, ok9_t1);
+  markInput(t9x2, ok9_t2); markInput(t9y2, ok9_t2);
+  let fb9 = '';
+  if (!ok9_t1 || !ok9_t2) fb9 = 'Проверьте таблицу: y = 3x. ';
+  if (!ok9_graph) fb9 += 'На графике нужно поставить 2 точки на прямой y = 3x.';
+  showTaskFeedback(9, ok9, fb9);
+  if (ok9) correct++;
+
+  // ─── Задание 10 ───
+  const t10x = document.querySelector('[data-key="t10-x"]');
+  const t10y = document.querySelector('[data-key="t10-y"]');
+  const ok10x = approxEq(numVal(t10x.value), 2);
+  const ok10y = approxEq(numVal(t10y.value), 1);
+  const ok10 = ok10x && ok10y;
+  results[10] = ok10;
+  markInput(t10x, ok10x);
+  markInput(t10y, ok10y);
+  showTaskFeedback(10, ok10, ok10 ? '' : 'Правильно: (2; 1). Решение: 5 − 2x = 3x − 5 ⇒ x = 2; y = 5 − 2·2 = 1');
+  if (ok10) correct++;
+
+  // ─── Общий итог ───
+  showOverall(correct, TOTAL_TASKS);
+}
+
+function markInput(input, ok) {
+  if (!input) return;
+  input.classList.remove('correct', 'incorrect');
+  input.classList.add(ok ? 'correct' : 'incorrect');
+}
+
+function markMatch(id, ok) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.classList.remove('correct', 'incorrect');
+  el.classList.add(ok ? 'correct' : 'incorrect');
+}
+
+function showTaskFeedback(num, ok, extra) {
+  const fb = document.getElementById(`fb-${num}`);
+  if (!fb) return;
+  fb.className = 'task-feedback show ' + (ok ? 'ok' : 'fail');
+  if (ok) {
+    fb.innerHTML = '✅ Верно!';
+  } else {
+    fb.innerHTML = '❌ Неверно. ' + (extra || '');
+  }
+  const task = document.getElementById(`task-${num}`);
+  task.classList.remove('correct', 'incorrect');
+  task.classList.add(ok ? 'correct' : 'incorrect');
+}
+
+function showOverall(correct, total) {
+  const overall = document.getElementById('overallResult');
+  const icon = document.getElementById('overallIcon');
+  const title = document.getElementById('overallTitle');
+  const score = document.getElementById('overallScore');
+  const message = document.getElementById('overallMessage');
+
+  score.textContent = `${correct} / ${total}`;
+
+  const percent = (correct / total) * 100;
+  let msg, t, ic;
+
+  if (correct === total) {
+    ic = '🏆';
+    t = 'Отлично! Все задания решены верно!';
+    msg = 'Ты прекрасно разбираешься в линейных функциях и их графиках. Так держать!';
+  } else if (percent >= 80) {
+    ic = '🌟';
+    t = 'Отличный результат!';
+    msg = 'Почти всё верно. Просмотри задания, где были ошибки, чтобы закрепить тему.';
+  } else if (percent >= 60) {
+    ic = '👍';
+    t = 'Хороший результат';
+    msg = 'Больше половины заданий выполнено верно. Стоит повторить построение графиков и нахождение точки пересечения.';
+  } else if (percent >= 40) {
+    ic = '📖';
+    t = 'Есть над чем поработать';
+    msg = 'Повтори теорию: формулу линейной функции y = kx + b, способы построения графика и нахождение координат точек.';
+  } else {
+    ic = '📚';
+    t = 'Стоит повторить тему';
+    msg = 'Пройди тему заново: что такое линейная функция, как строить её график и как находить точки пересечения.';
+  }
+
+  icon.textContent = ic;
+  title.textContent = t;
+  message.textContent = msg;
+  overall.classList.add('show');
+
+  overall.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+  if (percent >= 80) {
+    setTimeout(() => launchConfetti(70), 400);
+  } else if (percent >= 60) {
+    setTimeout(() => launchConfetti(30), 400);
+  }
+}
+
+// ════════════════════════════════════════════════════════════════
+// КОНФЕТТИ
+// ════════════════════════════════════════════════════════════════
+function launchConfetti(count) {
+  const celebration = document.getElementById('celebration');
+  celebration.classList.add('show');
+  const emojis = ['🎉', '✨', '🌟', '💫', '🎊', '⭐', '📐', '📈'];
+
+  for (let i = 0; i < count; i++) {
+    const c = document.createElement('div');
+    c.className = 'confetti';
+    c.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+    c.style.left = Math.random() * 100 + 'vw';
+    c.style.fontSize = (18 + Math.random() * 20) + 'px';
+    const dur = 2.5 + Math.random() * 1.8;
+    c.style.animationDuration = dur + 's';
+    c.style.animationDelay = (Math.random() * 0.5) + 's';
+    celebration.appendChild(c);
+    setTimeout(() => c.remove(), (dur + 1) * 1000);
+  }
+
+  setTimeout(() => celebration.classList.remove('show'), 4000);
+}
+
+// ════════════════════════════════════════════════════════════════
+// СБРОС
+// ════════════════════════════════════════════════════════════════
+function resetAll() {
+  // Очищаем графики
+  [6, 9, 10].forEach(id => { graphPoints[id] = []; });
+
+  // Перерисовываем всё
+  renderAll();
+
+  // Скрываем итог
+  document.getElementById('overallResult').classList.remove('show');
+
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ════════════════════════════════════════════════════════════════
+// СТАРТ
+// ════════════════════════════════════════════════════════════════
+renderAll();
+
+// Инициализация счётчиков точек
+[6, 9, 10].forEach(id => {
+  const el = document.getElementById(`pcount-${id}`);
+  if (el) el.textContent = 'Точек: 0';
+});
+</script>
+
+</body>
+</html>
