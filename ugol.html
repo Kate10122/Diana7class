@@ -1,0 +1,757 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>📏 Луч и угол — тест | 7 класс</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --pink: #d46a98;
+    --pink-light: #f0a8c8;
+    --pink-pale: #fce4ec;
+    --purple: #8a5ac8;
+    --purple-light: #b898e0;
+    --purple-pale: #ebe0f7;
+    --lavender: #a888d0;
+    --text: #3a1a4a;
+    --text-soft: #6a5a7a;
+    --green: #5aab6a;
+    --green-bg: #e0f0e4;
+    --red: #e86080;
+    --red-bg: #fce4ec;
+    --shadow: 0 8px 28px rgba(212, 106, 152, 0.12);
+  }
+
+  body {
+    font-family: 'Segoe UI', 'Roboto', system-ui, sans-serif;
+    background:
+      radial-gradient(circle at 15% 15%, rgba(232, 130, 180, 0.12), transparent 45%),
+      radial-gradient(circle at 85% 85%, rgba(138, 110, 200, 0.12), transparent 45%),
+      linear-gradient(135deg, #fff5fa 0%, #f5f0ff 100%);
+    min-height: 100vh;
+    padding: 24px 14px 50px;
+    color: var(--text);
+  }
+
+  body::before {
+    content: "🌸📐✨📏💫";
+    position: fixed;
+    top: 8%; right: 3%;
+    font-size: 60px;
+    opacity: 0.06;
+    pointer-events: none;
+    letter-spacing: 18px;
+  }
+
+  .app { max-width: 900px; margin: 0 auto; position: relative; z-index: 2; }
+
+  /* ШАПКА */
+  .main-header {
+    text-align: center;
+    margin-bottom: 24px;
+    padding: 20px 16px;
+  }
+  .main-header h1 {
+    font-size: 32px;
+    font-weight: 800;
+    background: linear-gradient(135deg, #d46a98, #a06ac8, #d4a06a);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    letter-spacing: -0.5px;
+    margin-bottom: 8px;
+    line-height: 1.2;
+  }
+  .main-header p {
+    font-size: 15px;
+    color: var(--text-soft);
+    font-style: italic;
+  }
+
+  /* ПРОГРЕСС */
+  .progress-bar {
+    background: linear-gradient(135deg, #d46a98, #8a5ac8);
+    color: #fff;
+    border-radius: 20px;
+    padding: 16px 22px;
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    flex-wrap: wrap;
+    box-shadow: 0 10px 30px rgba(212, 106, 152, 0.3);
+  }
+  .progress-bar .label { font-size: 15px; font-weight: 700; }
+  .progress-bar .track {
+    flex: 1;
+    min-width: 120px;
+    height: 10px;
+    background: rgba(255, 255, 255, 0.25);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  .progress-bar .fill {
+    height: 100%;
+    width: 0;
+    background: linear-gradient(90deg, #fff4d0, #fce4ec);
+    border-radius: 10px;
+    transition: width 0.5s cubic-bezier(0.34, 1.2, 0.5, 1);
+  }
+  .progress-bar .counter {
+    font-size: 18px;
+    font-weight: 800;
+    background: rgba(255, 255, 255, 0.15);
+    padding: 4px 14px;
+    border-radius: 20px;
+  }
+
+  /* КАРТОЧКА ВОПРОСА */
+  .question-card {
+    background: #fff;
+    border: 2px solid #f0d8e8;
+    border-radius: 22px;
+    padding: 24px 26px;
+    margin-bottom: 18px;
+    box-shadow: var(--shadow);
+    transition: all 0.3s;
+    animation: fadeIn 0.4s ease;
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .question-card.correct {
+    border-color: var(--green);
+    background: linear-gradient(180deg, #fff, var(--green-bg));
+  }
+  .question-card.incorrect {
+    border-color: var(--red);
+    background: linear-gradient(180deg, #fff, var(--red-bg));
+  }
+
+  .q-number {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: linear-gradient(135deg, #d46a98, #8a5ac8);
+    color: #fff;
+    font-size: 13px;
+    font-weight: 800;
+    padding: 5px 14px;
+    border-radius: 20px;
+    margin-bottom: 14px;
+    letter-spacing: 0.3px;
+  }
+
+  .q-text {
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 1.55;
+    color: var(--text);
+    margin-bottom: 16px;
+  }
+
+  .q-text .highlight {
+    color: #a03a6a;
+    font-weight: 800;
+    background: var(--pink-pale);
+    padding: 1px 8px;
+    border-radius: 8px;
+  }
+
+  .q-text .symbol {
+    font-family: 'Cambria Math', 'Times New Roman', serif;
+    font-size: 20px;
+    color: var(--purple);
+    background: var(--purple-pale);
+    padding: 1px 10px;
+    border-radius: 8px;
+    display: inline-block;
+    margin: 1px 2px;
+    font-weight: 700;
+  }
+
+  .q-svg {
+    display: flex;
+    justify-content: center;
+    margin: 12px 0;
+    padding: 10px;
+    background: #fafafd;
+    border-radius: 14px;
+    border: 1px solid #f0e8f0;
+  }
+
+  /* ВАРИАНТЫ ОТВЕТОВ */
+  .options {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px 14px;
+    margin-top: 8px;
+  }
+  @media (max-width: 560px) {
+    .options { grid-template-columns: 1fr; }
+  }
+
+  .option-label {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: #fafafd;
+    border: 2px solid #f0e0f0;
+    border-radius: 14px;
+    padding: 12px 16px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-weight: 600;
+    color: var(--text);
+    font-size: 15px;
+    user-select: none;
+  }
+  .option-label:hover:not(.disabled) {
+    background: #fff;
+    border-color: var(--pink-light);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(212, 106, 152, 0.15);
+  }
+
+  .option-label input[type="radio"] {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 20px;
+    height: 20px;
+    border: 2px solid #d8b8e0;
+    border-radius: 50%;
+    outline: none;
+    cursor: pointer;
+    transition: 0.2s;
+    flex-shrink: 0;
+    position: relative;
+    background: #fff;
+  }
+  .option-label input[type="radio"]:checked {
+    border-color: var(--pink);
+    background: var(--pink);
+    box-shadow: inset 0 0 0 5px #fff, 0 0 0 2px var(--pink);
+  }
+
+  .option-label .letter {
+    font-weight: 800;
+    color: var(--purple);
+    background: var(--purple-pale);
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-size: 14px;
+  }
+
+  .option-label.correct-answer {
+    border-color: var(--green);
+    background: #e8f8ec;
+  }
+  .option-label.correct-answer .letter {
+    background: var(--green);
+    color: #fff;
+  }
+
+  .option-label.wrong-answer {
+    border-color: var(--red);
+    background: #fce4ec;
+  }
+  .option-label.wrong-answer .letter {
+    background: var(--red);
+    color: #fff;
+  }
+
+  .option-label.show-correct {
+    border-color: var(--green);
+    background: #e8f8ec;
+  }
+  .option-label.show-correct .letter {
+    background: var(--green);
+    color: #fff;
+  }
+
+  .option-label.disabled { cursor: default; }
+  .option-label.disabled:hover { transform: none; box-shadow: none; }
+
+  /* ФИДБЕК */
+  .feedback {
+    margin-top: 14px;
+    padding: 12px 18px;
+    border-radius: 14px;
+    font-size: 15px;
+    font-weight: 700;
+    display: none;
+    align-items: center;
+    gap: 10px;
+  }
+  .feedback.show { display: flex; }
+  .feedback.ok {
+    background: var(--green-bg);
+    color: #2a6a3a;
+    border: 2px solid var(--green);
+  }
+  .feedback.fail {
+    background: var(--red-bg);
+    color: #8a3a5a;
+    border: 2px solid var(--red);
+  }
+
+  /* КНОПКИ */
+  .actions {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-top: 26px;
+  }
+  .btn {
+    border: none;
+    padding: 14px 32px;
+    border-radius: 40px;
+    font-size: 16px;
+    font-weight: 800;
+    font-family: inherit;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .btn:hover { transform: translateY(-2px); }
+  .btn-primary {
+    background: linear-gradient(135deg, #d46a98, #8a5ac8);
+    color: #fff;
+    box-shadow: 0 8px 24px rgba(212, 106, 152, 0.4);
+  }
+  .btn-primary:hover {
+    background: linear-gradient(135deg, #b85a88, #7a4ab8);
+    box-shadow: 0 12px 32px rgba(212, 106, 152, 0.55);
+  }
+  .btn-secondary {
+    background: #fff;
+    color: var(--purple);
+    border: 2px solid #e0d0e8;
+  }
+  .btn-secondary:hover {
+    background: var(--purple-pale);
+    border-color: var(--purple-light);
+  }
+
+  /* ФИНАЛЬНЫЙ ЭКРАН */
+  .final-screen {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(58, 26, 74, 0.85);
+    backdrop-filter: blur(6px);
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+  .final-screen.show {
+    display: flex;
+    animation: fadeIn 0.5s ease;
+  }
+  .final-card {
+    background: linear-gradient(160deg, #fff, #fce4ec);
+    border: 3px solid #d46a98;
+    border-radius: 28px;
+    padding: 36px 32px;
+    text-align: center;
+    max-width: 460px;
+    width: 100%;
+    box-shadow: 0 20px 70px rgba(212, 106, 152, 0.4);
+  }
+  .final-card .trophy {
+    font-size: 76px;
+    display: block;
+    margin-bottom: 12px;
+    animation: bounce 2s ease-in-out infinite;
+  }
+  @keyframes bounce {
+    0%, 100% { transform: translateY(0) scale(1); }
+    50% { transform: translateY(-12px) scale(1.05); }
+  }
+  .final-card h2 {
+    font-size: 26px;
+    color: var(--text);
+    margin-bottom: 14px;
+  }
+  .final-score {
+    font-size: 44px;
+    font-weight: 900;
+    background: linear-gradient(135deg, #d46a98, #8a5ac8);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin: 14px 0;
+    letter-spacing: 1px;
+  }
+  .final-message {
+    font-size: 16px;
+    font-style: italic;
+    color: var(--text-soft);
+    line-height: 1.5;
+    margin-bottom: 22px;
+    padding: 14px 20px;
+    background: rgba(255, 255, 255, 0.6);
+    border-radius: 14px;
+  }
+
+  /* КОНФЕТТИ */
+  .celebration {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 999;
+    display: none;
+  }
+  .celebration.show { display: block; }
+  .confetti {
+    position: absolute;
+    font-size: 26px;
+    animation: fallConf linear forwards;
+  }
+  @keyframes fallConf {
+    from { transform: translateY(-40px) rotate(0deg); opacity: 1; }
+    to { transform: translateY(105vh) rotate(720deg); opacity: 0; }
+  }
+
+  @media (max-width: 600px) {
+    .main-header h1 { font-size: 24px; }
+    .q-text { font-size: 16px; }
+    .question-card { padding: 18px 18px; }
+    .final-card { padding: 28px 20px; }
+    .final-card h2 { font-size: 22px; }
+    .final-score { font-size: 36px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="app">
+
+  <header class="main-header">
+    <h1>📏 Луч и угол</h1>
+    <p>Тест по геометрии • 7 класс • 10 заданий</p>
+  </header>
+
+  <div class="progress-bar">
+    <span class="label">🏆 Правильных ответов:</span>
+    <div class="track"><div class="fill" id="progressFill"></div></div>
+    <span class="counter" id="progressCounter">0 / 10</span>
+  </div>
+
+  <div id="questionsContainer"></div>
+
+  <div class="actions" id="actions">
+    <button class="btn btn-secondary" onclick="resetTest()">🔄 Сбросить</button>
+  </div>
+
+</div>
+
+<!-- ФИНАЛЬНЫЙ ЭКРАН -->
+<div class="final-screen" id="finalScreen">
+  <div class="final-card">
+    <span class="trophy" id="trophyEmoji">🏆</span>
+    <h2 id="finalTitle">Тест завершён!</h2>
+    <div class="final-score" id="finalScore">0 / 10</div>
+    <div class="final-message" id="finalMessage"></div>
+    <button class="btn btn-primary" onclick="resetTest()">🔄 Пройти заново</button>
+  </div>
+</div>
+
+<div class="celebration" id="celebration"></div>
+
+<script>
+// ================================================================
+// ВОПРОСЫ
+// ================================================================
+const questions = [
+  {
+    text: 'Какая фигура имеет <span class="highlight">начало</span>, но <span class="highlight">не имеет конца</span>?',
+    options: ['Отрезок', 'Прямая', 'Луч', 'Окружность'],
+    correct: 2
+  },
+  {
+    text: 'На прямой отмечены точки A, B и C так, что B лежит между A и C. Сколько различных лучей с началом в точке B можно назвать?',
+    options: ['1', '2', '3', '4'],
+    correct: 1
+  },
+  {
+    text: 'Вершина угла — точка B, стороны — лучи BA и BC. Какое обозначение этого угла <span class="highlight">НЕВЕРНО</span>?',
+    options: ['∠ABC', '∠CBA', '∠B', '∠BAC'],
+    correct: 3
+  },
+  {
+    text: 'Определите вид угла, градусная мера которого равна <span class="symbol">91°</span>.',
+    options: ['Острый', 'Прямой', 'Тупой', 'Развёрнутый'],
+    correct: 2
+  },
+  {
+    text: 'Луч OC проходит <span class="highlight">внутри</span> угла AOB. Какое равенство верно?',
+    options: [
+      '∠AOC + ∠COB = ∠AOB',
+      '∠AOC = ∠COB',
+      '∠AOB = ∠AOC − ∠COB',
+      '∠AOB = 90°'
+    ],
+    correct: 0
+  },
+  {
+    text: 'Точка M лежит <span class="highlight">внутри</span> угла ABC. Какое утверждение верно?',
+    options: [
+      'Луч BM проходит внутри угла ABC',
+      'Точка M лежит на луче BA',
+      'Точка M лежит вне угла ABC',
+      'Угол ABC — прямой'
+    ],
+    correct: 0
+  },
+  {
+    text: 'Луч BD — <span class="highlight">биссектриса</span> угла ABC. Какое равенство верно?',
+    options: [
+      '∠ABD = ∠DBC',
+      '∠ABD = ∠ABC',
+      '∠DBC = ∠ABC',
+      '∠ABD + ∠DBC = 90°'
+    ],
+    correct: 0
+  },
+  {
+    text: 'Из точки O проведены три луча: OA, OB и OC. Сколько различных углов с вершиной O они образуют?',
+    options: ['1', '2', '3', '4'],
+    correct: 2
+  },
+  {
+    text: 'Что означает запись <span class="symbol">∠KLM = 65°</span>?',
+    options: [
+      'Угол KLM равен 65 градусам',
+      'Угол KLM больше 65°',
+      'Угол KLM равен 65 сантиметрам',
+      'Угол KLM меньше 65°'
+    ],
+    correct: 0
+  },
+  {
+    text: 'Может ли градусная мера угла быть равной <span class="symbol">200°</span>?',
+    options: [
+      'Да, это тупой угол',
+      'Да, это развёрнутый угол',
+      'Нет, градусная мера угла не превышает 180°',
+      'Нет, градусная мера угла не превышает 90°'
+    ],
+    correct: 2
+  }
+];
+
+// ================================================================
+// СОСТОЯНИЕ
+// ================================================================
+let answered = new Array(questions.length).fill(null);
+let correctCount = 0;
+let gameFinished = false;
+
+// DOM
+const container = document.getElementById('questionsContainer');
+const progressFill = document.getElementById('progressFill');
+const progressCounter = document.getElementById('progressCounter');
+const finalScreen = document.getElementById('finalScreen');
+const finalTitle = document.getElementById('finalTitle');
+const finalScore = document.getElementById('finalScore');
+const finalMessage = document.getElementById('finalMessage');
+const trophyEmoji = document.getElementById('trophyEmoji');
+const celebration = document.getElementById('celebration');
+
+// ================================================================
+// ОТРИСОВКА
+// ================================================================
+function render() {
+  let html = '';
+  questions.forEach((q, qIdx) => {
+    html += `<div class="question-card" id="qcard-${qIdx}">`;
+    html += `<div class="q-number">Задание ${qIdx + 1} из ${questions.length}</div>`;
+    html += `<div class="q-text">${q.text}</div>`;
+    html += `<div class="options">`;
+    q.options.forEach((opt, optIdx) => {
+      const letter = String.fromCharCode(65 + optIdx);
+      html += `<label class="option-label" id="label-${qIdx}-${optIdx}">`;
+      html += `<input type="radio" name="q${qIdx}" value="${optIdx}" data-q="${qIdx}" data-opt="${optIdx}">`;
+      html += `<span class="letter">${letter}</span>`;
+      html += `<span>${opt}</span>`;
+      html += `</label>`;
+    });
+    html += `</div>`;
+    html += `<div class="feedback" id="fb-${qIdx}"></div>`;
+    html += `</div>`;
+  });
+  container.innerHTML = html;
+
+  // Обработчики
+  document.querySelectorAll('input[type="radio"]').forEach(inp => {
+    inp.addEventListener('change', function() {
+      const qIdx = parseInt(this.dataset.q);
+      const optIdx = parseInt(this.dataset.opt);
+      if (answered[qIdx] !== null) return; // уже отвечено
+      handleAnswer(qIdx, optIdx);
+    });
+  });
+}
+
+// ================================================================
+// ОТВЕТ
+// ================================================================
+function handleAnswer(qIdx, optIdx) {
+  const q = questions[qIdx];
+  const isCorrect = (optIdx === q.correct);
+  answered[qIdx] = optIdx;
+
+  const card = document.getElementById(`qcard-${qIdx}`);
+  const labels = card.querySelectorAll('.option-label');
+  const fb = document.getElementById(`fb-${qIdx}`);
+
+  // Блокируем все варианты
+  labels.forEach((label, i) => {
+    label.classList.add('disabled');
+    const inp = label.querySelector('input');
+    inp.disabled = true;
+
+    if (i === q.correct) {
+      label.classList.add('show-correct');
+    }
+    if (i === optIdx && !isCorrect) {
+      label.classList.add('wrong-answer');
+    }
+  });
+
+  // Обратная связь
+  fb.className = 'feedback show ' + (isCorrect ? 'ok' : 'fail');
+  if (isCorrect) {
+    fb.innerHTML = '✅ Верно!';
+    card.classList.add('correct');
+    correctCount++;
+  } else {
+    const correctLetter = String.fromCharCode(65 + q.correct);
+    fb.innerHTML = `❌ Неверно. Правильный ответ: <b>${correctLetter}) ${q.options[q.correct]}</b>`;
+    card.classList.add('incorrect');
+  }
+
+  // Прогресс
+  updateProgress();
+
+  // Если всё отвечено — финал
+  if (answered.every(a => a !== null)) {
+    gameFinished = true;
+    setTimeout(showFinal, 1200);
+  }
+}
+
+// ================================================================
+// ПРОГРЕСС
+// ================================================================
+function updateProgress() {
+  const total = questions.length;
+  const answeredCount = answered.filter(a => a !== null).length;
+  const percent = (correctCount / total) * 100;
+  progressFill.style.width = percent + '%';
+  progressCounter.textContent = `${correctCount} / ${total}`;
+}
+
+// ================================================================
+// ФИНАЛ
+// ================================================================
+function showFinal() {
+  const total = questions.length;
+  const percent = (correctCount / total) * 100;
+
+  finalScore.textContent = `${correctCount} / ${total}`;
+
+  let title, msg, emoji;
+  if (correctCount === total) {
+    title = '🌟 Идеально!';
+    msg = 'Ты отлично разбираешься в теме «Луч и угол»! Так держать!';
+    emoji = '🏆';
+  } else if (correctCount >= 8) {
+    title = '👏 Отлично!';
+    msg = 'Высокий результат! Ещё немного — и будет идеально.';
+    emoji = '🥇';
+  } else if (correctCount >= 6) {
+    title = '💪 Хорошо!';
+    msg = 'Неплохой результат. Повтори темы, где были ошибки, и получится ещё лучше!';
+    emoji = '🥈';
+  } else if (correctCount >= 4) {
+    title = '📖 Есть над чем поработать';
+    msg = 'Стоит повторить теорию по теме «Луч и угол» и попробовать снова.';
+    emoji = '🥉';
+  } else {
+    title = '🌱 Не сдавайся!';
+    msg = 'Пройди теорию по теме и попробуй снова — обязательно получится!';
+    emoji = '📚';
+  }
+
+  finalTitle.textContent = title;
+  finalMessage.textContent = msg;
+  trophyEmoji.textContent = emoji;
+
+  finalScreen.classList.add('show');
+
+  if (correctCount >= 8) {
+    setTimeout(() => launchConfetti(60), 300);
+  } else if (correctCount >= 6) {
+    setTimeout(() => launchConfetti(25), 300);
+  }
+}
+
+// ================================================================
+// КОНФЕТТИ
+// ================================================================
+function launchConfetti(count) {
+  count = count || 25;
+  celebration.classList.add('show');
+  const emojis = ['🌸', '✨', '🌟', '💫', '💖', '⭐', '🎀'];
+
+  for (let i = 0; i < count; i++) {
+    const c = document.createElement('div');
+    c.className = 'confetti';
+    c.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+    c.style.left = Math.random() * 100 + 'vw';
+    c.style.fontSize = (18 + Math.random() * 20) + 'px';
+    const dur = 2.5 + Math.random() * 1.5;
+    c.style.animationDuration = dur + 's';
+    c.style.animationDelay = (Math.random() * 0.5) + 's';
+    celebration.appendChild(c);
+    setTimeout(() => c.remove(), (dur + 1) * 1000);
+  }
+
+  setTimeout(() => celebration.classList.remove('show'), 4000);
+}
+
+// ================================================================
+// СБРОС
+// ================================================================
+function resetTest() {
+  answered = new Array(questions.length).fill(null);
+  correctCount = 0;
+  gameFinished = false;
+  finalScreen.classList.remove('show');
+  render();
+  updateProgress();
+}
+
+// ================================================================
+// СТАРТ
+// ================================================================
+render();
+updateProgress();
+</script>
+
+</body>
+</html>
