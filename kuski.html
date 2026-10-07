@@ -1,0 +1,1231 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>📐 Кусочно-заданные функции — 7 класс</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --bg: #f5f7f2;
+  --bg-card: #ffffff;
+  --mint: #a8d8c8;
+  --mint-dark: #5a9a88;
+  --lavender: #b8a8d8;
+  --lavender-dark: #7a6aa8;
+  --sand: #e8d8b8;
+  --ink: #2a3a4a;
+  --ink-soft: #5a6a7a;
+  --green: #7cae7c;
+  --green-light: #d8ead8;
+  --red: #d8888a;
+  --red-light: #f5d8d8;
+  --purple-light: #e8dff5;
+  --shadow: 0 8px 24px rgba(122, 106, 168, 0.08);
+}
+
+body {
+  font-family: 'Segoe UI', 'Roboto', system-ui, sans-serif;
+  background: var(--bg);
+  min-height: 100vh;
+  padding: 20px 14px 60px;
+  color: var(--ink);
+  line-height: 1.6;
+}
+
+.app { max-width: 900px; margin: 0 auto; }
+
+.main-header { text-align: center; margin-bottom: 24px; padding: 24px 16px 16px; }
+.main-header h1 {
+  font-size: 32px; font-weight: 800;
+  background: linear-gradient(135deg, #7a6aa8, #5a9a88);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text; margin-bottom: 8px;
+}
+.main-header p { font-size: 15px; color: var(--ink-soft); font-style: italic; }
+
+.tabs { display: flex; gap: 8px; justify-content: center; margin-bottom: 28px; flex-wrap: wrap; }
+.tab-btn {
+  border: none; padding: 12px 28px; border-radius: 40px;
+  font-size: 16px; font-weight: 700; font-family: inherit;
+  cursor: pointer; transition: all 0.25s;
+  background: #fff; color: var(--lavender-dark);
+  border: 2px solid transparent;
+  box-shadow: 0 2px 8px rgba(122, 106, 168, 0.08);
+}
+.tab-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(122, 106, 168, 0.15); }
+.tab-btn.active {
+  background: linear-gradient(135deg, var(--lavender), var(--mint-dark));
+  color: #fff; box-shadow: 0 8px 20px rgba(122, 106, 168, 0.3);
+}
+
+.tab-content { display: none; animation: fadeIn 0.4s ease; }
+.tab-content.active { display: block; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+.card {
+  background: var(--bg-card); border-radius: 20px;
+  padding: 24px 26px; margin-bottom: 20px;
+  box-shadow: var(--shadow);
+  border: 1px solid rgba(168, 216, 200, 0.3);
+}
+.card h2 { font-size: 22px; color: var(--lavender-dark); margin-bottom: 14px; display: flex; align-items: center; gap: 10px; }
+.card p { margin-bottom: 12px; font-size: 16px; }
+
+.system {
+  display: flex;
+  align-items: stretch;
+  gap: 10px;
+  margin: 16px 0;
+  padding: 12px 16px 12px 12px;
+  background: linear-gradient(135deg, #f8f5ff, #f0f8f4);
+  border-radius: 14px;
+  border: 1px solid rgba(184, 168, 216, 0.25);
+  overflow-x: auto;
+}
+.system .sys-label {
+  display: flex;
+  align-items: center;
+  font-family: 'Cambria Math', 'Times New Roman', serif;
+  font-size: 22px;
+  font-weight: 700;
+  font-style: italic;
+  color: var(--lavender-dark);
+  flex-shrink: 0;
+  padding-right: 2px;
+}
+.system .brace {
+  flex-shrink: 0;
+  width: 22px;
+  min-height: 50px;
+  align-self: stretch;
+  filter: drop-shadow(0 1px 2px rgba(122, 106, 168, 0.2));
+}
+.system .system-body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 8px;
+  flex: 1;
+  min-width: 0;
+}
+.system .system-row {
+  display: flex;
+  gap: 18px;
+  align-items: center;
+  flex-wrap: wrap;
+  font-family: 'Cambria Math', 'Times New Roman', serif;
+  font-size: 17px;
+  line-height: 1.4;
+}
+.system .system-row .expr {
+  color: var(--lavender-dark);
+  font-weight: 700;
+  min-width: 130px;
+}
+.system .system-row .cond {
+  color: var(--ink-soft);
+  font-size: 15px;
+}
+
+@media (max-width: 600px) {
+  .system { padding: 10px 10px 10px 8px; gap: 6px; }
+  .system .sys-label { font-size: 18px; }
+  .system .brace { width: 16px; }
+  .system .system-row { font-size: 15px; gap: 10px; }
+  .system .system-row .expr { min-width: 100px; }
+  .system .system-row .cond { font-size: 13px; }
+}
+
+.graph-svg-wrap { display: flex; justify-content: center; margin: 18px 0; }
+.graph-svg-wrap svg { max-width: 100%; height: auto; background: #fdfeff; border-radius: 14px; border: 1px solid #e0e8f0; }
+
+.fact {
+  display: flex; gap: 14px; padding: 16px 18px;
+  background: linear-gradient(135deg, #f8f5ff, #f0f8f4);
+  border-radius: 14px; margin-bottom: 12px;
+  border-left: 4px solid var(--mint);
+}
+.fact .fact-icon { font-size: 34px; flex-shrink: 0; }
+.fact .fact-text strong { color: var(--lavender-dark); display: block; margin-bottom: 4px; }
+
+.task {
+  background: var(--bg-card); border-radius: 20px;
+  padding: 22px 24px 20px; margin-bottom: 20px;
+  box-shadow: var(--shadow);
+  border: 2px solid transparent; transition: all 0.4s;
+}
+.task.correct { border-color: var(--green); background: linear-gradient(180deg, #fff, var(--green-light)); }
+.task.incorrect { border-color: var(--red); background: linear-gradient(180deg, #fff, var(--red-light)); }
+
+.task-header { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; flex-wrap: wrap; }
+.task-num {
+  background: linear-gradient(135deg, var(--lavender), var(--mint-dark));
+  color: #fff; font-size: 13px; font-weight: 800;
+  padding: 5px 14px; border-radius: 20px;
+}
+.task-title { font-size: 17px; font-weight: 700; flex: 1; }
+
+.task-text {
+  background: #f8faf9; border-left: 4px solid var(--mint);
+  border-radius: 12px; padding: 14px 18px; margin: 12px 0;
+  font-size: 15px; line-height: 1.65; color: var(--ink);
+}
+
+.segment {
+  background: #f8faf9; border-radius: 14px;
+  padding: 14px 16px; margin-bottom: 12px;
+  border: 1px solid rgba(168, 216, 200, 0.4);
+}
+.segment-title { font-size: 15px; font-weight: 700; color: var(--mint-dark); margin-bottom: 10px; font-family: 'Cambria Math', serif; }
+
+.data-table { border-collapse: collapse; margin: 8px 0; font-size: 15px; }
+.data-table td { padding: 4px 6px; text-align: center; }
+.data-table td.label {
+  background: var(--purple-light); color: var(--lavender-dark);
+  font-weight: 800; font-family: 'Cambria Math', serif;
+  font-style: italic; width: 36px; border-radius: 8px; font-size: 16px;
+}
+.data-table input[type="text"] {
+  width: 76px; padding: 8px 6px; text-align: center;
+  border: 2px solid #d8e8e0; border-radius: 10px;
+  font-family: 'Cambria Math', serif; font-size: 15px; font-weight: 700;
+  color: var(--lavender-dark); outline: none; transition: 0.25s; background: #fff;
+}
+.data-table input[type="text"]:focus { border-color: var(--lavender); box-shadow: 0 0 0 3px rgba(184, 168, 216, 0.15); }
+.data-table input.correct { border-color: var(--green); background: var(--green-light); color: #2a5a3a; }
+.data-table input.incorrect { border-color: var(--red); background: var(--red-light); color: #7a2a2a; }
+
+.graph-wrap {
+  background: #fdfeff; border-radius: 14px; border: 1px solid #e0e8f0;
+  padding: 10px; margin: 14px 0; display: flex; flex-direction: column; align-items: center;
+}
+.graph-svg { display: block; width: 100%; max-width: 420px; height: auto; cursor: crosshair; border-radius: 8px; touch-action: none; }
+.graph-hint { font-size: 12px; color: var(--ink-soft); margin-top: 6px; text-align: center; font-style: italic; }
+
+.options-list { display: flex; flex-direction: column; gap: 8px; margin: 12px 0; }
+.option-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 14px; background: #f8faf9;
+  border: 2px solid #e0e8f0; border-radius: 12px;
+  cursor: pointer; transition: all 0.2s; font-size: 15px;
+}
+.option-item:hover { background: #fff; border-color: var(--mint); }
+.option-item input {
+  appearance: none; -webkit-appearance: none;
+  width: 20px; height: 20px; border: 2px solid var(--mint);
+  border-radius: 50%; background: #fff; cursor: pointer;
+  transition: 0.2s; flex-shrink: 0;
+}
+.option-item input:checked {
+  border-color: var(--lavender-dark); background: var(--lavender-dark);
+  box-shadow: inset 0 0 0 4px #fff, 0 0 0 2px var(--lavender-dark);
+}
+.option-item.correct { border-color: var(--green); background: var(--green-light); }
+.option-item.incorrect { border-color: var(--red); background: var(--red-light); }
+
+.btn {
+  border: none; padding: 12px 26px; border-radius: 40px;
+  font-size: 15px; font-weight: 800; font-family: inherit;
+  cursor: pointer; transition: all 0.25s;
+  display: inline-flex; align-items: center; gap: 8px;
+}
+.btn-primary {
+  background: linear-gradient(135deg, var(--lavender), var(--mint-dark));
+  color: #fff; box-shadow: 0 6px 18px rgba(122, 106, 168, 0.3);
+}
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 10px 26px rgba(122, 106, 168, 0.4); }
+.btn-outline {
+  background: #fff; color: var(--lavender-dark); border: 2px solid var(--mint);
+}
+.btn-outline:hover { background: #f8f5ff; transform: translateY(-2px); }
+
+.task-actions { display: flex; gap: 10px; margin-top: 16px; flex-wrap: wrap; align-items: center; }
+
+.task-feedback {
+  margin-top: 14px; padding: 12px 18px; border-radius: 12px;
+  font-size: 14px; font-weight: 600;
+  display: none; align-items: flex-start; gap: 10px; line-height: 1.5;
+}
+.task-feedback.show { display: flex; animation: slideIn 0.3s ease; }
+.task-feedback.ok { background: var(--green-light); color: #2a5a3a; border: 2px solid var(--green); }
+.task-feedback.fail { background: var(--red-light); color: #7a2a2a; border: 2px solid var(--red); }
+@keyframes slideIn { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: translateY(0); } }
+
+.module-input-wrap { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin: 12px 0; }
+.module-input-wrap input[type="text"] {
+  flex: 1; min-width: 200px; padding: 12px 16px;
+  border: 2px solid #d8e8e0; border-radius: 12px;
+  font-family: 'Cambria Math', serif; font-size: 17px;
+  color: var(--lavender-dark); font-weight: 700; outline: none;
+}
+.module-input-wrap input.correct { border-color: var(--green); background: var(--green-light); }
+.module-input-wrap input.incorrect { border-color: var(--red); background: var(--red-light); }
+
+.hint-bar {
+  background: linear-gradient(135deg, #fdf5f0, #f8f0ff);
+  border-left: 4px solid var(--sand);
+  border-radius: 10px; padding: 10px 16px; margin: 10px 0;
+  font-size: 13px; color: var(--ink-soft);
+}
+
+.constraint-inputs {
+  display: flex; align-items: center; gap: 8px;
+  flex-wrap: wrap; font-family: 'Cambria Math', serif;
+  font-size: 16px;
+}
+.constraint-inputs input[type="text"] {
+  width: 110px; padding: 8px 10px; text-align: center;
+  border: 2px solid #d8e8e0; border-radius: 10px;
+  font-family: 'Cambria Math', serif; font-size: 15px; font-weight: 700;
+  color: var(--lavender-dark); outline: none;
+}
+.constraint-inputs input.correct { border-color: var(--green); background: var(--green-light); }
+.constraint-inputs input.incorrect { border-color: var(--red); background: var(--red-light); }
+.constraint-inputs select {
+  padding: 8px 10px; border: 2px solid #d8e8e0; border-radius: 10px;
+  font-family: inherit; font-size: 14px; font-weight: 700;
+  color: var(--lavender-dark); background: #fff; cursor: pointer; outline: none;
+}
+.constraint-inputs select.correct { border-color: var(--green); background: var(--green-light); }
+.constraint-inputs select.incorrect { border-color: var(--red); background: var(--red-light); }
+.constraint-inputs input.small { width: 60px; }
+
+.overall-result {
+  display: none; background: linear-gradient(160deg, #fff, #f0ecfa);
+  border: 3px solid var(--lavender); border-radius: 24px;
+  padding: 28px 26px; margin-top: 24px; text-align: center;
+  box-shadow: 0 16px 48px rgba(122, 106, 168, 0.2);
+}
+.overall-result.show { display: block; animation: popIn 0.5s ease; }
+@keyframes popIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+.overall-result .big-icon { font-size: 62px; display: block; margin-bottom: 10px; }
+.overall-result h2 { font-size: 26px; color: var(--lavender-dark); margin-bottom: 10px; }
+.overall-result .score-line {
+  font-size: 38px; font-weight: 900;
+  background: linear-gradient(135deg, var(--lavender-dark), var(--mint-dark));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text; margin: 14px 0;
+}
+.overall-result .message {
+  font-size: 16px; font-style: italic; color: var(--ink-soft);
+  padding: 14px 20px; background: rgba(255,255,255,0.7);
+  border-radius: 14px; margin-top: 12px; line-height: 1.55;
+}
+
+@media (max-width: 600px) {
+  .main-header h1 { font-size: 24px; }
+  .card, .task { padding: 18px 16px; }
+  .data-table input[type="text"] { width: 60px; font-size: 14px; }
+  .task-title { font-size: 15px; }
+  .btn { padding: 10px 20px; font-size: 14px; }
+}
+</style>
+</head>
+<body>
+<div class="app">
+
+  <header class="main-header">
+    <h1>📐 Кусочно-заданные функции</h1>
+    <p>7 класс • Алгебра • Теория и практика</p>
+  </header>
+
+  <nav class="tabs">
+    <button class="tab-btn active" data-tab="theory">📖 Теория</button>
+    <button class="tab-btn" data-tab="practice">✏️ Практика</button>
+  </nav>
+
+  <section id="theory" class="tab-content active">
+    <div class="card">
+      <h2>💡 Что такое кусочно-заданная функция?</h2>
+      <p>Нередко область определения разбивается на промежутки, и на каждом из них функция задаётся <strong>своей формулой</strong>. Такая функция называется <em>кусочно-заданной</em>.</p>
+      <p>Для записи используют <strong>фигурную скобку</strong>: слева — формула, справа — условие.</p>
+    </div>
+
+    <div class="card">
+      <h2>✨ 3 интересных факта</h2>
+      <div class="fact">
+        <span class="fact-icon">📦</span>
+        <div class="fact-text">
+          <strong>Кусочные функции повсюду</strong>
+          Стоимость доставки: до 5 кг — 300 ₽, от 5 до 10 кг — 500 ₽, свыше 10 кг — 800 ₽. Это тоже кусочная функция!
+        </div>
+      </div>
+      <div class="fact">
+        <span class="fact-icon">📏</span>
+        <div class="fact-text">
+          <strong>Модуль — это кусочная функция</strong>
+          y = |x| — типичный пример: при x ≥ 0 это y = x, а при x &lt; 0 это y = −x.
+        </div>
+      </div>
+      <div class="fact">
+        <span class="fact-icon">📊</span>
+        <div class="fact-text">
+          <strong>Тарифы и налоги</strong>
+          Тоже задаются кусочно: от 1000 ₽ скидка 5%, от 5000 ₽ — 10%, свыше 10000 ₽ — 15%.
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>🚶 Пример 1. Путь туриста</h2>
+      <p>Турист шёл 1,5 ч со скоростью 6 км/ч, полчаса отдыхал, потом шёл 1 ч со скоростью 5 км/ч.</p>
+      <div id="theory-system-1"></div>
+      <div class="graph-svg-wrap">
+        <svg width="480" height="300" viewBox="0 0 480 300">
+          <rect width="480" height="300" fill="#fdfeff" rx="12"/>
+          <g stroke="#e8f0f8" stroke-width="1">
+            <line x1="60" y1="20" x2="60" y2="270"/><line x1="120" y1="20" x2="120" y2="270"/>
+            <line x1="180" y1="20" x2="180" y2="270"/><line x1="240" y1="20" x2="240" y2="270"/>
+            <line x1="300" y1="20" x2="300" y2="270"/><line x1="360" y1="20" x2="360" y2="270"/>
+            <line x1="420" y1="20" x2="420" y2="270"/>
+            <line x1="40" y1="40" x2="460" y2="40"/><line x1="40" y1="80" x2="460" y2="80"/>
+            <line x1="40" y1="120" x2="460" y2="120"/><line x1="40" y1="160" x2="460" y2="160"/>
+            <line x1="40" y1="200" x2="460" y2="200"/><line x1="40" y1="240" x2="460" y2="240"/>
+          </g>
+          <line x1="60" y1="20" x2="60" y2="280" stroke="#5a6a7a" stroke-width="2"/>
+          <line x1="50" y1="260" x2="470" y2="260" stroke="#5a6a7a" stroke-width="2"/>
+          <polygon points="470,260 460,256 460,264" fill="#5a6a7a"/>
+          <polygon points="60,20 56,30 64,30" fill="#5a6a7a"/>
+          <text x="476" y="264" font-size="14" fill="#5a6a7a" font-style="italic" font-family="Cambria Math">t</text>
+          <text x="46" y="20" font-size="14" fill="#5a6a7a" font-style="italic" font-family="Cambria Math">s</text>
+          <text x="54" y="260" text-anchor="end" font-size="12" fill="#5a6a7a">0</text>
+          <text x="204" y="276" text-anchor="middle" font-size="12" fill="#5a6a7a">1,5</text>
+          <text x="254" y="276" text-anchor="middle" font-size="12" fill="#5a6a7a">2</text>
+          <text x="354" y="276" text-anchor="middle" font-size="12" fill="#5a6a7a">3</text>
+          <text x="54" y="134" text-anchor="end" font-size="12" fill="#5a6a7a">9</text>
+          <line x1="60" y1="260" x2="204" y2="134" stroke="#7a6aa8" stroke-width="3" stroke-linecap="round"/>
+          <line x1="204" y1="134" x2="254" y2="134" stroke="#5a9a88" stroke-width="3" stroke-linecap="round"/>
+          <line x1="254" y1="134" x2="354" y2="54" stroke="#7a6aa8" stroke-width="3" stroke-linecap="round"/>
+          <circle cx="204" cy="134" r="5" fill="#fff" stroke="#7a6aa8" stroke-width="3"/>
+          <circle cx="254" cy="134" r="5" fill="#7a6aa8"/>
+        </svg>
+      </div>
+      <div class="hint-bar">
+        <strong>Обратите внимание:</strong> во время отдыха (от 1,5 до 2 часов) расстояние не меняется — график идёт горизонтально.
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>📈 Пример 2. Ломаная линия</h2>
+      <p>Построим график функции:</p>
+      <div id="theory-system-2"></div>
+      <p>Определим, при каких m прямая y = m имеет с графиком <strong>ровно две общие точки</strong>.</p>
+      <div class="graph-svg-wrap">
+        <svg width="480" height="320" viewBox="0 0 480 320">
+          <rect width="480" height="320" fill="#fdfeff" rx="12"/>
+          <g stroke="#f0f4f8" stroke-width="1">
+            <line x1="80" y1="20" x2="80" y2="300"/><line x1="120" y1="20" x2="120" y2="300"/>
+            <line x1="160" y1="20" x2="160" y2="300"/><line x1="200" y1="20" x2="200" y2="300"/>
+            <line x1="280" y1="20" x2="280" y2="300"/><line x1="320" y1="20" x2="320" y2="300"/>
+            <line x1="360" y1="20" x2="360" y2="300"/><line x1="400" y1="20" x2="400" y2="300"/>
+            <line x1="40" y1="40" x2="440" y2="40"/><line x1="40" y1="80" x2="440" y2="80"/>
+            <line x1="40" y1="120" x2="440" y2="120"/><line x1="40" y1="200" x2="440" y2="200"/>
+            <line x1="40" y1="240" x2="440" y2="240"/><line x1="40" y1="280" x2="440" y2="280"/>
+          </g>
+          <line x1="240" y1="20" x2="240" y2="300" stroke="#5a6a7a" stroke-width="2"/>
+          <line x1="40" y1="160" x2="450" y2="160" stroke="#5a6a7a" stroke-width="2"/>
+          <polygon points="450,160 440,156 440,164" fill="#5a6a7a"/>
+          <polygon points="240,20 236,30 244,30" fill="#5a6a7a"/>
+          <text x="452" y="164" font-size="14" fill="#5a6a7a" font-style="italic" font-family="Cambria Math">x</text>
+          <text x="246" y="20" font-size="14" fill="#5a6a7a" font-style="italic" font-family="Cambria Math">y</text>
+          <text x="280" y="176" text-anchor="middle" font-size="12" fill="#5a6a7a">1</text>
+          <text x="234" y="84" text-anchor="end" font-size="12" fill="#5a6a7a">2</text>
+          <text x="234" y="204" text-anchor="end" font-size="12" fill="#5a6a7a">-1</text>
+          <line x1="80" y1="280" x2="280" y2="80" stroke="#7a6aa8" stroke-width="3" stroke-linecap="round"/>
+          <circle cx="280" cy="80" r="6" fill="#7a6aa8"/>
+          <line x1="280" y1="200" x2="440" y2="40" stroke="#5a9a88" stroke-width="3" stroke-linecap="round"/>
+          <circle cx="280" cy="200" r="6" fill="#fff" stroke="#5a9a88" stroke-width="3"/>
+          <line x1="40" y1="120" x2="440" y2="120" stroke="#d8888a" stroke-width="2" stroke-dasharray="6,5" opacity="0.6"/>
+          <text x="60" y="114" font-size="13" fill="#d8888a" font-style="italic" font-family="Cambria Math">y = m</text>
+        </svg>
+      </div>
+      <p>Ровно две общие точки при <strong>−1 &lt; m ≤ 2</strong>.</p>
+    </div>
+  </section>
+
+  <section id="practice" class="tab-content">
+    <div id="tasksContainer"></div>
+    <div class="overall-result" id="overallResult">
+      <span class="big-icon" id="overallIcon">🏆</span>
+      <h2 id="overallTitle">Результат</h2>
+      <div class="score-line" id="overallScore">0 / 7</div>
+      <div class="message" id="overallMessage"></div>
+    </div>
+  </section>
+
+</div>
+
+<script>
+function makeSystem(rows, label = 'y =') {
+  const uid = 'bg' + Math.random().toString(36).slice(2, 8);
+  const braceSVG = `
+    <svg class="brace" viewBox="0 0 30 100" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="${uid}" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#b8a8d8"/>
+          <stop offset="50%" stop-color="#7a6aa8"/>
+          <stop offset="100%" stop-color="#b8a8d8"/>
+        </linearGradient>
+      </defs>
+      <path d="M 26,3 Q 12,3 12,18 L 12,44 Q 12,50 3,50 Q 12,50 12,56 L 12,82 Q 12,97 26,97"
+            stroke="url(#${uid})" stroke-width="3" fill="none"
+            stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>`;
+  const rowsHTML = rows.map(r => `<div class="system-row">${r}</div>`).join('');
+  return `<div class="system">
+    <div class="sys-label">${label}</div>
+    ${braceSVG}
+    <div class="system-body">${rowsHTML}</div>
+  </div>`;
+}
+
+document.querySelectorAll('.tab-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById(btn.dataset.tab).classList.add('active');
+  });
+});
+
+document.getElementById('theory-system-1').innerHTML = makeSystem([
+  '<span class="expr">6t,</span><span class="cond">если 0 ≤ t &lt; 1,5 (идёт),</span>',
+  '<span class="expr">9,</span><span class="cond">если 1,5 ≤ t ≤ 2 (отдыхает),</span>',
+  '<span class="expr">5t − 1,</span><span class="cond">если 2 &lt; t ≤ 3 (снова идёт).</span>'
+], 's =');
+
+document.getElementById('theory-system-2').innerHTML = makeSystem([
+  '<span class="expr">x + 1,</span><span class="cond">если x ≤ 1,</span>',
+  '<span class="expr">x − 2,</span><span class="cond">если x &gt; 1.</span>'
+], 'y =');
+
+function numVal(s) {
+  if (s === null || s === undefined) return null;
+  const str = String(s).trim().replace(',', '.').replace(/\s/g, '');
+  if (!str) return null;
+  const v = parseFloat(str);
+  return isNaN(v) ? null : v;
+}
+function approxEq(a, b, eps = 0.05) {
+  if (a === null || b === null) return false;
+  return Math.abs(a - b) < eps;
+}
+
+function normalizeFormula(s) {
+  let r = String(s || '').trim().toLowerCase()
+    .replace(/\s+/g, '')
+    .replace(/−/g, '-')
+    .replace(/х/g, 'x')
+    .replace(/,/g, '.');
+  r = r.replace(/^y=/, '');
+  r = r.replace(/^1x/, 'x');
+  r = r.replace(/([+\-])1x/, '$1x');
+  r = r.replace(/^\+/, '');
+  return r;
+}
+
+const GRAPH = {
+  W: 440, H: 380,
+  padL: 30, padT: 20,
+  xMin: -6, xMax: 6,
+  step: 0.5,
+  get innerW() { return this.W - 60; },
+  get innerH() { return this.H - 60; },
+  get totalSteps() { return (this.xMax - this.xMin) / this.step; },
+  get cellX() { return this.innerW / this.totalSteps; },
+  get cellY() { return this.innerH / this.totalSteps; },
+  get centerX() { return this.padL + this.innerW / 2; },
+  get centerY() { return this.padT + this.innerH / 2; }
+};
+
+function makeGraphSVG(taskId) {
+  const g = GRAPH;
+  const totalLines = g.totalSteps;
+
+  let grid = '';
+  for (let i = -totalLines / 2; i <= totalLines / 2; i++) {
+    const sx = g.centerX + i * g.cellX;
+    const isAxis = (i === 0);
+    const isInt = (i % 2 === 0);
+    const stroke = isAxis ? '#5a6a7a' : (isInt ? '#c8d8e5' : '#eef4f9');
+    const width = isAxis ? 1.8 : (isInt ? 1 : 0.6);
+    grid += `<line x1="${sx}" y1="${g.padT}" x2="${sx}" y2="${g.padT + g.innerH}" stroke="${stroke}" stroke-width="${width}"/>`;
+  }
+  for (let i = -totalLines / 2; i <= totalLines / 2; i++) {
+    const sy = g.centerY - i * g.cellY;
+    const isAxis = (i === 0);
+    const isInt = (i % 2 === 0);
+    const stroke = isAxis ? '#5a6a7a' : (isInt ? '#c8d8e5' : '#eef4f9');
+    const width = isAxis ? 1.8 : (isInt ? 1 : 0.6);
+    grid += `<line x1="${g.padL}" y1="${sy}" x2="${g.padL + g.innerW}" y2="${sy}" stroke="${stroke}" stroke-width="${width}"/>`;
+  }
+
+  let labels = '';
+  for (let i = -6; i <= 6; i++) {
+    if (i === 0) continue;
+    const sx = g.centerX + (i / g.step) * g.cellX;
+    labels += `<text x="${sx}" y="${g.centerY + 16}" text-anchor="middle" font-size="11" fill="#8898a8">${i}</text>`;
+    const sy = g.centerY - (i / g.step) * g.cellY;
+    labels += `<text x="${g.centerX - 6}" y="${sy + 4}" text-anchor="end" font-size="11" fill="#8898a8">${i}</text>`;
+  }
+  labels += `<text x="${g.centerX - 6}" y="${g.centerY + 16}" text-anchor="end" font-size="11" fill="#8898a8">0</text>`;
+
+  return `<svg class="graph-svg" data-task="${taskId}" viewBox="0 0 ${g.W} ${g.H}">
+    <rect width="${g.W}" height="${g.H}" fill="#fdfeff" rx="10"/>
+    ${grid}
+    <polygon points="${g.padL + g.innerW + 4},${g.centerY} ${g.padL + g.innerW - 6},${g.centerY - 4} ${g.padL + g.innerW - 6},${g.centerY + 4}" fill="#5a6a7a"/>
+    <polygon points="${g.centerX},${g.padT - 4} ${g.centerX - 4},${g.padT + 6} ${g.centerX + 4},${g.padT + 6}" fill="#5a6a7a"/>
+    <text x="${g.padL + g.innerW + 12}" y="${g.centerY + 4}" font-size="13" font-weight="bold" fill="#5a6a7a" font-family="Cambria Math" font-style="italic">x</text>
+    <text x="${g.centerX + 6}" y="${g.padT + 14}" font-size="13" font-weight="bold" fill="#5a6a7a" font-family="Cambria Math" font-style="italic">y</text>
+    ${labels}
+    <g class="user-lines" data-task="${taskId}"></g>
+    <g class="user-points" data-task="${taskId}"></g>
+  </svg>`;
+}
+
+function svgToData(svg, clientX, clientY) {
+  const g = GRAPH;
+  const rect = svg.getBoundingClientRect();
+  const svgX = (clientX - rect.left) / rect.width * g.W;
+  const svgY = (clientY - rect.top) / rect.height * g.H;
+  const rawX = (svgX - g.centerX) / g.cellX;
+  const rawY = (g.centerY - svgY) / g.cellY;
+  const dataX = Math.round(rawX) * g.step;
+  const dataY = Math.round(rawY) * g.step;
+  return { x: Math.round(dataX * 10) / 10, y: Math.round(dataY * 10) / 10 };
+}
+function dataToSvg(x, y) {
+  const g = GRAPH;
+  return {
+    svgX: g.centerX + (x / g.step) * g.cellX,
+    svgY: g.centerY - (y / g.step) * g.cellY
+  };
+}
+
+const graphPoints = {};
+
+const TASKS = [
+  {
+    id: 1, type: 'segments',
+    title: 'Постройте график функции',
+    segments: [
+      { cond: 'x < 2', expr: x => 2.5*x - 1, minX: -100, maxX: 2, minXOpen: false, maxXOpen: true },
+      { cond: '2 ≤ x ≤ 3', expr: x => -3.5*x + 11, minX: 2, maxX: 3, minXOpen: false, maxXOpen: false },
+      { cond: 'x > 3', expr: x => x - 2.5, minX: 3, maxX: 100, minXOpen: true, maxXOpen: false }
+    ]
+  },
+  {
+    id: 2, type: 'segments',
+    title: 'Постройте график функции',
+    segments: [
+      { cond: 'x < 2', expr: x => 2.5*x - 3.5, minX: -100, maxX: 2, minXOpen: false, maxXOpen: true },
+      { cond: '2 ≤ x ≤ 3', expr: x => -3*x + 7.5, minX: 2, maxX: 3, minXOpen: false, maxXOpen: false },
+      { cond: 'x > 3', expr: x => x - 6, minX: 3, maxX: 100, minXOpen: true, maxXOpen: false }
+    ]
+  },
+  {
+    id: 3, type: 'segments+choice',
+    title: 'Постройте график и определите, при каких m прямая y = m имеет с графиком ровно две общие точки',
+    segments: [
+      { cond: 'x < 3', expr: x => 2*x - 2, minX: -100, maxX: 3, minXOpen: false, maxXOpen: true },
+      { cond: '3 ≤ x ≤ 4', expr: x => -3*x + 13, minX: 3, maxX: 4, minXOpen: false, maxXOpen: false },
+      { cond: 'x > 4', expr: x => 1.5*x - 7, minX: 4, maxX: 100, minXOpen: true, maxXOpen: false }
+    ],
+    choice: {
+      options: ['−1 < m < 1', '−1 < m ≤ 1', '−1 < m < 1 или m = 4', '−1 ≤ m ≤ 1 или m = 4'],
+      correct: 2
+    }
+  },
+  {
+    id: 4, type: 'segments',
+    hideSystem: true,
+    title: 'Раскройте модуль и постройте график y = |x| + 0,5x',
+    hint: '💡 Подсказка: вспомните, что |x| = x при x ≥ 0 и |x| = −x при x < 0. Раскройте модуль на каждом промежутке и упростите выражение.',
+    segments: [
+      { cond: 'x ≥ 0', expr: x => 1.5*x, minX: 0, maxX: 100, minXOpen: false, maxXOpen: false },
+      { cond: 'x < 0', expr: x => -0.5*x, minX: -100, maxX: 0, minXOpen: false, maxXOpen: true }
+    ]
+  },
+  {
+    id: 5, type: 'temperature',
+    title: 'Температура воды в баке (0 ≤ t ≤ 90 минут)',
+    taskText: 'Изменение температуры T (в градусах Цельсия) воды в баке описано с помощью формул (см. систему ниже). Найдите значение T при t = 10; 20; 30; 45; 60; 90. Какой физический смысл имеет рассматриваемый процесс, когда 0 ≤ t < 20; когда 20 ≤ t ≤ 30; когда 30 < t ≤ 90?',
+    system: [
+      { expr: '4t + 20,', cond: 'если 0 ≤ t < 20,' },
+      { expr: '100,', cond: 'если 20 ≤ t ≤ 30,' },
+      { expr: '−⅓·t + 110,', cond: 'если 30 < t ≤ 90.' }
+    ],
+    values: [
+      { t: 10, T: 60 }, { t: 20, T: 100 }, { t: 30, T: 100 },
+      { t: 45, T: 95 }, { t: 60, T: 90 }, { t: 90, T: 80 }
+    ],
+    meanings: ['🔥 Нагревание от 20°C до 100°C', '💧 Кипение при 100°C', '❄️ Остывание от 100°C до 80°C'],
+    correctMeanings: [0, 1, 2]
+  },
+  {
+    id: 6, type: 'modulus',
+    title: 'Задайте функцию одной формулой с модулем',
+    system: [
+      { expr: '−x + 2,', cond: 'если x < 0,' },
+      { expr: 'x + 2,', cond: 'если x ≥ 0.' }
+    ],
+    answer: '|x|+2'
+  },
+  {
+    id: 7, type: 'graph-to-formula',
+    title: 'По графику задайте функцию аналитически',
+    segments: [
+      { from: -2, to: 1, expr: 'x + 1', accepted: ['x+1', '1x+1'], opFrom: 'le', opTo: 'lt' },
+      { from: 1, to: 3, expr: '3 - x', accepted: ['3-x', '-x+3'], opFrom: 'le', opTo: 'le' },
+      { from: 3, to: 6, expr: 'x - 3', accepted: ['x-3', '1x-3'], opFrom: 'lt', opTo: 'le' }
+    ]
+  }
+];
+
+function renderTasks() {
+  const container = document.getElementById('tasksContainer');
+  container.innerHTML = TASKS.map(renderTask).join('');
+
+  document.querySelectorAll('.graph-svg').forEach(svg => {
+    const taskId = parseInt(svg.dataset.task);
+    svg.addEventListener('click', e => handleGraphClick(e, taskId));
+  });
+}
+
+function renderTask(task) {
+  let html = `<div class="task" id="task-${task.id}">
+    <div class="task-header">
+      <span class="task-num">Задание ${task.id}</span>
+      <span class="task-title">${task.title}</span>
+    </div>`;
+
+  if (task.type === 'segments' || task.type === 'segments+choice') {
+    html += renderSegmentsTask(task);
+  } else if (task.type === 'temperature') {
+    html += renderTemperatureTask(task);
+  } else if (task.type === 'modulus') {
+    html += renderModulusTask(task);
+  } else if (task.type === 'graph-to-formula') {
+    html += renderGraphToFormulaTask(task);
+  }
+
+  html += `<div class="task-feedback" id="fb-${task.id}"></div></div>`;
+  return html;
+}
+
+function renderSegmentsTask(task) {
+  let html = '';
+
+  if (!task.hideSystem) {
+    const sysRows = task.segments.map((seg, i) => {
+      const isLast = i === task.segments.length - 1;
+      return `<span class="expr">${exprToText(seg)}</span><span class="cond">если ${seg.cond}${isLast ? '.' : ','}</span>`;
+    });
+    html += makeSystem(sysRows, 'y =');
+  } else if (task.hint) {
+    html += `<div class="hint-bar">${task.hint}</div>`;
+  }
+
+  task.segments.forEach((seg, sIdx) => {
+    html += `<div class="segment">
+      <div class="segment-title">Промежуток ${sIdx + 1}: при ${seg.cond}</div>
+      <table class="data-table">
+        <tr>
+          <td class="label">x</td>
+          <td><input type="text" data-key="t${task.id}-s${sIdx}-x1" placeholder="?"></td>
+          <td><input type="text" data-key="t${task.id}-s${sIdx}-x2" placeholder="?"></td>
+        </tr>
+        <tr>
+          <td class="label">y</td>
+          <td><input type="text" data-key="t${task.id}-s${sIdx}-y1" placeholder="?"></td>
+          <td><input type="text" data-key="t${task.id}-s${sIdx}-y2" placeholder="?"></td>
+        </tr>
+      </table>
+    </div>`;
+  });
+
+  html += `<div class="graph-wrap">
+    ${makeGraphSVG(task.id)}
+    <div class="graph-hint">👆 Кликайте по пересечениям клеток — точки ставятся с шагом 0,5. Можно использовать и граничные точки (они будут выколотыми).</div>
+  </div>`;
+
+  if (task.type === 'segments+choice' && task.choice) {
+    html += `<p style="font-weight:700;margin:14px 0 10px;">Выберите верный ответ для m:</p><div class="options-list">`;
+    task.choice.options.forEach((opt, i) => {
+      html += `<label class="option-item">
+        <input type="radio" name="t${task.id}-choice" value="${i}">
+        <span>${opt}</span>
+      </label>`;
+    });
+    html += `</div>`;
+  }
+
+  html += `<div class="task-actions">
+    <button class="btn btn-primary" onclick="checkTask(${task.id})">✅ Проверить</button>
+    <button class="btn btn-outline" onclick="clearTask(${task.id})">🗑 Очистить</button>
+  </div>`;
+
+  return html;
+}
+
+function exprToText(seg) {
+  if (seg._text) return seg._text;
+  // Для линейных функций берём любые две разные точки из условия — не обязательно из середины
+  const x1 = seg.minX;
+  const x2 = seg.maxX;
+  if (Math.abs(x2 - x1) < 0.0001) {
+    seg._text = 'y = ' + seg.expr(x1);
+    return seg._text;
+  }
+  const y1 = seg.expr(x1);
+  const y2 = seg.expr(x2);
+  const k = (y2 - y1) / (x2 - x1);
+  const b = y1 - k * x1;
+
+  const roundK = Math.round(k * 1000) / 1000;
+  const roundB = Math.round(b * 1000) / 1000;
+
+  let kStr;
+  if (Math.abs(roundK) < 0.001) kStr = '';
+  else if (roundK === 1) kStr = 'x';
+  else if (roundK === -1) kStr = '−x';
+  else kStr = fmtNum(roundK) + 'x';
+
+  let bStr = '';
+  if (roundB > 0.001) bStr = (kStr ? ' + ' : '') + fmtNum(roundB);
+  else if (roundB < -0.001) bStr = ' − ' + fmtNum(Math.abs(roundB));
+
+  const text = (kStr + bStr) || '0';
+  seg._text = text;
+  return text;
+}
+
+function fmtNum(v) {
+  return String(v).replace('.', ',').replace('-', '−');
+}
+
+function renderTemperatureTask(task) {
+  let html = '';
+  if (task.taskText) {
+    html += `<div class="task-text">📋 ${task.taskText}</div>`;
+  }
+
+  if (task.system) {
+    const sysRows = task.system.map(s =>
+      `<span class="expr">${s.expr}</span><span class="cond">${s.cond}</span>`
+    );
+    html += makeSystem(sysRows, 'T =');
+  }
+
+  html += `<p style="font-weight:700;margin:14px 0 10px;">1) Найдите значения T при указанных t:</p>`;
+  html += `<table class="data-table" style="width:auto;"><tr>`;
+  task.values.forEach(v => html += `<td class="label">t=${v.t}</td>`);
+  html += `</tr><tr>`;
+  task.values.forEach(v => html += `<td><input type="text" data-key="t${task.id}-T${v.t}" placeholder="T?"></td>`);
+  html += `</tr></table>`;
+
+  html += `<p style="font-weight:700;margin:18px 0 10px;">2) Физический смысл каждого промежутка:</p>`;
+  ['0 ≤ t < 20', '20 ≤ t ≤ 30', '30 < t ≤ 90'].forEach((label, idx) => {
+    html += `<div class="segment"><div class="segment-title">При ${label}</div><div class="options-list">`;
+    task.meanings.forEach((m, i) => {
+      html += `<label class="option-item">
+        <input type="radio" name="t${task.id}-mean-${idx}" value="${i}">
+        <span>${m}</span>
+      </label>`;
+    });
+    html += `</div></div>`;
+  });
+
+  html += `<div class="task-actions">
+    <button class="btn btn-primary" onclick="checkTask(${task.id})">✅ Проверить</button>
+  </div>`;
+  return html;
+}
+
+function renderModulusTask(task) {
+  let html = makeSystem(
+    task.system.map(s => `<span class="expr">${s.expr}</span><span class="cond">${s.cond}</span>`),
+    'y ='
+  );
+
+  html += `<div class="hint-bar">
+      💡 <strong>Подсказка:</strong> знак модуля можно записать по-разному — через палочки, словом или как функцию.
+    </div>
+    <div class="module-input-wrap">
+      <span style="font-weight:700;font-family:'Cambria Math',serif;font-size:18px;">y =</span>
+      <input type="text" data-key="t${task.id}-modulus" placeholder="Введите формулу">
+    </div>
+    <div class="task-actions">
+      <button class="btn btn-primary" onclick="checkTask(${task.id})">✅ Проверить</button>
+    </div>`;
+
+  return html;
+}
+
+function renderGraphToFormulaTask(task) {
+  let html = `<p>Задайте функцию аналитически с помощью системы (формулы и границы):</p>`;
+
+  const uid = 'bg' + Math.random().toString(36).slice(2, 8);
+  const braceSVG = `
+    <svg class="brace" viewBox="0 0 30 100" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="${uid}" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#b8a8d8"/>
+          <stop offset="50%" stop-color="#7a6aa8"/>
+          <stop offset="100%" stop-color="#b8a8d8"/>
+        </linearGradient>
+      </defs>
+      <path d="M 26,3 Q 12,3 12,18 L 12,44 Q 12,50 3,50 Q 12,50 12,56 L 12,82 Q 12,97 26,97"
+            stroke="url(#${uid})" stroke-width="3" fill="none"
+            stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>`;
+
+  let rowsHTML = '';
+  task.segments.forEach((seg, i) => {
+    rowsHTML += `<div class="system-row">
+      <div class="constraint-inputs">
+        <span style="color:var(--lavender-dark);font-weight:700;">y =</span>
+        <input type="text" data-key="t${task.id}-f${i}" placeholder="формула">
+        <span style="color:var(--ink-soft);font-size:14px;">при</span>
+        <input type="text" class="small" data-key="t${task.id}-from${i}" placeholder="от">
+        <select data-key="t${task.id}-op1-${i}">
+          <option value="">—</option>
+          <option value="le">≤</option>
+          <option value="lt">&lt;</option>
+        </select>
+        <span style="font-style:italic;color:var(--lavender-dark);">x</span>
+        <select data-key="t${task.id}-op2-${i}">
+          <option value="">—</option>
+          <option value="le">≤</option>
+          <option value="lt">&lt;</option>
+        </select>
+        <input type="text" class="small" data-key="t${task.id}-to${i}" placeholder="до">
+      </div>
+    </div>`;
+  });
+
+  html += `<div class="system">
+    ${braceSVG}
+    <div class="system-body">${rowsHTML}</div>
+  </div>`;
+
+  html += `<div class="hint-bar">
+    💡 Запишите формулу для каждого участка и укажите границы через выпадающие списки
+    (там есть ≤ и &lt;, чтобы не искать эти знаки на клавиатуре).
+  </div>`;
+
+  const svgW = 540, svgH = 400;
+  const ox = 160, oy = 240, ux = 50, uy = 50;
+
+  function toSvg(x, y) {
+    return { sx: ox + x * ux, sy: oy - y * uy };
+  }
+
+  let grid = '';
+  for (let x = -3; x <= 7; x++) {
+    const sx = ox + x * ux;
+    const isAxis = x === 0;
+    const stroke = isAxis ? '#4a5a6a' : '#dde8f2';
+    const width = isAxis ? 2 : 1;
+    grid += `<line x1="${sx}" y1="20" x2="${sx}" y2="390" stroke="${stroke}" stroke-width="${width}"/>`;
+  }
+  for (let y = -3; y <= 4; y++) {
+    const sy = oy - y * uy;
+    const isAxis = y === 0;
+    const stroke = isAxis ? '#4a5a6a' : '#dde8f2';
+    const width = isAxis ? 2 : 1;
+    grid += `<line x1="10" y1="${sy}" x2="510" y2="${sy}" stroke="${stroke}" stroke-width="${width}"/>`;
+  }
+
+  let labels = '';
+  for (let x = -3; x <= 7; x++) {
+    if (x === 0) continue;
+    const sx = ox + x * ux;
+    labels += `<text x="${sx}" y="${oy + 16}" text-anchor="middle" font-size="11" fill="#7a8a9a">${x}</text>`;
+  }
+  for (let y = -3; y <= 4; y++) {
+    if (y === 0) continue;
+    const sy = oy - y * uy;
+    labels += `<text x="${ox - 8}" y="${sy + 4}" text-anchor="end" font-size="11" fill="#7a8a9a">${y}</text>`;
+  }
+  labels += `<text x="${ox - 8}" y="${oy + 16}" text-anchor="end" font-size="11" fill="#7a8a9a">0</text>`;
+
+  const p1 = toSvg(-2, -1);
+  const p2 = toSvg(1, 2);
+  const p3 = toSvg(3, 0);
+  const p4 = toSvg(6, 3);
+
+  const arrows = `
+    <polygon points="515,${oy} 505,${oy-5} 505,${oy+5}" fill="#4a5a6a"/>
+    <polygon points="${ox},15 ${ox-5},25 ${ox+5},25" fill="#4a5a6a"/>
+    <text x="522" y="${oy+5}" font-size="14" font-weight="bold" fill="#4a5a6a" font-family="Cambria Math" font-style="italic">x</text>
+    <text x="${ox+8}" y="18" font-size="14" font-weight="bold" fill="#4a5a6a" font-family="Cambria Math" font-style="italic">y</text>
+  `;
+
+  html += `<div class="graph-svg-wrap">
+    <svg width="${svgW}" height="${svgH}" viewBox="0 0 ${svgW} ${svgH}">
+      <rect width="${svgW}" height="${svgH}" fill="#fdfeff" rx="12"/>
+      ${grid}
+      ${arrows}
+      ${labels}
+
+      <line x1="${p1.sx}" y1="${p1.sy}" x2="${p2.sx}" y2="${p2.sy}" stroke="#7a6aa8" stroke-width="3" stroke-linecap="round"/>
+      <line x1="${p2.sx}" y1="${p2.sy}" x2="${p3.sx}" y2="${p3.sy}" stroke="#7a6aa8" stroke-width="3" stroke-linecap="round"/>
+      <line x1="${p3.sx}" y1="${p3.sy}" x2="${p4.sx}" y2="${p4.sy}" stroke="#7a6aa8" stroke-width="3" stroke-linecap="round"/>
+
+      <circle cx="${p1.sx}" cy="${p1.sy}" r="5" fill="#7a6aa8"/>
+      <circle cx="${p2.sx}" cy="${p2.sy}" r="5" fill="#7a6aa8"/>
+      <circle cx="${p3.sx}" cy="${p3.sy}" r="5" fill="#7a6aa8"/>
+      <circle cx="${p4.sx}" cy="${p4.sy}" r="5" fill="#7a6aa8"/>
+    </svg>
+  </div>`;
+
+  html += `<div class="task-actions">
+    <button class="btn btn-primary" onclick="checkTask(${task.id})">✅ Проверить</button>
+  </div>`;
+
+  return html;
+}
+
+function handleGraphClick(e, taskId) {
+  const task = TASKS.find(t => t.id === taskId);
+  if (!task || (task.type !== 'segments' && task.type !== 'segments+choice')) return;
+
+  const svg = e.currentTarget;
+  const pt = svgToData(svg, e.clientX, e.clientY);
+
+  if (pt.x < -6 || pt.x > 6 || pt.y < -6 || pt.y > 6) return;
+
+  if (!graphPoints[taskId]) graphPoints[taskId] = [];
+  const maxPoints = task.segments.length * 2;
+  if (graphPoints[taskId].length >= maxPoints) graphPoints[taskId] = [];
+  if (graphPoints[taskId].some(p => p.x === pt.x && p.y === pt.y)) return;
+
+  graphPoints[taskId].push(pt);
+  redrawGraph(taskId);
+}
+
+function redrawGraph(taskId) {
+  const svg = document.querySelector(`.graph-svg[data-task="${taskId}"]`);
+  if (!svg) return;
+  const ptsG = svg.querySelector(`.user-points[data-task="${taskId}"]`);
+  const linesG = svg.querySelector(`.user-lines[data-task="${taskId}"]`);
+  if (!ptsG) return;
+  ptsG.innerHTML = '';
+  if (linesG) linesG.innerHTML = '';
+
+  const pts = graphPoints[taskId] || [];
+
+  if (pts.length >= 2) {
+    const sorted = [...pts].sort((a, b) => a.x - b.x);
+    for (let i = 0; i < sorted.length - 1; i++) {
+      const p1 = dataToSvg(sorted[i].x, sorted[i].y);
+      const p2 = dataToSvg(sorted[i + 1].x, sorted[i + 1].y);
+      linesG.innerHTML += `<line x1="${p1.svgX}" y1="${p1.svgY}" x2="${p2.svgX}" y2="${p2.svgY}" stroke="#7a6aa8" stroke-width="2.5" stroke-linecap="round" opacity="0.55"/>`;
+    }
+  }
+
+  pts.forEach(p => {
+    const { svgX, svgY } = dataToSvg(p.x, p.y);
+    ptsG.innerHTML += `<circle cx="${svgX}" cy="${svgY}" r="6" fill="#fff" stroke="#7a6aa8" stroke-width="3"/>`;
+  });
+}
+
+function checkTask(taskId) {
+  const task = TASKS.find(t => t.id === taskId);
+  let ok = true;
+  const hints = [];
+
+  if (task.type === 'segments' || task.type === 'segments+choice') {
+    task.segments.forEach((seg, sIdx) => {
+      const x1 = numVal(document.querySelector(`[data-key="t${taskId}-s${sIdx}-x1"]`)?.value);
+      const y1 = numVal(document.querySelector(`[data-key="t${taskId}-s${sIdx}-y1"]`)?.value);
+      const x2 = numVal(document.querySelector(`[data-key="t${taskId}-s${sIdx}-x2"]`)?.value);
+      const y2 = numVal(document.querySelector(`[data-key="t${taskId}-s${sIdx}-y2"]`)?.value);
+      const inpX1 = document.querySelector(`[data-key="t${taskId}-s${sIdx}-x1"]`);
+      const inpY1 = document.querySelector(`[data-key="t${taskId}-s${sIdx}-y1"]`);
+      const inpX2 = document.querySelector(`[data-key="t${taskId}-s${sIdx}-x2"]`);
+      const inpY2 = document.querySelector(`[data-key="t${taskId}-s${sIdx}-y2"]`);
+
+      // Разрешаем вводить любые x, включая граничные (выколотые) точки.
+      // Проверяем только, что x не выходит за пределы промежутка.
+      const inSeg = x => {
+        if (x === null) return false;
+        if (x < seg.minX - 0.001) return false;
+        if (x > seg.maxX + 0.001) return false;
+        return true;
+      };
+
+      const x1ok = inSeg(x1);
+      const y1ok = x1ok && approxEq(y1, seg.expr(x1));
+      const t1ok = x1ok && y1ok;
+      const x2ok = inSeg(x2);
+      const y2ok = x2ok && approxEq(y2, seg.expr(x2));
+      const t2ok = x2ok && y2ok;
+
+      if (inpX1) { inpX1.classList.remove('correct','incorrect'); inpX1.classList.add(t1ok ? 'correct':'incorrect'); }
+      if (inpY1) { inpY1.classList.remove('correct','incorrect'); inpY1.classList.add(t1ok ? 'correct':'incorrect'); }
+      if (inpX2) { inpX2.classList.remove('correct','incorrect'); inpX2.classList.add(t2ok ? 'correct':'incorrect'); }
+      if (inpY2) { inpY2.classList.remove('correct','incorrect'); inpY2.classList.add(t2ok ? 'correct':'incorrect'); }
+
+      if (!t1ok || !t2ok) {
+        ok = false;
+        if (!x1ok || !x2ok) hints.push(`Значение x должно лежать в промежутке «${seg.cond}»`);
+        else hints.push(`Проверьте вычисление y для «${seg.cond}»: подставьте x в формулу`);
+      }
+    });
+
+    if (task.type === 'segments+choice') {
+      const selected = document.querySelector(`input[name="t${taskId}-choice"]:checked`);
+      const choiceOk = selected && parseInt(selected.value) === task.choice.correct;
+      if (!choiceOk) {
+        ok = false;
+        hints.push('Проверьте m: мысленно проведите горизонтальную прямую — она должна пересечь график ровно в двух местах');
+      }
+      document.querySelectorAll(`input[name="t${taskId}-choice"]`).forEach(inp => {
+        const label = inp.closest('.option-item');
+        if (parseInt(inp.value) === task.choice.correct) label.classList.add('correct');
+        else if (inp.checked) label.classList.add('incorrect');
+      });
+    }
+  } else if (task.type === 'temperature') {
+    task.values.forEach(v => {
+      const inp = document.querySelector(`[data-key="t${taskId}-T${v.t}"]`);
+      const val = numVal(inp?.value);
+      const isOk = approxEq(val, v.T, 0.1);
+      if (inp) { inp.classList.remove('correct','incorrect'); inp.classList.add(isOk ? 'correct':'incorrect'); }
+      if (!isOk) ok = false;
+    });
+    if (!ok) hints.push('Пересчитайте T: на каждом промежутке своя формула');
+    [0,1,2].forEach(idx => {
+      const selected = document.querySelector(`input[name="t${taskId}-mean-${idx}"]:checked`);
+      const isOk = selected && parseInt(selected.value) === task.correctMeanings[idx];
+      document.querySelectorAll(`input[name="t${taskId}-mean-${idx}"]`).forEach(inp => {
+        const label = inp.closest('.option-item');
+        if (parseInt(inp.value) === task.correctMeanings[idx]) label.classList.add('correct');
+        else if (inp.checked) label.classList.add('incorrect');
+      });
+      if (!isOk) ok = false;
+    });
+  } else if (task.type === 'modulus') {
+    const inp = document.querySelector(`[data-key="t${taskId}-modulus"]`);
+    const raw = String(inp?.value || '').trim().toLowerCase()
+      .replace(/\s+/g, '')
+      .replace(/модуль/g, '|')
+      .replace(/abs\(([^)]+)\)/g, '|$1|')
+      .replace(/х/g, 'x');
+    const variants = ['|x|+2', '2+|x|'];
+    const isOk = variants.some(v => raw === v);
+    if (inp) { inp.classList.remove('correct','incorrect'); inp.classList.add(isOk ? 'correct':'incorrect'); }
+    if (!isOk) {
+      ok = false;
+      hints.push('Подсказка: и при x, и при −x получается одно и то же |x|, а затем +2');
+    }
+  } else if (task.type === 'graph-to-formula') {
+    task.segments.forEach((seg, i) => {
+      const inpF = document.querySelector(`[data-key="t${taskId}-f${i}"]`);
+      const inpFrom = document.querySelector(`[data-key="t${taskId}-from${i}"]`);
+      const inpTo = document.querySelector(`[data-key="t${taskId}-to${i}"]`);
+      const selOp1 = document.querySelector(`[data-key="t${taskId}-op1-${i}"]`);
+      const selOp2 = document.querySelector(`[data-key="t${taskId}-op2-${i}"]`);
+
+      const fNorm = normalizeFormula(inpF?.value);
+      const accepted = (seg.accepted || [seg.expr]).map(a => normalizeFormula(a));
+      const fOk = accepted.includes(fNorm);
+
+      const fromVal = numVal(inpFrom?.value);
+      const toVal = numVal(inpTo?.value);
+      const fromOk = approxEq(fromVal, seg.from, 0.1);
+      const toOk = approxEq(toVal, seg.to, 0.1);
+
+      const op1Ok = selOp1 && selOp1.value === seg.opFrom;
+      const op2Ok = selOp2 && selOp2.value === seg.opTo;
+
+      if (inpF) { inpF.classList.remove('correct','incorrect'); inpF.classList.add(fOk ? 'correct':'incorrect'); }
+      if (inpFrom) { inpFrom.classList.remove('correct','incorrect'); inpFrom.classList.add(fromOk ? 'correct':'incorrect'); }
+      if (inpTo) { inpTo.classList.remove('correct','incorrect'); inpTo.classList.add(toOk ? 'correct':'incorrect'); }
+      if (selOp1) { selOp1.classList.remove('correct','incorrect'); selOp1.classList.add(op1Ok ? 'correct':'incorrect'); }
+      if (selOp2) { selOp2.classList.remove('correct','incorrect'); selOp2.classList.add(op2Ok ? 'correct':'incorrect'); }
+
+      if (!fOk || !fromOk || !toOk || !op1Ok || !op2Ok) ok = false;
+    });
+    if (!ok) hints.push('Подсказка: первый участок возрастает, второй убывает, третий возрастает. Проверьте знаки строгости: где точка входит (≤), а где нет (<)');
+  }
+
+  const fb = document.getElementById(`fb-${taskId}`);
+  const taskEl = document.getElementById(`task-${taskId}`);
+  fb.className = 'task-feedback show ' + (ok ? 'ok' : 'fail');
+  if (ok) {
+    fb.innerHTML = '<span class="icon">✅</span><span>Верно! Отличная работа.</span>';
+  } else {
+    fb.innerHTML = `<span class="icon">❌</span><span><strong>Есть ошибки.</strong> ${hints.join('. ')}</span>`;
+  }
+  taskEl.classList.remove('correct','incorrect');
+  taskEl.classList.add(ok ? 'correct':'incorrect');
+
+  setTimeout(checkOverall, 150);
+}
+
+function clearTask(taskId) {
+  document.querySelectorAll(`[data-key^="t${taskId}-"]`).forEach(inp => {
+    if (inp.type === 'radio') inp.checked = false;
+    else if (inp.tagName === 'SELECT') inp.selectedIndex = 0;
+    else inp.value = '';
+    inp.classList.remove('correct','incorrect');
+  });
+  document.querySelectorAll(`#task-${taskId} .option-item`).forEach(l => l.classList.remove('correct','incorrect'));
+  graphPoints[taskId] = [];
+  redrawGraph(taskId);
+  const fb = document.getElementById(`fb-${taskId}`);
+  fb.className = 'task-feedback';
+  fb.innerHTML = '';
+  document.getElementById(`task-${taskId}`).classList.remove('correct','incorrect');
+  document.getElementById('overallResult').classList.remove('show');
+}
+
+function checkOverall() {
+  let allAnswered = true;
+  let correctCount = 0;
+  TASKS.forEach(task => {
+    const el = document.getElementById(`task-${task.id}`);
+    if (!el) return;
+    if (el.classList.contains('correct')) correctCount++;
+    if (!el.classList.contains('correct') && !el.classList.contains('incorrect')) allAnswered = false;
+  });
+
+  if (!allAnswered) return;
+
+  const total = TASKS.length;
+  const percent = correctCount / total * 100;
+
+  document.getElementById('overallScore').textContent = `${correctCount} / ${total}`;
+
+  let ic, t, msg;
+  if (correctCount === total) {
+    ic = '🏆'; t = 'Превосходно!';
+    msg = 'Все задания выполнены верно. Ты отлично разобрался в кусочно-заданных функциях!';
+  } else if (percent >= 70) {
+    ic = '🌟'; t = 'Отличный результат!';
+    msg = 'Большинство заданий решено верно. Просмотри задания с ошибками, чтобы закрепить материал.';
+  } else if (percent >= 50) {
+    ic = '👍'; t = 'Хороший результат';
+    msg = 'Половина заданий выполнена. Стоит ещё раз перечитать теорию и попробовать снова.';
+  } else {
+    ic = '📖'; t = 'Стоит повторить тему';
+    msg = 'Пройди теорию заново — особенно примеры с туристом и ломаной линией. У тебя всё получится!';
+  }
+
+  document.getElementById('overallIcon').textContent = ic;
+  document.getElementById('overallTitle').textContent = t;
+  document.getElementById('overallMessage').textContent = msg;
+  const result = document.getElementById('overallResult');
+  result.classList.add('show');
+  result.scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+
+renderTasks();
+</script>
+</body>
+</html>
