@@ -268,12 +268,134 @@
     .game-title { font-size: 16px; }
     .game-card { padding: 18px 20px 18px; border-radius: 18px; }
   }
+   /* ═══ БЛОК УВЕДОМЛЕНИЯ ═══ */
+  .notice {
+    background: linear-gradient(160deg, #ffffff, #faf5ff);
+    border: 3px solid #d46a98;
+    border-radius: 24px;
+    padding: 24px 28px 22px;
+    margin-bottom: 28px;
+    box-shadow: 0 12px 40px rgba(212, 106, 152, 0.20);
+    position: relative;
+    overflow: hidden;
+  }
+  .notice::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 5px;
+    background: linear-gradient(90deg, #d46a98, #8a6ad8, #5a8ad8, #d46a98);
+  }
+  .notice-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 14px;
+    flex-wrap: wrap;
+  }
+  .notice-header .icon {
+    font-size: 34px;
+    animation: bellShake 3s ease-in-out infinite;
+  }
+  @keyframes bellShake {
+    0%, 90%, 100% { transform: rotate(0deg); }
+    92% { transform: rotate(-10deg); }
+    94% { transform: rotate(10deg); }
+    96% { transform: rotate(-6deg); }
+    98% { transform: rotate(6deg); }
+  }
+  .notice-header h2 {
+    font-size: 22px;
+    font-weight: 800;
+    color: #d46a98;
+    letter-spacing: -0.3px;
+  }
+  .notice-header .badge {
+    background: #d46a98;
+    color: #fff;
+    font-size: 11px;
+    font-weight: 800;
+    padding: 3px 12px;
+    border-radius: 20px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+  .notice-text {
+    font-size: 15.5px;
+    line-height: 1.75;
+    color: #3a1a4a;
+    padding: 16px 20px;
+    background: linear-gradient(135deg, #fff8fa, #f8f0ff);
+    border-radius: 14px;
+    border-left: 4px solid #d46a98;
+  }
+  .notice-text p {
+    margin-bottom: 12px;
+  }
+  .notice-text p:last-child {
+    margin-bottom: 0;
+  }
+  .notice-text .highlight {
+    color: #d46a98;
+    font-weight: 700;
+  }
+  .notice-text .contact {
+    display: inline-block;
+    background: #fff;
+    padding: 2px 10px;
+    border-radius: 8px;
+    font-family: 'Courier New', monospace;
+    font-weight: 700;
+    color: #6a4ab8;
+    border: 1px solid rgba(138, 106, 216, 0.2);
+    margin: 0 3px;
+    user-select: all;
+    cursor: pointer;
+  }
+  .notice-text .contact:hover {
+    background: #f0ebfa;
+  }
+
+  @media (max-width: 600px) {
+    .notice { padding: 18px 16px; }
+    .notice-header h2 { font-size: 18px; }
+    .notice-text { font-size: 14.5px; padding: 12px 14px; }
+  }
 </style>
 </head>
 <body>
 
 <div class="container">
+  <section class="notice" id="noticeBlock">
+    <div class="notice-header">
+      <span class="icon">🔔</span>
+      <h2>Важное уведомление</h2>
+      <span class="badge">Внимание</span>
+    </div>
 
+    <div class="notice-text">
+      <p>
+        Здравствуйте! Это сообщение от <span class="highlight">Екатерины Владимировны</span> —
+        репетитора по математике с платформы «Тетрика». В течение долгого времени на платформе
+        происходят сбои, мешающие заниматься продуктивно и без трудностей; также очень плачевно
+        складывается ситуация с чатами поддержки как преподавателей, так и учеников. В связи с этим
+        думаю над прекращением сотрудничества с «Тетрикой» и полным переходом на личные занятия.
+      </p>
+      <p>
+        На данный момент только <span class="highlight">Диана</span> осталась со мной на этой
+        платформе, других учеников не беру. Предлагаю перейти на личные онлайн-занятия без
+        посредников (работа на онлайн-доске с видео- и аудиосвязью, можно сохранять конспекты,
+        есть чат и т. п.). Насколько мне известно, у вас осталось ещё 12–13 оплаченных занятий;
+        их реализацию, как и последующее сотрудничество, можем обсудить в мессенджерах.
+      </p>
+      <p>
+        <strong>Мои данные для связи:</strong><br>
+        📱 Телефон: <span class="contact">8 953 601-82-12</span>
+        (Телеграм, Макс)<br>
+        ✉️ Почта: <span class="contact">trefilova-1012@mail.ru</span>
+      </p>
+    </div>
+  </section>
   <header class="main-header">
     <span class="crown">👑</span>
     <h1>Упражнения и домашние задания</h1>
