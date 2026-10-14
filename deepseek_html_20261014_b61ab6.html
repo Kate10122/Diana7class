@@ -1,0 +1,1274 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🌿 Степень. Свойства степеней — 7 класс</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --bg-gradient: linear-gradient(145deg, #f0fdf4 0%, #ecfdf5 40%, #f7fee7 100%);
+  --card: #ffffff;
+  --green-1: #22c55e;
+  --green-2: #16a34a;
+  --green-3: #15803d;
+  --green-4: #86efac;
+  --green-5: #dcfce7;
+  --green-6: #f0fdf4;
+  --lime: #84cc16;
+  --ink: #14532d;
+  --ink-soft: #4d7c5a;
+  --red: #dc2626;
+  --red-light: #fee2e2;
+  --amber: #f59e0b;
+  --amber-light: #fef3c7;
+  --shadow: 0 8px 28px rgba(22, 163, 74, 0.10);
+}
+
+body {
+  font-family: 'Segoe UI', 'Roboto', system-ui, -apple-system, sans-serif;
+  background: var(--bg-gradient);
+  background-attachment: fixed;
+  min-height: 100vh;
+  padding: 22px 14px 60px;
+  color: var(--ink);
+  line-height: 1.6;
+}
+
+.app { max-width: 980px; margin: 0 auto; }
+
+.main-header {
+  text-align: center;
+  margin-bottom: 20px;
+  padding: 26px 18px 10px;
+}
+.main-header .crown {
+  font-size: 48px;
+  display: block;
+  margin-bottom: 10px;
+  animation: crownGlow 3s ease-in-out infinite;
+}
+@keyframes crownGlow {
+  0%, 100% { filter: drop-shadow(0 0 10px rgba(34, 197, 94, 0.6)); transform: scale(1); }
+  50% { filter: drop-shadow(0 0 24px rgba(34, 197, 94, 1)); transform: scale(1.08); }
+}
+.main-header h1 {
+  font-size: 32px;
+  font-weight: 800;
+  background: linear-gradient(135deg, #15803d, #22c55e, #84cc16);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  letter-spacing: -0.5px;
+  margin-bottom: 8px;
+  line-height: 1.15;
+}
+.main-header .subtitle {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--green-2);
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+.main-header p {
+  font-size: 15.5px;
+  color: var(--ink-soft);
+  font-style: italic;
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+.latin-note {
+  background: linear-gradient(135deg, #fef3c7, #fef9e7);
+  border: 2px solid #f59e0b;
+  border-radius: 16px;
+  padding: 14px 20px;
+  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 4px 14px rgba(245, 158, 11, 0.12);
+}
+.latin-note .latin-icon { font-size: 30px; flex-shrink: 0; }
+.latin-note .latin-text {
+  font-size: 14.5px;
+  color: #78350f;
+  line-height: 1.5;
+}
+.latin-note .latin-text strong { color: #92400e; }
+
+.facts-section {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 14px;
+  margin-bottom: 28px;
+}
+.fact-card {
+  background: linear-gradient(160deg, #ffffff, #f0fdf4);
+  border: 2px solid rgba(34, 197, 94, 0.18);
+  border-radius: 20px;
+  padding: 18px 20px;
+  box-shadow: 0 6px 20px rgba(22, 163, 74, 0.06);
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+  transition: transform 0.25s;
+}
+.fact-card:hover { transform: translateY(-3px); }
+.fact-card .fact-icon {
+  font-size: 38px;
+  flex-shrink: 0;
+  filter: drop-shadow(0 3px 6px rgba(22, 163, 74, 0.2));
+}
+.fact-card .fact-title {
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--green-2);
+  margin-bottom: 6px;
+}
+.fact-card .fact-text {
+  font-size: 14px;
+  color: var(--ink);
+  line-height: 1.55;
+}
+.fact-card .fact-text sup {
+  font-size: 0.65em;
+  font-weight: 800;
+  color: var(--green-3);
+}
+
+sup {
+  font-size: 0.68em;
+  vertical-align: super;
+  line-height: 0;
+  font-weight: 800;
+  color: var(--green-3);
+}
+
+.frac {
+  display: inline-flex;
+  flex-direction: column;
+  vertical-align: middle;
+  text-align: center;
+  font-size: 1.15em;
+  line-height: 1.15;
+  margin: 0 5px;
+  font-family: 'Cambria Math', 'Times New Roman', Georgia, serif;
+  font-style: italic;
+  padding: 2px 0;
+}
+.frac .num {
+  border-bottom: 2.5px solid currentColor;
+  padding: 0 8px 3px;
+}
+.frac .den {
+  padding: 3px 8px 0;
+}
+.frac sup { font-size: 0.6em; }
+
+/* ═══ МНОГОЭТАЖНАЯ ДРОБЬ ═══ */
+.frac-multi {
+  display: inline-flex;
+  flex-direction: column;
+  vertical-align: middle;
+  align-items: stretch;
+  margin: 0 6px;
+  font-family: 'Cambria Math', 'Times New Roman', Georgia, serif;
+  font-style: italic;
+  font-size: 1.05em;
+  line-height: 1.3;
+  padding: 4px 0;
+}
+.frac-multi .frac-multi-row {
+  text-align: center;
+  padding: 5px 10px;
+  white-space: nowrap;
+}
+.frac-multi .frac-multi-line-thin {
+  border-top: 2px solid currentColor;
+  margin: 0 4px;
+}
+.frac-multi .frac-multi-line-thick {
+  border-top: 4px solid currentColor;
+  margin: 0 -2px;
+}
+.frac-multi sup { font-size: 0.6em; }
+
+.theory-section {
+  background: #ffffff;
+  border-radius: 24px;
+  padding: 26px 30px;
+  margin-bottom: 26px;
+  box-shadow: var(--shadow);
+  border: 2px solid rgba(34, 197, 94, 0.12);
+  position: relative;
+  overflow: hidden;
+}
+.theory-section::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 5px;
+  background: linear-gradient(90deg, #22c55e, #84cc16, #22c55e);
+}
+.theory-section h2 {
+  font-size: 22px;
+  color: var(--green-3);
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.theory-section h3 {
+  font-size: 17px;
+  color: var(--green-2);
+  margin: 22px 0 10px;
+}
+.theory-section p {
+  font-size: 15.5px;
+  margin-bottom: 10px;
+}
+.theory-section .definition {
+  background: linear-gradient(135deg, #f0fdf4, #ecfdf5);
+  border-left: 4px solid var(--green-1);
+  border-radius: 12px;
+  padding: 14px 18px;
+  margin: 12px 0;
+  font-size: 15.5px;
+  line-height: 1.8;
+}
+.theory-section .example-box {
+  background: linear-gradient(135deg, #f7fee7, #ecfdf5);
+  border-radius: 14px;
+  padding: 14px 20px;
+  margin: 14px 0;
+  font-size: 18px;
+  font-family: 'Cambria Math', 'Times New Roman', serif;
+  font-style: italic;
+  text-align: center;
+  line-height: 1.9;
+}
+.theory-section .example-box strong {
+  font-style: normal;
+  font-family: 'Segoe UI', sans-serif;
+  color: var(--green-3);
+}
+
+.power-scheme {
+  display: flex;
+  justify-content: center;
+  margin: 20px 0;
+  padding: 18px;
+  background: linear-gradient(135deg, #f0fdf4, #f7fee7);
+  border-radius: 18px;
+  overflow-x: auto;
+}
+.power-scheme svg { width: 100%; max-width: 520px; height: auto; min-width: 400px; }
+
+.props-box {
+  background: linear-gradient(180deg, #ffffff, #f0fdf4);
+  border: 2px solid rgba(34, 197, 94, 0.25);
+  border-radius: 18px;
+  padding: 22px 26px;
+  margin: 16px 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px 32px;
+  font-family: 'Cambria Math', 'Times New Roman', serif;
+  font-style: italic;
+  font-size: 22px;
+  line-height: 1.4;
+  box-shadow: 0 4px 14px rgba(22, 163, 74, 0.06);
+  text-align: center;
+}
+.props-box .prop-line {
+  padding: 8px 4px;
+  font-weight: 700;
+  color: var(--ink);
+}
+.props-box .prop-line sup {
+  font-size: 0.62em;
+  color: var(--green-2);
+}
+
+@media (max-width: 520px) {
+  .props-box { grid-template-columns: 1fr; font-size: 20px; }
+}
+
+.practice-title {
+  font-size: 24px;
+  color: var(--green-3);
+  margin: 32px 0 18px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.task-group {
+  background: #ffffff;
+  border: 2px solid rgba(34, 197, 94, 0.15);
+  border-radius: 22px;
+  padding: 22px 26px 20px;
+  margin-bottom: 20px;
+  box-shadow: var(--shadow);
+}
+.task-group-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 14px;
+  flex-wrap: wrap;
+  padding-bottom: 12px;
+  border-bottom: 2px dashed rgba(34, 197, 94, 0.2);
+}
+.task-group-badge {
+  background: linear-gradient(135deg, var(--green-1), var(--green-3));
+  color: #fff;
+  font-size: 13px;
+  font-weight: 800;
+  padding: 6px 16px;
+  border-radius: 20px;
+  flex-shrink: 0;
+}
+.task-group-title {
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--green-3);
+  flex: 1;
+  line-height: 1.4;
+}
+.task-group-note {
+  font-size: 13px;
+  color: var(--ink-soft);
+  font-style: italic;
+  width: 100%;
+}
+
+.subtask {
+  background: linear-gradient(180deg, #fafefb, #ffffff);
+  border: 1.5px solid rgba(34, 197, 94, 0.12);
+  border-radius: 16px;
+  padding: 16px 20px 14px;
+  margin-bottom: 12px;
+  transition: all 0.3s ease;
+}
+.subtask:last-child { margin-bottom: 0; }
+.subtask.correct {
+  border-color: var(--green-1);
+  background: linear-gradient(180deg, #ffffff, #f0fdf4);
+  box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.10);
+}
+.subtask.incorrect {
+  border-color: var(--red);
+  background: linear-gradient(180deg, #ffffff, #fef2f2);
+  box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.08);
+}
+
+.subtask-head {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+.subtask-num {
+  font-weight: 800;
+  color: var(--green-3);
+  font-size: 17px;
+  min-width: 36px;
+  flex-shrink: 0;
+  padding-top: 8px;
+}
+.subtask-text {
+  font-size: 22px;
+  color: var(--ink);
+  font-family: 'Cambria Math', 'Times New Roman', serif;
+  font-style: italic;
+  line-height: 1.7;
+  flex: 1;
+  padding-top: 2px;
+}
+.subtask-text sup { font-size: 0.62em; }
+
+.subtask-answer-row {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  flex-wrap: wrap;
+  padding-left: 48px;
+}
+.answer-label {
+  font-weight: 800;
+  color: var(--green-3);
+  font-size: 15px;
+  font-family: 'Segoe UI', sans-serif;
+  font-style: normal;
+}
+.subtask-answer-row input[type="text"] {
+  flex: 1;
+  min-width: 180px;
+  font-family: 'Cambria Math', 'Times New Roman', serif;
+  font-style: italic;
+  font-size: 19px;
+  font-weight: 700;
+  color: var(--ink);
+  padding: 11px 16px;
+  border: 2px solid rgba(34, 197, 94, 0.30);
+  border-radius: 12px;
+  background: #ffffff;
+  outline: none;
+  transition: all 0.25s;
+}
+.subtask-answer-row input[type="text"]:focus {
+  border-color: var(--green-1);
+  box-shadow: 0 0 0 4px rgba(34, 197, 94, 0.15);
+  background: #f0fdf4;
+}
+.subtask-answer-row input.correct {
+  border-color: var(--green-1);
+  background: var(--green-5);
+  color: var(--green-3);
+}
+.subtask-answer-row input.incorrect {
+  border-color: var(--red);
+  background: var(--red-light);
+  color: #991b1b;
+}
+.subtask-answer-row input.warn-cyrillic {
+  border-color: var(--amber);
+  background: var(--amber-light);
+  box-shadow: 0 0 0 4px rgba(245, 158, 11, 0.15);
+}
+
+.power-widget {
+  display: inline-flex;
+  align-items: flex-start;
+  gap: 0;
+  flex-wrap: wrap;
+  padding: 4px 0;
+}
+.power-widget .base-inp {
+  width: 66px;
+  height: 50px;
+  font-size: 22px;
+  text-align: center;
+  font-family: 'Cambria Math', serif;
+  font-weight: 700;
+  border: 2px solid rgba(34, 197, 94, 0.30);
+  border-radius: 10px;
+  background: #fff;
+  outline: none;
+  color: var(--ink);
+  transition: all 0.2s;
+}
+.power-widget .base-inp:focus {
+  border-color: var(--green-1);
+  box-shadow: 0 0 0 4px rgba(34, 197, 94, 0.15);
+}
+.power-widget .exp-inp {
+  width: 48px;
+  height: 32px;
+  font-size: 16px;
+  text-align: center;
+  font-family: 'Cambria Math', serif;
+  font-weight: 700;
+  border: 2px solid rgba(34, 197, 94, 0.30);
+  border-radius: 8px;
+  background: #fff;
+  outline: none;
+  color: var(--green-3);
+  margin-left: 4px;
+  margin-top: -4px;
+  transition: all 0.2s;
+}
+.power-widget .exp-inp:focus {
+  border-color: var(--green-1);
+  box-shadow: 0 0 0 4px rgba(34, 197, 94, 0.15);
+}
+.power-widget .base-inp.correct,
+.power-widget .exp-inp.correct {
+  border-color: var(--green-1);
+  background: var(--green-5);
+  color: var(--green-3);
+}
+.power-widget .base-inp.incorrect,
+.power-widget .exp-inp.incorrect {
+  border-color: var(--red);
+  background: var(--red-light);
+  color: #991b1b;
+}
+.power-widget .base-inp.warn-cyrillic,
+.power-widget .exp-inp.warn-cyrillic {
+  border-color: var(--amber);
+  background: var(--amber-light);
+}
+
+.check-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 18px;
+  background: linear-gradient(135deg, #fafefb, #f0fdf4);
+  border-radius: 14px;
+  margin-bottom: 10px;
+  cursor: pointer;
+  border: 1.5px solid rgba(34, 197, 94, 0.15);
+  transition: all 0.2s;
+  user-select: none;
+}
+.check-item:hover {
+  border-color: var(--green-4);
+  background: linear-gradient(135deg, #f0fdf4, #ecfdf5);
+}
+.check-item input {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 26px;
+  height: 26px;
+  border: 2px solid var(--green-4);
+  border-radius: 8px;
+  background: #fff;
+  cursor: pointer;
+  flex-shrink: 0;
+  position: relative;
+  transition: 0.2s;
+}
+.check-item input:checked {
+  background: linear-gradient(135deg, var(--green-1), var(--green-2));
+  border-color: var(--green-2);
+  box-shadow: 0 4px 10px rgba(34, 197, 94, 0.3);
+}
+.check-item input:checked::after {
+  content: "✕";
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -55%);
+  color: #fff;
+  font-size: 15px;
+  font-weight: 900;
+}
+.check-item .check-num {
+  font-weight: 800;
+  color: var(--green-3);
+  font-size: 17px;
+  min-width: 32px;
+  flex-shrink: 0;
+}
+.check-item .check-text {
+  font-size: 22px;
+  font-family: 'Cambria Math', 'Times New Roman', serif;
+  font-style: italic;
+  color: var(--ink);
+  line-height: 1.4;
+}
+.check-item .check-text sup { font-size: 0.62em; }
+.check-item.correct {
+  border-color: var(--green-1);
+  background: linear-gradient(135deg, #ecfdf5, #dcfce7);
+}
+.check-item.incorrect {
+  border-color: var(--red);
+  background: linear-gradient(135deg, #fef2f2, #fee2e2);
+}
+
+.btn {
+  border: none;
+  padding: 10px 22px;
+  font-size: 14px;
+  font-weight: 800;
+  font-family: inherit;
+  border-radius: 40px;
+  cursor: pointer;
+  transition: all 0.25s;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.btn-check {
+  background: linear-gradient(135deg, var(--green-1), var(--green-3));
+  color: #fff;
+  box-shadow: 0 5px 14px rgba(22, 163, 74, 0.28);
+}
+.btn-check:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 22px rgba(22, 163, 74, 0.38);
+}
+.btn-all {
+  display: block;
+  margin: 30px auto 0;
+  padding: 16px 42px;
+  font-size: 17px;
+  background: linear-gradient(135deg, #16a34a, #22c55e, #84cc16);
+  color: #fff;
+  box-shadow: 0 10px 30px rgba(22, 163, 74, 0.35);
+  border-radius: 50px;
+}
+.btn-all:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 16px 40px rgba(22, 163, 74, 0.5);
+}
+
+.subtask-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+  padding-left: 48px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.feedback {
+  margin-top: 10px;
+  margin-left: 48px;
+  padding: 0 16px;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.55;
+  max-height: 0;
+  overflow: hidden;
+  transition: all 0.4s ease;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+.feedback.show { max-height: 250px; padding: 10px 16px; }
+.feedback.ok { background: var(--green-5); color: var(--green-3); border: 2px solid var(--green-1); }
+.feedback.warn { background: var(--amber-light); color: #92400e; border: 2px solid var(--amber); }
+.feedback.fail { background: var(--red-light); color: #991b1b; border: 2px solid var(--red); }
+.feedback .icon { font-size: 18px; line-height: 1; flex-shrink: 0; }
+
+.overall-result {
+  display: none;
+  background: linear-gradient(160deg, #ffffff, #f0fdf4);
+  border: 3px solid var(--green-1);
+  border-radius: 24px;
+  padding: 30px 26px;
+  margin-top: 26px;
+  text-align: center;
+  box-shadow: 0 16px 48px rgba(22, 163, 74, 0.2);
+}
+.overall-result.show { display: block; animation: popIn 0.5s ease; }
+@keyframes popIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+.overall-result .big-icon { font-size: 64px; display: block; margin-bottom: 10px; }
+.overall-result h2 { font-size: 26px; color: var(--green-3); margin-bottom: 10px; }
+.overall-result .score-line {
+  font-size: 40px;
+  font-weight: 900;
+  background: linear-gradient(135deg, var(--green-3), var(--lime));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin: 12px 0;
+}
+.overall-result .message {
+  font-size: 16px;
+  font-style: italic;
+  color: var(--ink-soft);
+  padding: 14px 20px;
+  background: rgba(255, 255, 255, 0.7);
+  border-radius: 14px;
+  margin-top: 12px;
+  line-height: 1.55;
+}
+
+@media (max-width: 600px) {
+  body { padding: 14px 10px 40px; }
+  .main-header h1 { font-size: 22px; }
+  .main-header .crown { font-size: 38px; }
+  .theory-section { padding: 18px 16px; }
+  .task-group { padding: 16px 14px; }
+  .subtask { padding: 12px 12px 10px; }
+  .subtask-answer-row, .subtask-actions, .feedback { padding-left: 0; margin-left: 0; }
+  .subtask-text { font-size: 18px; }
+  .check-item .check-text { font-size: 17px; }
+  .btn { padding: 8px 16px; font-size: 13px; }
+  .btn-all { padding: 14px 28px; font-size: 15px; }
+  .power-widget .base-inp { width: 54px; height: 44px; font-size: 18px; }
+  .power-widget .exp-inp { width: 40px; height: 30px; font-size: 14px; }
+  .props-box { font-size: 20px; }
+  .frac-multi { font-size: 0.85em; }
+  .frac-multi .frac-multi-row { padding: 4px 6px; white-space: normal; }
+}
+</style>
+</head>
+<body>
+
+<div class="app">
+
+  <header class="main-header">
+    <span class="crown">🌿</span>
+    <h1>Степень. Свойства степеней</h1>
+    <div class="subtitle">✦ Алгебра · 7 класс · Математическая вертикаль ✦</div>
+    <p>Теория, свойства и практика. Разберись со степенями — и они станут твоими друзьями!</p>
+  </header>
+
+  <div class="latin-note">
+    <span class="latin-icon">⚠️</span>
+    <div class="latin-text">
+      <strong>Важно!</strong> В поля ответа можно вводить <strong>только латинские буквы</strong> (a, b, x, m, n, …). Русские буквы не принимаются — при их вводе появится предупреждение.
+    </div>
+  </div>
+
+  <section class="facts-section">
+    <div class="fact-card">
+      <span class="fact-icon">📜</span>
+      <div>
+        <div class="fact-title">Слово «степень» — от «ступень»</div>
+        <div class="fact-text">В древнерусском языке «степень» означало «ступенька, уровень». Степени как бы «поднимают» число на новую высоту, повторяя умножение.</div>
+      </div>
+    </div>
+    <div class="fact-card">
+      <span class="fact-icon">🔢</span>
+      <div>
+        <div class="fact-title">Степени растут невероятно быстро</div>
+        <div class="fact-text">Число 10<sup>100</sup> называется «гугол». А 10 в степени гугол — «гуголплекс». Это больше, чем атомов во всей Вселенной!</div>
+      </div>
+    </div>
+    <div class="fact-card">
+      <span class="fact-icon">✍️</span>
+      <div>
+        <div class="fact-title">Обозначение придумал Декарт</div>
+        <div class="fact-text">Запись вида a<sup>n</sup> впервые появилась в 1637 году в работах французского математика Рене Декарта.</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="theory-section">
+    <h2>📖 Теория</h2>
+
+    <h3>Что такое степень?</h3>
+    <div class="definition">
+      <strong>Возведение в степень</strong> — арифметическая операция, когда число умножают само на себя в количестве раз, указанном в степени. То есть сама степень и является краткой записью этого умножения.
+    </div>
+
+    <div class="example-box">
+      <strong>Пример:</strong> запись 3<sup>4</sup> означает, что число 3 умножается само на себя 4 раза:
+      <br>
+      3<sup>4</sup> = 3 · 3 · 3 · 3 = 81
+    </div>
+
+    <h3>Степень с натуральным показателем</h3>
+    <div class="power-scheme">
+      <svg viewBox="0 0 500 230" xmlns="http://www.w3.org/2000/svg">
+        <text x="250" y="28" text-anchor="middle" font-family="Georgia, serif" font-size="16" font-weight="700" font-style="italic" fill="#15803d">Степень с натуральным показателем</text>
+
+        <text x="110" y="130" text-anchor="middle" font-family="Georgia, serif" font-size="76" font-weight="700" font-style="italic" fill="#0e7c3c">(a)</text>
+
+        <text x="165" y="75" text-anchor="middle" font-family="Georgia, serif" font-size="34" font-weight="700" font-style="italic" fill="#dc2626">n</text>
+
+        <line x1="200" y1="65" x2="290" y2="55" stroke="#8a5a00" stroke-width="1.5" marker-end="url(#arr1)"/>
+        <text x="300" y="60" font-family="Segoe UI, sans-serif" font-size="14" font-weight="700" fill="#8a5a00">показатель степени</text>
+
+        <line x1="200" y1="125" x2="290" y2="115" stroke="#8a5a00" stroke-width="1.5" marker-end="url(#arr1)"/>
+        <text x="300" y="120" font-family="Segoe UI, sans-serif" font-size="14" font-weight="700" fill="#8a5a00">степень числа</text>
+
+        <line x1="110" y1="160" x2="110" y2="185" stroke="#8a5a00" stroke-width="1.5" marker-end="url(#arr1)"/>
+        <text x="120" y="207" font-family="Segoe UI, sans-serif" font-size="14" font-weight="700" fill="#8a5a00">основание степени</text>
+
+        <defs>
+          <marker id="arr1" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+            <path d="M 0 0 L 10 5 L 0 10 z" fill="#8a5a00"/>
+          </marker>
+        </defs>
+      </svg>
+    </div>
+
+    <h3>Свойства степеней</h3>
+    <div class="props-box">
+      <div class="prop-line">a<sup>0</sup> = 1</div>
+      <div class="prop-line">a<sup>1</sup> = a</div>
+      <div class="prop-line">1<sup>a</sup> = 1</div>
+      <div class="prop-line">a<sup>n</sup> · a<sup>m</sup> = a<sup>n+m</sup></div>
+      <div class="prop-line">a<sup>n</sup> : a<sup>m</sup> = a<sup>n−m</sup></div>
+      <div class="prop-line">(a<sup>n</sup>)<sup>m</sup> = a<sup>n·m</sup></div>
+      <div class="prop-line">a<sup>n</sup> · b<sup>n</sup> = (a · b)<sup>n</sup></div>
+      <div class="prop-line" style="opacity:0.3;">&nbsp;</div>
+    </div>
+
+    <div class="definition" style="margin-top: 18px;">
+      <strong>Как записывать ответ:</strong> если в ответе несколько одночленов, записывай их <em>по убыванию показателей</em> или <em>как в условии задачи</em>. Например: <strong>m<sup>5</sup>n<sup>3</sup></strong> — предпочтительно.
+    </div>
+  </section>
+
+  <h2 class="practice-title">✏️ Практика</h2>
+
+  <div id="tasksContainer"></div>
+
+  <button class="btn btn-all" id="btnAll">🎯 Проверить все задания</button>
+
+  <div class="overall-result" id="overallResult">
+    <span class="big-icon" id="overallIcon">🏆</span>
+    <h2 id="overallTitle">Результат</h2>
+    <div class="score-line" id="overallScore">0 / 24</div>
+    <div class="message" id="overallMessage"></div>
+  </div>
+
+</div>
+
+<script>
+/* ═══════════════════════════════════════════════════════════════
+   ДАННЫЕ ЗАДАНИЙ
+   ═══════════════════════════════════════════════════════════════ */
+
+const TASKS = [
+  {
+    id: 1,
+    title: 'Упростите выражения',
+    items: [
+      { id: '1.1', text: 'a<sup>2</sup> · a<sup>3</sup>', type: 'power', answer: 'a^5' },
+      { id: '1.2', text: 'a<sup>10</sup> · a<sup>15</sup>', type: 'power', answer: 'a^25' },
+      { id: '1.3', text: 'a<sup>6</sup> : a<sup>4</sup>', type: 'power', answer: 'a^2' },
+      { id: '1.4', text: 'a<sup>10</sup> : a<sup>3</sup>', type: 'power', answer: 'a^7' },
+      { id: '1.5', text: '(a<sup>2</sup>)<sup>2</sup>', type: 'power', answer: 'a^4' },
+      { id: '1.6', text: '(a<sup>3</sup>)<sup>3</sup>', type: 'power', answer: 'a^9' }
+    ]
+  },
+  {
+    id: 2,
+    title: 'Какие из данных равенств ошибочны?',
+    note: '👆 Отметь галочкой те равенства, которые, по твоему мнению, являются НЕВЕРНЫМИ.',
+    type: 'check-wrong',
+    items: [
+      { id: '2.1', text: 'm<sup>5</sup>m<sup>3</sup> = m<sup>8</sup>', correct: true },
+      { id: '2.2', text: 'm<sup>12</sup> : m<sup>3</sup> = m<sup>4</sup>', correct: false },
+      { id: '2.3', text: '7<sup>4</sup> · 7<sup>2</sup> = 49<sup>6</sup>', correct: false },
+      { id: '2.4', text: 'm<sup>6</sup>n<sup>6</sup> = (mn)<sup>12</sup>', correct: false },
+      { id: '2.5', text: '(m<sup>3</sup>)<sup>2</sup>m<sup>4</sup> = m<sup>24</sup>', correct: false },
+      { id: '2.6', text: '(m<sup>7</sup>)<sup>2</sup> : (m<sup>3</sup>)<sup>3</sup> = m<sup>5</sup>', correct: true }
+    ]
+  },
+  {
+    id: 3,
+    title: 'Найдите значение выражения',
+    items: [
+      { id: '3.1', text: '<span class="frac"><span class="num">3<sup>7</sup> · 11<sup>7</sup></span><span class="den">33<sup>6</sup></span></span>', type: 'number', answer: '33' },
+      { id: '3.2', text: '<span class="frac"><span class="num">28<sup>6</sup></span><span class="den">7<sup>5</sup> · 4<sup>5</sup></span></span>', type: 'number', answer: '28' },
+      { id: '3.3', text: '<span class="frac"><span class="num">5<sup>8</sup> · 9<sup>5</sup></span><span class="den">45<sup>5</sup></span></span>', type: 'number', answer: '125' },
+      { id: '3.4', text: '<span class="frac"><span class="num">3<sup>16</sup> · 2<sup>10</sup></span><span class="den">54<sup>5</sup></span></span>', type: 'number', answer: '96' },
+      { id: '3.5', text: '<span class="frac"><span class="num">36<sup>5</sup></span><span class="den">2<sup>9</sup> · 3<sup>8</sup></span></span>', type: 'number', answer: '18' },
+      { id: '3.6', text: '<span class="frac"><span class="num">18<sup>4</sup></span><span class="den">12<sup>5</sup></span></span>', type: 'number', answer: '27/64', answerAlt: ['0.421875'] }
+    ]
+  },
+  {
+    id: 4,
+    title: 'Упростите выражения',
+    note: '⚠️ Задания повышенной сложности. Тонкая черта — вспомогательная, жирная черта — главная.',
+    items: [
+      {
+        id: '4.1',
+        text: '<span class="frac-multi">' +
+              '<span class="frac-multi-row">(x<sup>2</sup>)<sup>3</sup> · (x<sup>7</sup>)<sup>2</sup> · x<sup>3</sup> · x<sup>8</sup></span>' +
+              '<span class="frac-multi-line-thin"></span>' +
+              '<span class="frac-multi-row">x · (x<sup>5</sup>)<sup>3</sup> · x<sup>2</sup></span>' +
+              '<span class="frac-multi-line-thick"></span>' +
+              '<span class="frac-multi-row">x<sup>13</sup></span>' +
+              '</span>',
+        type: 'number',
+        answer: '1'
+      },
+      {
+        id: '4.2',
+        text: '<span class="frac-multi">' +
+              '<span class="frac-multi-row">(x<sup>10</sup>)<sup>2</sup> · x · (x<sup>3</sup>)<sup>7</sup></span>' +
+              '<span class="frac-multi-line-thin"></span>' +
+              '<span class="frac-multi-row">(x<sup>6</sup>)<sup>2</sup> · x<sup>3</sup> · (x<sup>4</sup>)<sup>3</sup> · x<sup>5</sup></span>' +
+              '<span class="frac-multi-line-thick"></span>' +
+              '<span class="frac-multi-row">x<sup>2</sup></span>' +
+              '</span>',
+        type: 'power',
+        answer: 'x^8'
+      }
+    ]
+  },
+  {
+    id: 5,
+    title: 'Упростите выражения с переменной n',
+    note: '⚠️ Задания повышенной сложности.',
+    items: [
+      { id: '5.1', text: '<span class="frac"><span class="num">100 · 2<sup>n</sup> · (5<sup>2</sup>)<sup>n</sup></span><span class="den">2<sup>n−2</sup> · 5<sup>2n+1</sup></span></span>', type: 'number', answer: '80' },
+      { id: '5.2', text: '<span class="frac"><span class="num">15<sup>n</sup> · 3<sup>2</sup> · (5<sup>n+1</sup>)<sup>2</sup></span><span class="den">3<sup>n</sup> · (5<sup>n</sup>)<sup>3</sup> · 3 · 5</span></span>', type: 'number', answer: '15' }
+    ]
+  },
+  {
+    id: 6,
+    title: 'Найдите значение выражения',
+    note: '⚠️ Задания повышенной сложности: разложите числа на простые множители.',
+    items: [
+      { id: '6.1', text: '<span class="frac"><span class="num">28 · 98 · 75</span><span class="den">7<sup>3</sup> · 20</span></span>', type: 'number', answer: '30' },
+      { id: '6.2', text: '<span class="frac"><span class="num">49 · 32 · 300 · 125</span><span class="den">21 · 2<sup>6</sup> · 5<sup>4</sup></span></span>', type: 'number', answer: '70' }
+    ]
+  }
+];
+
+function hasCyrillic(str) {
+  return /[а-яА-ЯёЁ]/.test(String(str));
+}
+
+const tasksContainer = document.getElementById('tasksContainer');
+
+function renderSubtask(t, localIndex) {
+  const numDisplay = (localIndex + 1) + ')';
+
+  if (t.type === 'power') {
+    return `
+      <div class="subtask" id="sub-${t.id}">
+        <div class="subtask-head">
+          <span class="subtask-num">${numDisplay}</span>
+          <span class="subtask-text">${t.text} = </span>
+        </div>
+        <div class="subtask-answer-row">
+          <span class="answer-label">Ответ:</span>
+          <div class="power-widget" data-task="${t.id}">
+            <input class="base-inp" type="text" maxlength="4" placeholder="осн." autocomplete="off">
+            <input class="exp-inp" type="text" maxlength="4" placeholder="пок." autocomplete="off">
+          </div>
+          <button class="btn btn-check" data-check="${t.id}">✅ Проверить</button>
+        </div>
+        <div class="feedback" id="fb-${t.id}"></div>
+      </div>
+    `;
+  }
+
+  return `
+    <div class="subtask" id="sub-${t.id}">
+      <div class="subtask-head">
+        <span class="subtask-num">${numDisplay}</span>
+        <span class="subtask-text">${t.text} = </span>
+      </div>
+      <div class="subtask-answer-row">
+        <span class="answer-label">Ответ:</span>
+        <input type="text" class="answer-input" data-task="${t.id}" placeholder="Введите число или дробь: 33 или 1/4" autocomplete="off">
+        <button class="btn btn-check" data-check="${t.id}">✅ Проверить</button>
+      </div>
+      <div class="feedback" id="fb-${t.id}"></div>
+    </div>
+  `;
+}
+
+function renderGroup(group) {
+  const head = `
+    <div class="task-group-head">
+      <span class="task-group-badge">Задание ${group.id}</span>
+      <span class="task-group-title">${group.title}</span>
+      ${group.note ? `<div class="task-group-note">${group.note}</div>` : ''}
+    </div>
+  `;
+
+  if (group.type === 'check-wrong') {
+    let body = '';
+    group.items.forEach((t, i) => {
+      body += `
+        <label class="check-item" id="chk-${t.id}">
+          <input type="checkbox" data-chk="${t.id}">
+          <span class="check-num">${i + 1})</span>
+          <span class="check-text">${t.text}</span>
+        </label>
+      `;
+    });
+    body += `
+      <div class="subtask-actions" style="padding-left:0; margin-top:16px;">
+        <button class="btn btn-check" data-check-group="2">✅ Проверить задание 2</button>
+      </div>
+      <div class="feedback" id="fb-group-2" style="margin-left:0;"></div>
+    `;
+    return `<div class="task-group" id="group-${group.id}">${head}${body}</div>`;
+  }
+
+  let body = '';
+  group.items.forEach((t, i) => { body += renderSubtask(t, i); });
+
+  return `<div class="task-group" id="group-${group.id}">${head}${body}</div>`;
+}
+
+tasksContainer.innerHTML = TASKS.map(renderGroup).join('');
+
+/* ═══ НОРМАЛИЗАЦИЯ ═══ */
+function normalizeAnswer(str) {
+  if (!str) return '';
+  let s = String(str).trim().toLowerCase();
+  s = s.replace(/\s+/g, '');
+  s = s.replace(/−/g, '-');
+  s = s.replace(/[×·*]/g, '');
+  s = s.replace(/⁰/g, '^0').replace(/¹/g, '^1').replace(/²/g, '^2').replace(/³/g, '^3')
+       .replace(/⁴/g, '^4').replace(/⁵/g, '^5').replace(/⁶/g, '^6').replace(/⁷/g, '^7')
+       .replace(/⁸/g, '^8').replace(/⁹/g, '^9');
+  return s;
+}
+
+function parseFraction(str) {
+  if (!str) return null;
+  const m = String(str).trim().match(/^(-?\d+)\s*\/\s*(\d+)$/);
+  if (!m) return null;
+  return { num: parseInt(m[1]), den: parseInt(m[2]) };
+}
+
+function parseMonomial(str) {
+  str = normalizeAnswer(str);
+  if (!str) return null;
+  let coeff = 1;
+  const cm = str.match(/^([+-]?\d+)/);
+  if (cm) {
+    coeff = parseInt(cm[1]);
+    str = str.slice(cm[1].length);
+  }
+  const terms = [];
+  const re = /([a-z])(?:\^(\d+))?/g;
+  let mm;
+  while ((mm = re.exec(str)) !== null) {
+    terms.push({ base: mm[1], exp: mm[2] ? parseInt(mm[2]) : 1 });
+  }
+  return { coeff, terms };
+}
+
+function monomialsEqual(userStr, canonicalStr) {
+  const A = parseMonomial(userStr);
+  const B = parseMonomial(canonicalStr);
+  if (!A || !B) return false;
+  if (A.coeff !== B.coeff) return false;
+  if (A.terms.length !== B.terms.length) return false;
+  const sortFn = (x, y) => x.base.localeCompare(y.base) || x.exp - y.exp;
+  const aS = [...A.terms].sort(sortFn);
+  const bS = [...B.terms].sort(sortFn);
+  return aS.every((t, i) => t.base === bS[i].base && t.exp === bS[i].exp);
+}
+
+function numberEquals(userStr, canonicalStr, altArr) {
+  const uNorm = normalizeAnswer(userStr);
+  const cNorm = normalizeAnswer(canonicalStr);
+  if (uNorm === cNorm) return true;
+  const uF = parseFraction(userStr);
+  const cF = parseFraction(canonicalStr);
+  if (uF && cF) return uF.num === cF.num && uF.den === cF.den;
+  if (uF && !cF) {
+    const uVal = uF.num / uF.den;
+    const cVal = parseFloat(cNorm.replace(',', '.'));
+    return Math.abs(uVal - cVal) < 0.0001;
+  }
+  if (!uF && cF) {
+    const uVal = parseFloat(uNorm.replace(',', '.'));
+    const cVal = cF.num / cF.den;
+    return Math.abs(uVal - cVal) < 0.0001;
+  }
+  if (altArr && altArr.length) {
+    const uVal = parseFloat(uNorm.replace(',', '.'));
+    if (!isNaN(uVal)) {
+      for (const alt of altArr) {
+        if (Math.abs(uVal - parseFloat(alt)) < 0.0001) return true;
+      }
+    }
+  }
+  return false;
+}
+
+function findTask(id) {
+  for (const g of TASKS) {
+    if (g.items) {
+      for (const t of g.items) {
+        if (t.id === id) return t;
+      }
+    }
+  }
+  return null;
+}
+
+const statuses = {};
+
+function setFeedback(id, type, msg) {
+  const fb = document.getElementById(`fb-${id}`);
+  if (!fb) return;
+  if (!type) { fb.className = 'feedback'; fb.innerHTML = ''; return; }
+  fb.className = 'feedback show ' + type;
+  const icons = { ok: '✅', warn: '⚠️', fail: '❌' };
+  fb.innerHTML = `<span class="icon">${icons[type] || ''}</span><span>${msg}</span>`;
+}
+
+function markSubtask(id, ok) {
+  const el = document.getElementById(`sub-${id}`);
+  if (!el) return;
+  el.classList.remove('correct', 'incorrect');
+  el.classList.add(ok ? 'correct' : 'incorrect');
+}
+
+function checkSubtask(id) {
+  const t = findTask(id);
+  if (!t) return;
+
+  let userVal = '';
+  let inputs = [];
+
+  if (t.type === 'power') {
+    const widget = document.querySelector(`.power-widget[data-task="${id}"]`);
+    const baseInp = widget.querySelector('.base-inp');
+    const expInp = widget.querySelector('.exp-inp');
+    inputs = [baseInp, expInp];
+
+    if (hasCyrillic(baseInp.value) || hasCyrillic(expInp.value)) {
+      baseInp.classList.toggle('warn-cyrillic', hasCyrillic(baseInp.value));
+      expInp.classList.toggle('warn-cyrillic', hasCyrillic(expInp.value));
+      setFeedback(id, 'warn', '<b>Только латинские буквы!</b> В полях ответа можно использовать только английские (латинские) буквы.');
+      markSubtask(id, false);
+      statuses[id] = null;
+      return;
+    }
+
+    const base = baseInp.value.trim().toLowerCase();
+    const exp = expInp.value.trim();
+    if (!base || !exp) {
+      setFeedback(id, 'fail', '<b>Заполните оба окошка:</b> основание и показатель степени.');
+      markSubtask(id, false);
+      statuses[id] = null;
+      return;
+    }
+    userVal = base + '^' + exp;
+  } else {
+    const inp = document.querySelector(`.answer-input[data-task="${id}"]`);
+    inputs = [inp];
+    userVal = inp.value.trim();
+
+    if (hasCyrillic(userVal)) {
+      inp.classList.add('warn-cyrillic');
+      setFeedback(id, 'warn', '<b>Только латинские буквы!</b> В полях ответа можно использовать только английские (латинские) буквы.');
+      markSubtask(id, false);
+      statuses[id] = null;
+      return;
+    }
+
+    if (!userVal) {
+      setFeedback(id, 'fail', '<b>Введите ответ.</b>');
+      markSubtask(id, false);
+      statuses[id] = null;
+      return;
+    }
+  }
+
+  inputs.forEach(i => i.classList.remove('correct', 'incorrect', 'warn-cyrillic'));
+  setFeedback(id, null);
+
+  let isCorrect = false;
+
+  if (t.type === 'number') {
+    isCorrect = numberEquals(userVal, t.answer, t.answerAlt);
+  } else if (t.type === 'power') {
+    const canonical = t.answer;
+    const uNorm = normalizeAnswer(userVal);
+    const cNorm = normalizeAnswer(canonical);
+    isCorrect = uNorm === cNorm || monomialsEqual(userVal, canonical);
+  }
+
+  if (isCorrect) {
+    inputs.forEach(i => i.classList.add('correct'));
+    markSubtask(id, true);
+    setFeedback(id, 'ok', '<b>Верно!</b> Отличная работа!');
+    statuses[id] = true;
+  } else {
+    inputs.forEach(i => i.classList.add('incorrect'));
+    markSubtask(id, false);
+    setFeedback(id, 'fail', '<b>Неверно.</b> Проверь решение и попробуй ещё раз.');
+    statuses[id] = false;
+  }
+
+  updateOverall();
+}
+
+function checkGroup2() {
+  const group = TASKS.find(g => g.id === 2);
+  let allOk = true;
+  const details = [];
+
+  group.items.forEach(t => {
+    const cb = document.querySelector(`[data-chk="${t.id}"]`);
+    const label = document.getElementById(`chk-${t.id}`);
+    const shouldBeWrong = !t.correct;
+    const isChecked = cb.checked;
+    const ok = isChecked === shouldBeWrong;
+    label.classList.remove('correct', 'incorrect');
+    label.classList.add(ok ? 'correct' : 'incorrect');
+    if (!ok) {
+      allOk = false;
+      if (shouldBeWrong) details.push(`<b>${t.id.split('.')[1]})</b> — равенство ошибочно, нужно было отметить`);
+      else details.push(`<b>${t.id.split('.')[1]})</b> — равенство верно, отмечать не нужно`);
+    }
+    statuses[t.id] = ok;
+  });
+
+  const fb = document.getElementById('fb-group-2');
+  if (allOk) {
+    fb.className = 'feedback show ok';
+    fb.innerHTML = '<span class="icon">✅</span><span><b>Верно!</b> Задание 2 выполнено правильно.</span>';
+  } else {
+    fb.className = 'feedback show fail';
+    fb.innerHTML = '<span class="icon">❌</span><span><b>Есть ошибки.</b> ' + details.join('. ') + '</span>';
+  }
+  updateOverall();
+}
+
+document.querySelectorAll('[data-check]').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const id = btn.dataset.check;
+    if (id.includes('.')) checkSubtask(id);
+  });
+});
+
+document.querySelectorAll('[data-check-group]').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const gid = btn.dataset.checkGroup;
+    if (gid === '2') checkGroup2();
+  });
+});
+
+document.querySelectorAll('input[type="text"]').forEach(inp => {
+  inp.addEventListener('keydown', e => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      if (inp.dataset.task) checkSubtask(inp.dataset.task);
+    }
+  });
+});
+
+document.getElementById('btnAll').addEventListener('click', () => {
+  TASKS.forEach(g => {
+    if (g.type === 'check-wrong') {
+      checkGroup2();
+    } else {
+      g.items.forEach(t => checkSubtask(t.id));
+    }
+  });
+});
+
+function updateOverall() {
+  const allIds = [];
+  TASKS.forEach(g => {
+    if (g.items) g.items.forEach(t => allIds.push(t.id));
+  });
+
+  const total = allIds.length;
+  let correct = 0, answered = 0;
+  allIds.forEach(id => {
+    if (statuses[id] === true) correct++;
+    if (statuses[id] !== null && statuses[id] !== undefined) answered++;
+  });
+
+  if (answered < total) return;
+
+  document.getElementById('overallScore').textContent = correct + ' / ' + total;
+  const percent = correct / total * 100;
+  let ic, t, m;
+  if (correct === total) { ic = '🏆'; t = 'Превосходно!'; m = 'Все задания выполнены верно! Ты отлично разобрался в свойствах степеней.'; }
+  else if (percent >= 80) { ic = '🌟'; t = 'Отличный результат!'; m = 'Почти всё верно. Посмотри задания с ошибками — и будет идеально.'; }
+  else if (percent >= 60) { ic = '👍'; t = 'Хороший результат'; m = 'Больше половины решено верно. Повтори свойства степеней и попробуй ещё раз.'; }
+  else if (percent >= 40) { ic = '📖'; t = 'Есть над чем поработать'; m = 'Вспомни основные свойства степеней — особенно умножение и деление. У тебя получится!'; }
+  else { ic = '💪'; t = 'Не сдавайся!'; m = 'Перечитай теорию в начале страницы — и снова за дело!'; }
+
+  document.getElementById('overallIcon').textContent = ic;
+  document.getElementById('overallTitle').textContent = t;
+  document.getElementById('overallMessage').textContent = m;
+  const result = document.getElementById('overallResult');
+  result.classList.add('show');
+  result.scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+</script>
+
+</body>
+</html>
