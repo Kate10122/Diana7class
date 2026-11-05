@@ -1,0 +1,1059 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Решение задач с помощью уравнений · 7 класс</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --bg: linear-gradient(160deg, #eef2ff 0%, #f5f3ff 45%, #fdf2f8 100%);
+  --card: #ffffff;
+  --indigo: #4f46e5;
+  --indigo-dark: #3730a3;
+  --indigo-light: #c7d2fe;
+  --indigo-pale: #e0e7ff;
+  --indigo-pale2: #eef2ff;
+  --emerald: #10b981;
+  --emerald-light: #d1fae5;
+  --emerald-dark: #047857;
+  --red: #ef4444;
+  --red-light: #fee2e2;
+  --amber: #f59e0b;
+  --amber-light: #fef3c7;
+  --amber-dark: #92400e;
+  --ink: #1e1b4b;
+  --ink-muted: #6b7280;
+  --border: rgba(79, 70, 229, 0.14);
+  --shadow: 0 8px 28px rgba(79, 70, 229, 0.10);
+}
+
+body {
+  font-family: 'Segoe UI', 'Roboto', system-ui, -apple-system, sans-serif;
+  background: var(--bg);
+  background-attachment: fixed;
+  min-height: 100vh;
+  padding: 24px 14px 60px;
+  color: var(--ink);
+  line-height: 1.6;
+}
+
+.app { max-width: 980px; margin: 0 auto; }
+
+/* ═══ ШАПКА ═══ */
+.main-header {
+  text-align: center;
+  margin-bottom: 26px;
+  padding: 26px 20px 14px;
+}
+.main-header .badge-icon {
+  font-size: 50px;
+  display: block;
+  margin-bottom: 10px;
+  animation: floatIcon 3s ease-in-out infinite;
+}
+@keyframes floatIcon {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-6px) scale(1.05); }
+}
+.main-header h1 {
+  font-size: 32px;
+  font-weight: 800;
+  background: linear-gradient(135deg, #3730a3, #4f46e5, #818cf8);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  letter-spacing: -0.5px;
+  margin-bottom: 8px;
+  line-height: 1.2;
+}
+.main-header .subtitle {
+  font-size: 13.5px;
+  font-weight: 700;
+  color: var(--indigo);
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+.main-header .subtitle-ru {
+  font-size: 13px;
+  color: var(--ink-muted);
+  font-style: italic;
+}
+
+/* ═══ ВВОДНАЯ ═══ */
+.intro-card {
+  background: var(--card);
+  border-radius: 22px;
+  padding: 24px 30px;
+  margin-bottom: 22px;
+  box-shadow: var(--shadow);
+  border: 2px solid var(--border);
+  position: relative;
+  overflow: hidden;
+}
+.intro-card::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 5px;
+  background: linear-gradient(90deg, #4f46e5, #818cf8, #4f46e5);
+}
+.intro-card h2 {
+  font-size: 21px;
+  color: var(--indigo-dark);
+  margin-bottom: 10px;
+}
+.intro-card p {
+  font-size: 15.5px;
+  margin-bottom: 8px;
+}
+
+/* ═══ ТЕОРИЯ ═══ */
+.theory-card {
+  background: var(--card);
+  border-radius: 22px;
+  padding: 26px 30px;
+  margin-bottom: 22px;
+  box-shadow: var(--shadow);
+  border: 2px solid var(--border);
+}
+.theory-card h2 {
+  font-size: 22px;
+  color: var(--indigo-dark);
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.theory-card .lead {
+  font-size: 14.5px;
+  color: var(--ink-muted);
+  margin-bottom: 20px;
+}
+
+.steps {
+  display: grid;
+  gap: 12px;
+  margin-bottom: 26px;
+}
+.step-card {
+  display: flex;
+  gap: 14px;
+  background: var(--indigo-pale2);
+  border: 1.5px solid var(--indigo-light);
+  border-radius: 16px;
+  padding: 14px 18px;
+  align-items: flex-start;
+}
+.step-num {
+  flex-shrink: 0;
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #4f46e5, #3730a3);
+  color: #fff;
+  font-weight: 800;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 3px 10px rgba(79, 70, 229, 0.28);
+}
+.step-body h3 {
+  font-size: 16px;
+  color: var(--indigo-dark);
+  margin-bottom: 3px;
+}
+.step-body p {
+  font-size: 14.5px;
+  color: #374151;
+  line-height: 1.55;
+}
+
+/* Разбор примера */
+.worked-example {
+  background: linear-gradient(180deg, #ffffff, #f8faff);
+  border: 2px solid var(--indigo-light);
+  border-radius: 18px;
+  padding: 20px 24px;
+  margin-top: 4px;
+}
+.we-label {
+  display: inline-block;
+  background: var(--indigo);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 800;
+  padding: 4px 14px;
+  border-radius: 20px;
+  margin-bottom: 12px;
+  letter-spacing: 0.5px;
+}
+.we-problem {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--ink);
+  padding: 12px 16px;
+  background: var(--amber-light);
+  border-left: 4px solid var(--amber);
+  border-radius: 10px;
+  margin-bottom: 16px;
+  line-height: 1.55;
+}
+.we-subtitle {
+  font-size: 14.5px;
+  font-weight: 800;
+  color: var(--indigo-dark);
+  margin: 14px 0 8px;
+}
+.we-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14.5px;
+  background: #fff;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(79, 70, 229, 0.08);
+}
+.we-table th, .we-table td {
+  border: 1px solid var(--indigo-light);
+  padding: 9px 12px;
+  text-align: center;
+}
+.we-table th {
+  background: var(--indigo-pale);
+  color: var(--indigo-dark);
+  font-weight: 800;
+}
+.we-table td:first-child {
+  font-weight: 700;
+  background: #fafbff;
+}
+.we-table .hl {
+  color: var(--indigo-dark);
+  font-weight: 800;
+  background: #eef2ff;
+}
+
+.we-eq {
+  background: #fff;
+  border: 1.5px dashed var(--indigo-light);
+  border-radius: 12px;
+  padding: 12px 16px;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--indigo-dark);
+  text-align: center;
+  margin: 10px 0;
+  letter-spacing: 0.5px;
+  line-height: 1.7;
+}
+.we-solve {
+  font-size: 15px;
+  color: #374151;
+  line-height: 1.8;
+  padding-left: 6px;
+}
+.we-answer {
+  margin-top: 14px;
+  background: var(--emerald-light);
+  border-left: 4px solid var(--emerald);
+  border-radius: 10px;
+  padding: 12px 16px;
+  font-size: 15px;
+  color: var(--emerald-dark);
+  font-weight: 700;
+}
+.we-note {
+  font-size: 13.5px;
+  color: var(--ink-muted);
+  font-style: italic;
+  margin-top: 8px;
+  padding-left: 6px;
+}
+
+/* ═══ ПРАКТИКА ═══ */
+.practice-head-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin: 6px 0 16px;
+  padding: 0 4px;
+}
+.practice-head-bar h2 {
+  font-size: 23px;
+  color: var(--indigo-dark);
+  font-weight: 800;
+}
+.progress-pill {
+  background: #fff;
+  border: 2px solid var(--indigo-light);
+  border-radius: 30px;
+  padding: 6px 18px;
+  font-size: 14px;
+  font-weight: 800;
+  color: var(--indigo-dark);
+  box-shadow: 0 3px 10px rgba(79, 70, 229, 0.08);
+}
+.progress-pill .done { color: var(--emerald-dark); }
+
+.problem-card {
+  background: var(--card);
+  border-radius: 22px;
+  padding: 24px 28px;
+  margin-bottom: 20px;
+  box-shadow: var(--shadow);
+  border: 2px solid var(--border);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+.problem-card.solved {
+  border-color: var(--emerald);
+  box-shadow: 0 8px 28px rgba(16, 185, 129, 0.15);
+}
+.problem-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 14px;
+  padding-bottom: 12px;
+  border-bottom: 2px dashed var(--indigo-light);
+}
+.problem-num {
+  background: linear-gradient(135deg, #4f46e5, #3730a3);
+  color: #fff;
+  font-size: 13.5px;
+  font-weight: 800;
+  padding: 5px 14px;
+  border-radius: 20px;
+  white-space: nowrap;
+}
+.problem-card.solved .problem-num {
+  background: linear-gradient(135deg, #10b981, #047857);
+}
+.problem-head h3 {
+  font-size: 18px;
+  color: var(--indigo-dark);
+  flex: 1;
+}
+.problem-card.solved .problem-head h3::after {
+  content: " ✓";
+  color: var(--emerald);
+  font-weight: 900;
+}
+.problem-text {
+  font-size: 15.5px;
+  color: #1f2937;
+  padding: 14px 18px;
+  background: var(--indigo-pale2);
+  border-left: 4px solid var(--indigo);
+  border-radius: 12px;
+  margin-bottom: 18px;
+  line-height: 1.65;
+}
+
+/* Подсказки */
+.hints-area { margin-bottom: 18px; }
+.hints-list {
+  display: grid;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+.hint-item {
+  display: flex;
+  gap: 10px;
+  background: var(--amber-light);
+  border: 1.5px solid rgba(245, 158, 11, 0.4);
+  border-radius: 12px;
+  padding: 10px 14px;
+  font-size: 14.5px;
+  color: var(--amber-dark);
+  line-height: 1.5;
+  animation: hintIn 0.35s ease;
+}
+@keyframes hintIn {
+  from { opacity: 0; transform: translateY(-6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.hint-num {
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--amber);
+  color: #fff;
+  font-size: 13px;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.hint-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 9px 20px;
+  font-size: 14px;
+  font-weight: 800;
+  font-family: inherit;
+  color: var(--amber-dark);
+  background: linear-gradient(135deg, #fef3c7, #fde68a);
+  border: 2px solid var(--amber);
+  border-radius: 30px;
+  cursor: pointer;
+  transition: all 0.22s ease;
+}
+.hint-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(245, 158, 11, 0.25);
+}
+
+/* Ввод ответа */
+.answer-area {
+  background: #fafbff;
+  border: 1.5px solid var(--indigo-light);
+  border-radius: 16px;
+  padding: 16px 18px;
+}
+.answer-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 14px 20px;
+  margin-bottom: 14px;
+}
+.answer-field {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--indigo-dark);
+}
+.answer-field .unit {
+  font-size: 14px;
+  color: var(--ink-muted);
+  font-weight: 600;
+}
+.answer-input {
+  width: 92px;
+  padding: 9px 10px;
+  border: 2.5px solid var(--indigo-light);
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 800;
+  text-align: center;
+  color: var(--ink);
+  font-family: inherit;
+  transition: all 0.2s ease;
+  background: #fff;
+}
+.answer-input::placeholder { color: #c7d2fe; font-weight: 600; }
+.answer-input:focus {
+  outline: none;
+  border-color: var(--indigo);
+  box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.13);
+}
+.answer-input:disabled {
+  background: #f3f4f6;
+  color: var(--ink-muted);
+}
+.answer-input.correct {
+  border-color: var(--emerald);
+  background: var(--emerald-light);
+  color: var(--emerald-dark);
+}
+.answer-input.wrong {
+  border-color: var(--red);
+  background: var(--red-light);
+  color: #b91c1c;
+}
+
+.check-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 11px 26px;
+  font-size: 15px;
+  font-weight: 800;
+  font-family: inherit;
+  color: #fff;
+  background: linear-gradient(135deg, var(--indigo), var(--indigo-dark));
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: all 0.22s ease;
+  box-shadow: 0 6px 18px rgba(79, 70, 229, 0.30);
+}
+.check-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 26px rgba(79, 70, 229, 0.40);
+}
+.check-btn:disabled {
+  background: var(--ink-muted);
+  box-shadow: none;
+  cursor: default;
+  opacity: 0.75;
+  transform: none;
+}
+
+/* Фидбек */
+.feedback {
+  margin-top: 14px;
+  border-radius: 12px;
+  font-size: 14.5px;
+  line-height: 1.6;
+  max-height: 0;
+  overflow: hidden;
+  padding: 0 16px;
+  transition: max-height 0.4s ease, padding 0.3s ease, margin 0.3s ease;
+}
+.feedback.show {
+  max-height: 800px;
+  padding: 14px 16px;
+  margin-top: 14px;
+}
+.feedback.success {
+  background: var(--emerald-light);
+  border-left: 4px solid var(--emerald);
+  color: var(--emerald-dark);
+}
+.feedback.error {
+  background: var(--red-light);
+  border-left: 4px solid var(--red);
+  color: #b91c1c;
+}
+.feedback .fb-title {
+  font-weight: 800;
+  font-size: 15px;
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.feedback .fb-body { font-size: 14.5px; line-height: 1.6; }
+.feedback .fb-solution {
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px dashed rgba(0,0,0,0.15);
+  font-size: 14px;
+}
+.feedback .fb-solution strong { color: inherit; }
+
+/* ═══ КНОПКА "ПРОВЕРИТЬ ВСЕ" ═══ */
+.check-all-wrap {
+  text-align: center;
+  margin: 28px 0 18px;
+}
+.check-all-btn {
+  padding: 15px 40px;
+  font-size: 16.5px;
+  font-weight: 800;
+  font-family: inherit;
+  color: #fff;
+  background: linear-gradient(135deg, #6366f1, #4338ca);
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  box-shadow: 0 10px 28px rgba(79, 70, 229, 0.32);
+  transition: all 0.25s;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+.check-all-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 16px 40px rgba(79, 70, 229, 0.45);
+}
+.summary-box {
+  margin: 18px auto 0;
+  max-width: 520px;
+  background: #fff;
+  border: 2px solid var(--indigo-light);
+  border-radius: 16px;
+  padding: 16px 22px;
+  font-size: 15.5px;
+  font-weight: 700;
+  color: var(--indigo-dark);
+  text-align: center;
+  box-shadow: var(--shadow);
+  display: none;
+}
+.summary-box.show { display: block; animation: hintIn 0.35s ease; }
+.summary-box .big { font-size: 22px; font-weight: 900; }
+
+/* ═══ ФУТЕР ═══ */
+.footer {
+  text-align: center;
+  margin-top: 34px;
+  padding: 20px;
+  color: var(--ink-muted);
+  font-size: 13.5px;
+  font-style: italic;
+  border-top: 2px dashed var(--indigo-light);
+  max-width: 540px;
+  margin-left: auto;
+  margin-right: auto;
+  line-height: 1.6;
+}
+
+@media (max-width: 620px) {
+  body { padding: 16px 10px 44px; }
+  .main-header h1 { font-size: 23px; }
+  .main-header .badge-icon { font-size: 38px; }
+  .intro-card, .theory-card, .problem-card {
+    padding: 18px 16px;
+  }
+  .intro-card h2, .theory-card h2 { font-size: 18px; }
+  .practice-head-bar h2 { font-size: 19px; }
+  .problem-head h3 { font-size: 16px; }
+  .problem-text { font-size: 14.5px; padding: 12px 14px; }
+  .answer-field { font-size: 14px; }
+  .answer-input { width: 80px; }
+  .we-table th, .we-table td { padding: 6px 6px; font-size: 12.5px; }
+}
+</style>
+</head>
+<body>
+
+<div class="app">
+
+  <!-- ═══ ШАПКА ═══ -->
+  <header class="main-header">
+    <span class="badge-icon">🧮</span>
+    <h1>Решение задач с помощью уравнений</h1>
+    <div class="subtitle">✦ 7 класс · Урок-практикум ✦</div>
+    <div class="subtitle-ru">Учимся переводить текст задачи на язык алгебры</div>
+  </header>
+
+  <!-- ═══ ВВОДНАЯ ═══ -->
+  <section class="intro-card">
+    <h2>О чём этот урок</h2>
+    <p>
+      Многие текстовые задачи легко решаются, если правильно выбрать неизвестное и записать одно уравнение. Главное — не спешить: сначала краткая запись, потом выражение всех величин через <strong>x</strong>, и только потом уравнение.
+    </p>
+    <p style="margin-bottom:0;">
+      Сначала мы разберём пример по шагам, а затем ты решишь <strong>3 задачи самостоятельно</strong>. К каждой задаче — 5 подсказок: от самой общей до самой точной. Если ответ окажется неверным, появится намёк, где могла случиться ошибка.
+    </p>
+  </section>
+
+  <!-- ═══ ТЕОРИЯ ═══ -->
+  <section class="theory-card">
+    <h2>📘 Метод решения задачи уравнением</h2>
+    <p class="lead">Четыре шага, которые работают почти в любой текстовой задаче.</p>
+
+    <div class="steps">
+      <div class="step-card">
+        <div class="step-num">1</div>
+        <div class="step-body">
+          <h3>Краткая запись</h3>
+          <p>Внеси в таблицу (или в столбик) все известные данные. Обычно колонки: «Было», «Изменения», «Стало» — или «Скорость / Время / Расстояние».</p>
+        </div>
+      </div>
+      <div class="step-card">
+        <div class="step-num">2</div>
+        <div class="step-body">
+          <h3>Выбери x</h3>
+          <p>Найди величину, от которой «зависит» всё остальное: если бы она была известна, задача решилась бы по действиям. Её и обозначь за <strong>x</strong>. Обычно берут самую маленькую величину.</p>
+        </div>
+      </div>
+      <div class="step-card">
+        <div class="step-num">3</div>
+        <div class="step-body">
+          <h3>Вырази остальные величины через x</h3>
+          <p>Помогают фразы: «на … больше/меньше», «в … раз больше/меньше», «вместе», а также формулы движения, работы, стоимости, площади и т. д.</p>
+        </div>
+      </div>
+      <div class="step-card">
+        <div class="step-num">4</div>
+        <div class="step-body">
+          <h3>Составь уравнение</h3>
+          <p>Используй ещё не задействованное условие — чаще всего «стало поровну», «вместе …», «через … часов догнал». Приравняй два выражения через <strong>x</strong> и реши уравнение.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="worked-example">
+      <div class="we-label">Разбор примера</div>
+      <p class="we-problem">
+        На первом складе было в 3 раза больше телевизоров, чем на втором. Когда с первого склада взяли 20 телевизоров, а на второй привезли 14 телевизоров, на складах телевизоров стало поровну. Сколько телевизоров было на каждом складе сначала?
+      </p>
+
+      <div class="we-subtitle">Шаг 1. Краткая запись</div>
+      <table class="we-table">
+        <thead>
+          <tr>
+            <th>Склад</th>
+            <th>Было</th>
+            <th>Изменение</th>
+            <th>Стало</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1-й</td>
+            <td>в 3 р. больше, чем на 2-м</td>
+            <td>−20 т.</td>
+            <td class="hl">3x − 20</td>
+          </tr>
+          <tr>
+            <td>2-й</td>
+            <td class="hl">x</td>
+            <td>+14 т.</td>
+            <td class="hl">x + 14</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="we-subtitle">Шаг 2. Выбор x</div>
+      <p class="we-solve">Пусть <strong>x</strong> телевизоров было на <strong>2-м складе</strong> — там меньше всего, и от этой величины удобно считать.</p>
+
+      <div class="we-subtitle">Шаг 3. Выражаем через x</div>
+      <p class="we-solve">
+        На 1-м складе было в 3 раза больше: <strong>3x</strong>.<br>
+        После изменений: на 1-м стало <strong>3x − 20</strong>, на 2-м стало <strong>x + 14</strong>.
+      </p>
+
+      <div class="we-subtitle">Шаг 4. Уравнение по условию «стало поровну»</div>
+      <div class="we-eq">3x − 20 = x + 14</div>
+      <div class="we-solve">
+        3x − x = 14 + 20<br>
+        2x = 34<br>
+        x = 17 (т.) — было на 2-м складе.
+      </div>
+
+      <p class="we-note">
+        Возвращаемся к вопросу задачи: «сколько было на 1-м и на 2-м складах?». Значит, осталось найти 1-й склад: 17 · 3 = 51 (т.).
+      </p>
+
+      <div class="we-answer">
+        Ответ: 51 телевизор был на 1-м складе, 17 телевизоров — на 2-м.
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ ПРАКТИКА ═══ -->
+  <div class="practice-head-bar">
+    <h2>✏️ Практика</h2>
+    <div class="progress-pill">Решено: <span class="done" id="progressCount">0</span> / 3</div>
+  </div>
+
+  <!-- ─── Задача 1 ─── -->
+  <div class="problem-card" data-id="1">
+    <div class="problem-head">
+      <span class="problem-num">Задача 1</span>
+      <h3>Три полки</h3>
+    </div>
+    <div class="problem-text">
+      На трёх полках лежит 66 книг, причём на нижней полке втрое больше, а на средней вдвое больше, чем на верхней. Сколько книг на каждой полке?
+    </div>
+
+    <div class="hints-area">
+      <div class="hints-list" data-hints-for="1"></div>
+      <button class="hint-btn" data-hint-btn="1">💡 Подсказка 1</button>
+    </div>
+
+    <div class="answer-area">
+      <div class="answer-row">
+        <label class="answer-field">Верхняя: <input type="text" inputmode="numeric" class="answer-input" id="p1-top" placeholder="?"><span class="unit">кн.</span></label>
+        <label class="answer-field">Средняя: <input type="text" inputmode="numeric" class="answer-input" id="p1-mid" placeholder="?"><span class="unit">кн.</span></label>
+        <label class="answer-field">Нижняя: <input type="text" inputmode="numeric" class="answer-input" id="p1-bot" placeholder="?"><span class="unit">кн.</span></label>
+      </div>
+      <button class="check-btn" data-check="1">Проверить</button>
+    </div>
+    <div class="feedback" id="fb-1"></div>
+  </div>
+
+  <!-- ─── Задача 2 ─── -->
+  <div class="problem-card" data-id="2">
+    <div class="problem-head">
+      <span class="problem-num">Задача 2</span>
+      <h3>Два бака с бензином</h3>
+    </div>
+    <div class="problem-text">
+      В первом баке бензина втрое больше, чем во втором. Если перелить из первого бака во второй 25 л бензина, то в баках бензина будет поровну. Сколько литров бензина в первом баке?
+    </div>
+
+    <div class="hints-area">
+      <div class="hints-list" data-hints-for="2"></div>
+      <button class="hint-btn" data-hint-btn="2">💡 Подсказка 1</button>
+    </div>
+
+    <div class="answer-area">
+      <div class="answer-row">
+        <label class="answer-field">В первом баке: <input type="text" inputmode="numeric" class="answer-input" id="p2-ans" placeholder="?"><span class="unit">л</span></label>
+      </div>
+      <button class="check-btn" data-check="2">Проверить</button>
+    </div>
+    <div class="feedback" id="fb-2"></div>
+  </div>
+
+  <!-- ─── Задача 3 ─── -->
+  <div class="problem-card" data-id="3">
+    <div class="problem-head">
+      <span class="problem-num">Задача 3</span>
+      <h3>Две моторные лодки</h3>
+    </div>
+    <div class="problem-text">
+      Из пункта А в пункт В вышла моторная лодка со скоростью 12 км/ч. Через 4 часа из пункта А в пункт В вышла вторая моторная лодка со скоростью 14 км/ч. Обе лодки пришли в пункт В одновременно. Определите расстояние между пунктами А и В.
+    </div>
+
+    <div class="hints-area">
+      <div class="hints-list" data-hints-for="3"></div>
+      <button class="hint-btn" data-hint-btn="3">💡 Подсказка 1</button>
+    </div>
+
+    <div class="answer-area">
+      <div class="answer-row">
+        <label class="answer-field">Расстояние АВ: <input type="text" inputmode="numeric" class="answer-input" id="p3-ans" placeholder="?"><span class="unit">км</span></label>
+      </div>
+      <button class="check-btn" data-check="3">Проверить</button>
+    </div>
+    <div class="feedback" id="fb-3"></div>
+  </div>
+
+  <!-- ═══ ПРОВЕРИТЬ ВСЁ ═══ -->
+  <div class="check-all-wrap">
+    <button class="check-all-btn" id="checkAllBtn">🎯 Проверить все задачи</button>
+    <div class="summary-box" id="summaryBox"></div>
+  </div>
+
+  <div class="footer">
+    🧮 Решение задач с помощью уравнений · 7 класс
+    <br>
+    <span style="display:block; margin-top:6px;">Сначала краткая запись — потом уравнение. Удачи! ✨</span>
+  </div>
+
+</div>
+
+<script>
+/* ══════════════════════════════════════════════════════
+   ДАННЫЕ ЗАДАЧ
+   ══════════════════════════════════════════════════════ */
+const PROBLEMS = {
+  1: {
+    hints: [
+      'Прочитай задачу ещё раз. С какой полки удобнее всего начать? На какой полке книг меньше всего?',
+      'Обозначь за x количество книг на верхней полке. Как тогда выразить книги на средней и нижней полках?',
+      'На средней полке вдвое больше, чем на верхней — это 2x. На нижней втрое больше — это 3x.',
+      'Всего на трёх полках 66 книг. Значит, сумма всех трёх выражений равна 66: x + 2x + 3x = 66.',
+      'Реши уравнение: 6x = 66, откуда x = 11. Не забудь найти книги на средней (2x) и нижней (3x) полках.'
+    ],
+    nudge: 'Проверь: за x мы приняли книги на верхней полке. На средней — 2x, на нижней — 3x, а их сумма равна 66. Не забыл(а) ли умножить x на 2 и на 3 для остальных полок?',
+    solution: 'Пусть x — книг на верхней полке. Тогда на средней 2x, на нижней 3x. Всего: x + 2x + 3x = 66 → 6x = 66 → x = 11. Значит, на верхней 11 книг, на средней 22, на нижней 33.',
+    check: function() {
+      const t = parseInt(document.getElementById('p1-top').value.trim(), 10);
+      const m = parseInt(document.getElementById('p1-mid').value.trim(), 10);
+      const b = parseInt(document.getElementById('p1-bot').value.trim(), 10);
+      const fields = [
+        { el: document.getElementById('p1-top'), val: t, right: 11 },
+        { el: document.getElementById('p1-mid'), val: m, right: 22 },
+        { el: document.getElementById('p1-bot'), val: b, right: 33 }
+      ];
+      let allFilled = true, allRight = true;
+      fields.forEach(f => {
+        if (isNaN(f.val)) allFilled = false;
+      });
+      if (!allFilled) {
+        return { ok: false, empty: true };
+      }
+      fields.forEach(f => {
+        if (f.val === f.right) {
+          f.el.classList.add('correct');
+          f.el.classList.remove('wrong');
+        } else {
+          f.el.classList.add('wrong');
+          f.el.classList.remove('correct');
+          allRight = false;
+        }
+      });
+      return { ok: allRight };
+    },
+    lock: function() {
+      ['p1-top','p1-mid','p1-bot'].forEach(id => document.getElementById(id).disabled = true);
+    }
+  },
+
+  2: {
+    hints: [
+      'В задаче две величины — количество бензина в двух баках. Подумай, количество в каком баке удобнее принять за x.',
+      'За x примем количество бензина во втором баке — там меньше. Тогда в первом баке 3x.',
+      'После переливания 25 л: в первом станет 3x − 25, во втором станет x + 25.',
+      'По условию после переливания бензина стало поровну. Составь уравнение: 3x − 25 = x + 25.',
+      'Реши: 3x − x = 25 + 25 → 2x = 50 → x = 25. Это второй бак. А вопрос — про первый: 3x = 75 л.'
+    ],
+    nudge: 'Помни: x — это бензин во ВТОРОМ баке. А найти нужно количество в первом, то есть 3x. И проверь само уравнение: после перелива в первом стало 3x − 25, во втором x + 25, и они равны.',
+    solution: 'Пусть x — бензина во втором баке. Тогда в первом 3x. После перелива: в первом 3x − 25, во втором x + 25. По условию стало поровну: 3x − 25 = x + 25 → 2x = 50 → x = 25. В первом баке было 3 · 25 = 75 л.',
+    check: function() {
+      const el = document.getElementById('p2-ans');
+      const v = parseInt(el.value.trim(), 10);
+      if (isNaN(v)) return { ok: false, empty: true };
+      if (v === 75) {
+        el.classList.add('correct'); el.classList.remove('wrong');
+        return { ok: true };
+      }
+      el.classList.add('wrong'); el.classList.remove('correct');
+      return { ok: false, wrongValue: v };
+    },
+    lock: function() {
+      document.getElementById('p2-ans').disabled = true;
+    }
+  },
+
+  3: {
+    hints: [
+      'Это задача на движение. Обе лодки прошли одинаковое расстояние, но с разной скоростью и за разное время.',
+      'Обозначь за x расстояние между пунктами А и В. Как выразить время каждой лодки через x и её скорость?',
+      'Время первой лодки: x/12 ч. Время второй: x/14 ч.',
+      'Первая лодка вышла на 4 часа раньше, значит её время в пути на 4 ч больше. Уравнение: x/12 − x/14 = 4.',
+      'Приведи к общему знаменателю 168: (14x − 12x)/168 = 4 → 2x = 672 → x = 336 км.'
+    ],
+    nudge: 'Первая лодка вышла раньше — значит, она была в пути ДОЛЬШЕ. Поэтому разность такая: x/12 − x/14 = 4. Проверь, не перепутал(а) ли порядок вычитания и знаменатели (НОК 12 и 14 равен 84 или 168).',
+    solution: 'Пусть x — расстояние АВ. Время первой лодки x/12 ч, второй x/14 ч. Первая была в пути на 4 ч больше: x/12 − x/14 = 4. Приводим к знаменателю 168: (14x − 12x)/168 = 4 → 2x = 672 → x = 336. Расстояние 336 км.',
+    check: function() {
+      const el = document.getElementById('p3-ans');
+      const v = parseInt(el.value.trim(), 10);
+      if (isNaN(v)) return { ok: false, empty: true };
+      if (v === 336) {
+        el.classList.add('correct'); el.classList.remove('wrong');
+        return { ok: true };
+      }
+      el.classList.add('wrong'); el.classList.remove('correct');
+      return { ok: false, wrongValue: v };
+    },
+    lock: function() {
+      document.getElementById('p3-ans').disabled = true;
+    }
+  }
+};
+
+/* ══════════════════════════════════════════════════════
+   ПОДСКАЗКИ (по одной)
+   ══════════════════════════════════════════════════════ */
+document.querySelectorAll('.hint-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const id = btn.dataset.hintBtn;
+    const list = document.querySelector(`.hints-list[data-hints-for="${id}"]`);
+    const hints = PROBLEMS[id].hints;
+    const shown = list.querySelectorAll('.hint-item').length;
+    if (shown >= hints.length) return;
+
+    const item = document.createElement('div');
+    item.className = 'hint-item';
+    item.innerHTML = `<span class="hint-num">${shown + 1}</span><span>${hints[shown]}</span>`;
+    list.appendChild(item);
+
+    if (shown + 1 >= hints.length) {
+      btn.style.display = 'none';
+    } else {
+      btn.textContent = `💡 Подсказка ${shown + 2}`;
+    }
+  });
+});
+
+/* ══════════════════════════════════════════════════════
+   ПРОВЕРКА ОТДЕЛЬНОЙ ЗАДАЧИ
+   ══════════════════════════════════════════════════════ */
+function checkProblem(id, fromAll = false) {
+  const card = document.querySelector(`.problem-card[data-id="${id}"]`);
+  if (card.classList.contains('solved')) return true;
+
+  const fb = document.getElementById(`fb-${id}`);
+  const result = PROBLEMS[id].check();
+
+  if (result.empty) {
+    fb.className = 'feedback error show';
+    fb.innerHTML = `<div class="fb-title">✍️ Впиши ответ</div><div class="fb-body">Поле ответа пустое или содержит не число. Введи целое число и попробуй снова.</div>`;
+    return false;
+  }
+
+  if (result.ok) {
+    fb.className = 'feedback success show';
+    fb.innerHTML = `
+      <div class="fb-title">✅ Верно!</div>
+      <div class="fb-body">Отличная работа — задача решена правильно.</div>
+      <div class="fb-solution"><strong>Решение:</strong> ${PROBLEMS[id].solution}</div>
+    `;
+    card.classList.add('solved');
+    const btn = card.querySelector('.check-btn');
+    btn.disabled = true;
+    btn.innerHTML = '✅ Решено';
+    PROBLEMS[id].lock();
+    updateProgress();
+    return true;
+  }
+
+  // Неверно → показываем намёк
+  fb.className = 'feedback error show';
+  fb.innerHTML = `
+    <div class="fb-title">❌ Пока неверно</div>
+    <div class="fb-body">${PROBLEMS[id].nudge}</div>
+    <div class="fb-solution" style="font-size:13.5px; opacity:0.8;">
+      Попробуй ещё раз или открой следующую подсказку — решение станет ближе.
+    </div>
+  `;
+  return false;
+}
+
+/* ══════════════════════════════════════════════════════
+   КНОПКИ "ПРОВЕРИТЬ"
+   ══════════════════════════════════════════════════════ */
+document.querySelectorAll('.check-btn').forEach(btn => {
+  btn.addEventListener('click', () => checkProblem(btn.dataset.check));
+});
+
+/* Enter в поле → проверка своей задачи */
+Object.keys(PROBLEMS).forEach(id => {
+  const card = document.querySelector(`.problem-card[data-id="${id}"]`);
+  card.querySelectorAll('.answer-input').forEach(inp => {
+    inp.addEventListener('keydown', e => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        checkProblem(id);
+      }
+    });
+    inp.addEventListener('input', () => {
+      // сбрасываем подсветку при новом вводе, если задача не решена
+      if (!card.classList.contains('solved')) {
+        inp.classList.remove('correct', 'wrong');
+      }
+    });
+  });
+});
+
+/* ══════════════════════════════════════════════════════
+   ПРОВЕРИТЬ ВСЕ
+   ══════════════════════════════════════════════════════ */
+document.getElementById('checkAllBtn').addEventListener('click', () => {
+  let solvedNow = 0;
+  let total = 0;
+  Object.keys(PROBLEMS).forEach(id => {
+    total++;
+    if (checkProblem(id, true)) solvedNow++;
+  });
+
+  const box = document.getElementById('summaryBox');
+  const solvedTotal = document.querySelectorAll('.problem-card.solved').length;
+  box.classList.add('show');
+  if (solvedTotal === total) {
+    box.innerHTML = `<div class="big">🎉 Отлично! Все ${total} задачи решены верно!</div><div style="font-weight:600; margin-top:6px;">Ты уверенно владеешь методом уравнений.</div>`;
+  } else {
+    box.innerHTML = `<div class="big">Решено верно: ${solvedTotal} из ${total}</div><div style="font-weight:600; margin-top:6px;">Посмотри подсказки и намёки к задачам, где ещё есть ошибки — и попробуй снова.</div>`;
+  }
+});
+
+/* ══════════════════════════════════════════════════════
+   ПРОГРЕСС
+   ══════════════════════════════════════════════════════ */
+function updateProgress() {
+  const solved = document.querySelectorAll('.problem-card.solved').length;
+  document.getElementById('progressCount').textContent = solved;
+}
+updateProgress();
+</script>
+
+</body>
+</html>
